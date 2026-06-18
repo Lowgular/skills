@@ -1,0 +1,3565 @@
+{
+  "page": "Foundations",
+  "collectionCount": 6,
+  "totalVariables": 347,
+  "collections": [
+    {
+      "name": "Color Primitives",
+      "modes": [
+        "Value"
+      ],
+      "variableCount": 100,
+      "variables": [
+        {
+          "name": "Brand/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#f5f5f5",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#e6e6e6",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#d9d9d9",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#b3b3b3",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#757575",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#444444",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#383838",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#2c2c2c",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#1e1e1e",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Brand/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#111111",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Black/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.05000000074505806
+            }
+          }
+        },
+        {
+          "name": "Black/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.10000000149011612
+            }
+          }
+        },
+        {
+          "name": "Black/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.20000000298023224
+            }
+          }
+        },
+        {
+          "name": "Black/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.4000000059604645
+            }
+          }
+        },
+        {
+          "name": "Black/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.699999988079071
+            }
+          }
+        },
+        {
+          "name": "Black/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.800000011920929
+            }
+          }
+        },
+        {
+          "name": "Black/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.8500000238418579
+            }
+          }
+        },
+        {
+          "name": "Black/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.8999999761581421
+            }
+          }
+        },
+        {
+          "name": "Black/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 0.949999988079071
+            }
+          }
+        },
+        {
+          "name": "Black/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#0c0c0d",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "White/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.05000000074505806
+            }
+          }
+        },
+        {
+          "name": "Green/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ebffee",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#cff7d3",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#aff4c6",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#85e0a3",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#14ae5c",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#009951",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#008043",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#02542d",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#024023",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Green/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#062d1b",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#f5f5f5",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#e6e6e6",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#d9d9d9",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#b3b3b3",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#757575",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#444444",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#383838",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#2c2c2c",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#1e1e1e",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Gray/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#111111",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "White/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.10000000149011612
+            }
+          }
+        },
+        {
+          "name": "White/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.20000000298023224
+            }
+          }
+        },
+        {
+          "name": "White/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.4000000059604645
+            }
+          }
+        },
+        {
+          "name": "White/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.699999988079071
+            }
+          }
+        },
+        {
+          "name": "White/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.800000011920929
+            }
+          }
+        },
+        {
+          "name": "White/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.8500000238418579
+            }
+          }
+        },
+        {
+          "name": "White/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.8999999761581421
+            }
+          }
+        },
+        {
+          "name": "White/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 0.949999988079071
+            }
+          }
+        },
+        {
+          "name": "White/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffffff",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#fcf1fd",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#fae1fa",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#f5c0ef",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#f19edc",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ea3fb8",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#d732a8",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ba2a92",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#8a226f",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#57184a",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Pink/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#3f1536",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#fee9e7",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#fdd3d0",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#fcb3ad",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#f4776a",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ec221f",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#c00f0c",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#900b09",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#690807",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#4d0b0a",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Red/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#300603",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#f3f3f3",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#e3e3e3",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#cdcdcd",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#b2b2b2",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#949494",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#767676",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#5a5a5a",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#434343",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#303030",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Slate/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#242424",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#fffbeb",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#fff1c2",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#ffe8a3",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#e8b931",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#e5a000",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#bf6a02",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#975102",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#682d03",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#522504",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Yellow/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#401b01",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/100",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#f1f6fd",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/200",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#e1ebfa",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/300",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#c0d4f5",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/400",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#9ebef1",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/500",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#3f81ea",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/600",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#3271d7",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/700",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#2a61ba",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/800",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#224a8a",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/900",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#183057",
+              "a": 1
+            }
+          }
+        },
+        {
+          "name": "Blue/1000",
+          "type": "COLOR",
+          "valuesByMode": {
+            "Value": {
+              "color": "#15253f",
+              "a": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Color",
+      "modes": [
+        "SDS Light",
+        "SDS Dark"
+      ],
+      "variableCount": 136,
+      "variables": [
+        {
+          "name": "Background/Default/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "White/1000"
+            },
+            "SDS Dark": {
+              "alias": "Gray/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Neutral/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/700"
+            },
+            "SDS Dark": {
+              "alias": "Slate/400"
+            }
+          }
+        },
+        {
+          "name": "Background/Neutral/Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/800"
+            },
+            "SDS Dark": {
+              "alias": "Slate/500"
+            }
+          }
+        },
+        {
+          "name": "Background/Neutral/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/300"
+            },
+            "SDS Dark": {
+              "alias": "Slate/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Neutral/Secondary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/400"
+            },
+            "SDS Dark": {
+              "alias": "Slate/1000"
+            }
+          }
+        },
+        {
+          "name": "Background/Neutral/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/200"
+            },
+            "SDS Dark": {
+              "alias": "Slate/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Neutral/Tertiary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/300"
+            },
+            "SDS Dark": {
+              "alias": "Slate/1000"
+            }
+          }
+        },
+        {
+          "name": "Background/Default/Default Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/100"
+            },
+            "SDS Dark": {
+              "alias": "Gray/700"
+            }
+          }
+        },
+        {
+          "name": "Background/Default/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/100"
+            },
+            "SDS Dark": {
+              "alias": "Gray/800"
+            }
+          }
+        },
+        {
+          "name": "Background/Default/Secondary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/200"
+            },
+            "SDS Dark": {
+              "alias": "Gray/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Default/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/300"
+            },
+            "SDS Dark": {
+              "alias": "Gray/600"
+            }
+          }
+        },
+        {
+          "name": "Background/Default/Tertiary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "Gray/700"
+            }
+          }
+        },
+        {
+          "name": "Background/Brand/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/800"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Background/Brand/Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/900"
+            },
+            "SDS Dark": {
+              "alias": "Brand/300"
+            }
+          }
+        },
+        {
+          "name": "Background/Brand/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/200"
+            },
+            "SDS Dark": {
+              "alias": "Brand/600"
+            }
+          }
+        },
+        {
+          "name": "Background/Brand/Secondary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/300"
+            },
+            "SDS Dark": {
+              "alias": "Brand/500"
+            }
+          }
+        },
+        {
+          "name": "Background/Brand/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/100"
+            },
+            "SDS Dark": {
+              "alias": "Brand/600"
+            }
+          }
+        },
+        {
+          "name": "Background/Brand/Tertiary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/200"
+            },
+            "SDS Dark": {
+              "alias": "Brand/800"
+            }
+          }
+        },
+        {
+          "name": "Background/Positive/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/500"
+            },
+            "SDS Dark": {
+              "alias": "Green/700"
+            }
+          }
+        },
+        {
+          "name": "Background/Positive/Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/600"
+            },
+            "SDS Dark": {
+              "alias": "Green/800"
+            }
+          }
+        },
+        {
+          "name": "Background/Positive/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/200"
+            },
+            "SDS Dark": {
+              "alias": "Green/800"
+            }
+          }
+        },
+        {
+          "name": "Background/Positive/Secondary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/300"
+            },
+            "SDS Dark": {
+              "alias": "Green/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Positive/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/100"
+            },
+            "SDS Dark": {
+              "alias": "Green/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Positive/Tertiary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/200"
+            },
+            "SDS Dark": {
+              "alias": "Green/1000"
+            }
+          }
+        },
+        {
+          "name": "Background/Warning/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/400"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/400"
+            }
+          }
+        },
+        {
+          "name": "Background/Warning/Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/500"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/500"
+            }
+          }
+        },
+        {
+          "name": "Background/Warning/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/200"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/800"
+            }
+          }
+        },
+        {
+          "name": "Background/Warning/Secondary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/300"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Warning/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/100"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Warning/Tertiary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/200"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/1000"
+            }
+          }
+        },
+        {
+          "name": "Background/Danger/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/500"
+            },
+            "SDS Dark": {
+              "alias": "Red/600"
+            }
+          }
+        },
+        {
+          "name": "Background/Danger/Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/600"
+            },
+            "SDS Dark": {
+              "alias": "Red/700"
+            }
+          }
+        },
+        {
+          "name": "Background/Danger/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/200"
+            },
+            "SDS Dark": {
+              "alias": "Red/800"
+            }
+          }
+        },
+        {
+          "name": "Background/Danger/Secondary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/300"
+            },
+            "SDS Dark": {
+              "alias": "Red/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Danger/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/100"
+            },
+            "SDS Dark": {
+              "alias": "Red/900"
+            }
+          }
+        },
+        {
+          "name": "Background/Danger/Tertiary Hover",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/200"
+            },
+            "SDS Dark": {
+              "alias": "Red/1000"
+            }
+          }
+        },
+        {
+          "name": "Background/Disabled/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/300"
+            },
+            "SDS Dark": {
+              "alias": "Gray/700"
+            }
+          }
+        },
+        {
+          "name": "Background/Utilities/Scrim",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "color": "#ffffff",
+              "a": 0.800000011920929
+            },
+            "SDS Dark": {
+              "color": "#000000",
+              "a": 0.800000011920929
+            }
+          }
+        },
+        {
+          "name": "Background/Utilities/Blanket",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "color": "#000000",
+              "a": 0.699999988079071
+            },
+            "SDS Dark": {
+              "color": "#000000",
+              "a": 0.699999988079071
+            }
+          }
+        },
+        {
+          "name": "Background/Utilities/Overlay",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "color": "#000000",
+              "a": 0.5
+            },
+            "SDS Dark": {
+              "color": "#000000",
+              "a": 0.5
+            }
+          }
+        },
+        {
+          "name": "Background/Utilities/Measurement",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Pink/200"
+            },
+            "SDS Dark": {
+              "alias": "Pink/800"
+            }
+          }
+        },
+        {
+          "name": "Text/Default/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/900"
+            },
+            "SDS Dark": {
+              "alias": "White/1000"
+            }
+          }
+        },
+        {
+          "name": "Text/Default/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/500"
+            },
+            "SDS Dark": {
+              "alias": "White/500"
+            }
+          }
+        },
+        {
+          "name": "Text/Default/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "White/400"
+            }
+          }
+        },
+        {
+          "name": "Text/Neutral/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/900"
+            },
+            "SDS Dark": {
+              "alias": "Slate/200"
+            }
+          }
+        },
+        {
+          "name": "Text/Neutral/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/700"
+            },
+            "SDS Dark": {
+              "alias": "Slate/300"
+            }
+          }
+        },
+        {
+          "name": "Text/Neutral/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/600"
+            },
+            "SDS Dark": {
+              "alias": "Slate/400"
+            }
+          }
+        },
+        {
+          "name": "Text/Neutral/On Neutral",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/100"
+            },
+            "SDS Dark": {
+              "alias": "Slate/1000"
+            }
+          }
+        },
+        {
+          "name": "Text/Neutral/On Neutral Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/900"
+            },
+            "SDS Dark": {
+              "alias": "Slate/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Neutral/On Neutral Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/800"
+            },
+            "SDS Dark": {
+              "alias": "Slate/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Brand/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/800"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Brand/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/600"
+            },
+            "SDS Dark": {
+              "alias": "Brand/300"
+            }
+          }
+        },
+        {
+          "name": "Text/Brand/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/500"
+            },
+            "SDS Dark": {
+              "alias": "Brand/400"
+            }
+          }
+        },
+        {
+          "name": "Text/Brand/On Brand",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/100"
+            },
+            "SDS Dark": {
+              "alias": "Brand/900"
+            }
+          }
+        },
+        {
+          "name": "Text/Brand/On Brand Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/900"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Brand/On Brand Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/800"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Positive/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/800"
+            },
+            "SDS Dark": {
+              "alias": "Green/200"
+            }
+          }
+        },
+        {
+          "name": "Text/Positive/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/600"
+            },
+            "SDS Dark": {
+              "alias": "Green/400"
+            }
+          }
+        },
+        {
+          "name": "Text/Positive/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/500"
+            },
+            "SDS Dark": {
+              "alias": "Green/600"
+            }
+          }
+        },
+        {
+          "name": "Text/Positive/On Positive",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/100"
+            },
+            "SDS Dark": {
+              "alias": "Green/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Positive/On Positive Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/800"
+            },
+            "SDS Dark": {
+              "alias": "Green/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Positive/On Positive Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/800"
+            },
+            "SDS Dark": {
+              "alias": "Green/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Warning/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/900"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/200"
+            }
+          }
+        },
+        {
+          "name": "Text/Warning/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/700"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/400"
+            }
+          }
+        },
+        {
+          "name": "Text/Warning/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/600"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/600"
+            }
+          }
+        },
+        {
+          "name": "Text/Warning/On Warning",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/1000"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/1000"
+            }
+          }
+        },
+        {
+          "name": "Text/Warning/On Warning Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/800"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Warning/On Warning Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/900"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Danger/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/700"
+            },
+            "SDS Dark": {
+              "alias": "Red/200"
+            }
+          }
+        },
+        {
+          "name": "Text/Danger/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/600"
+            },
+            "SDS Dark": {
+              "alias": "Red/400"
+            }
+          }
+        },
+        {
+          "name": "Text/Danger/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/500"
+            },
+            "SDS Dark": {
+              "alias": "Red/500"
+            }
+          }
+        },
+        {
+          "name": "Text/Danger/On Danger",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/100"
+            },
+            "SDS Dark": {
+              "alias": "Red/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Danger/On Danger Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/700"
+            },
+            "SDS Dark": {
+              "alias": "Red/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Danger/On Danger Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/700"
+            },
+            "SDS Dark": {
+              "alias": "Red/100"
+            }
+          }
+        },
+        {
+          "name": "Text/Disabled/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "Gray/500"
+            }
+          }
+        },
+        {
+          "name": "Text/Utilities/Text On Overlay",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Black/1000"
+            },
+            "SDS Dark": {
+              "alias": "White/1000"
+            }
+          }
+        },
+        {
+          "name": "Text/Utilities/Text On Measurement",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Pink/800"
+            },
+            "SDS Dark": {
+              "alias": "Pink/200"
+            }
+          }
+        },
+        {
+          "name": "Text/Disabled/On Disabled",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "Gray/400"
+            }
+          }
+        },
+        {
+          "name": "Border/Default/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/300"
+            },
+            "SDS Dark": {
+              "alias": "Gray/600"
+            }
+          }
+        },
+        {
+          "name": "Border/Default/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/500"
+            },
+            "SDS Dark": {
+              "alias": "Gray/500"
+            }
+          }
+        },
+        {
+          "name": "Border/Default/tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/700"
+            },
+            "SDS Dark": {
+              "alias": "Gray/400"
+            }
+          }
+        },
+        {
+          "name": "Border/Neutral/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/900"
+            },
+            "SDS Dark": {
+              "alias": "Slate/100"
+            }
+          }
+        },
+        {
+          "name": "Border/Neutral/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/600"
+            },
+            "SDS Dark": {
+              "alias": "Slate/500"
+            }
+          }
+        },
+        {
+          "name": "Border/Neutral/tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/400"
+            },
+            "SDS Dark": {
+              "alias": "Slate/600"
+            }
+          }
+        },
+        {
+          "name": "Border/Brand/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/800"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Border/Brand/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/600"
+            },
+            "SDS Dark": {
+              "alias": "Brand/300"
+            }
+          }
+        },
+        {
+          "name": "Border/Brand/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/500"
+            },
+            "SDS Dark": {
+              "alias": "Brand/400"
+            }
+          }
+        },
+        {
+          "name": "Border/Positive/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/800"
+            },
+            "SDS Dark": {
+              "alias": "Green/200"
+            }
+          }
+        },
+        {
+          "name": "Border/Positive/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/600"
+            },
+            "SDS Dark": {
+              "alias": "Green/400"
+            }
+          }
+        },
+        {
+          "name": "Border/Positive/tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/500"
+            },
+            "SDS Dark": {
+              "alias": "Green/600"
+            }
+          }
+        },
+        {
+          "name": "Border/Warning/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/900"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/200"
+            }
+          }
+        },
+        {
+          "name": "Border/Warning/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/700"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/400"
+            }
+          }
+        },
+        {
+          "name": "Border/Warning/tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/600"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/600"
+            }
+          }
+        },
+        {
+          "name": "Border/Danger/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/700"
+            },
+            "SDS Dark": {
+              "alias": "Red/200"
+            }
+          }
+        },
+        {
+          "name": "Border/Danger/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/600"
+            },
+            "SDS Dark": {
+              "alias": "Red/400"
+            }
+          }
+        },
+        {
+          "name": "Border/Danger/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/500"
+            },
+            "SDS Dark": {
+              "alias": "Red/500"
+            }
+          }
+        },
+        {
+          "name": "Border/Disabled/default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "Gray/600"
+            }
+          }
+        },
+        {
+          "name": "Border/Utilities/Measurement",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Pink/400"
+            },
+            "SDS Dark": {
+              "alias": "Pink/600"
+            }
+          }
+        },
+        {
+          "name": "Border/Utilities/Swatch",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "color": "#000000",
+              "a": 0.23999999463558197
+            },
+            "SDS Dark": {
+              "color": "#ffffff",
+              "a": 0.23999999463558197
+            }
+          }
+        },
+        {
+          "name": "Icon/Default/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/900"
+            },
+            "SDS Dark": {
+              "alias": "White/1000"
+            }
+          }
+        },
+        {
+          "name": "Icon/Neutral/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/900"
+            },
+            "SDS Dark": {
+              "alias": "Slate/200"
+            }
+          }
+        },
+        {
+          "name": "Icon/Neutral/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/700"
+            },
+            "SDS Dark": {
+              "alias": "Slate/300"
+            }
+          }
+        },
+        {
+          "name": "Icon/Neutral/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/600"
+            },
+            "SDS Dark": {
+              "alias": "Slate/400"
+            }
+          }
+        },
+        {
+          "name": "Icon/Neutral/On Neutral",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/100"
+            },
+            "SDS Dark": {
+              "alias": "Slate/1000"
+            }
+          }
+        },
+        {
+          "name": "Icon/Neutral/On Neutral Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/900"
+            },
+            "SDS Dark": {
+              "alias": "Slate/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Neutral/On Neutral Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Slate/800"
+            },
+            "SDS Dark": {
+              "alias": "Slate/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Default/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/500"
+            },
+            "SDS Dark": {
+              "alias": "White/500"
+            }
+          }
+        },
+        {
+          "name": "Icon/Default/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "White/400"
+            }
+          }
+        },
+        {
+          "name": "Icon/Brand/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/800"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Brand/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/600"
+            },
+            "SDS Dark": {
+              "alias": "Brand/300"
+            }
+          }
+        },
+        {
+          "name": "Icon/Brand/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/500"
+            },
+            "SDS Dark": {
+              "alias": "Brand/400"
+            }
+          }
+        },
+        {
+          "name": "Icon/Brand/On Brand",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/100"
+            },
+            "SDS Dark": {
+              "alias": "Brand/900"
+            }
+          }
+        },
+        {
+          "name": "Icon/Brand/On Brand Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/900"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Brand/On Brand Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Brand/800"
+            },
+            "SDS Dark": {
+              "alias": "Brand/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Positive/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/800"
+            },
+            "SDS Dark": {
+              "alias": "Green/200"
+            }
+          }
+        },
+        {
+          "name": "Icon/Positive/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/600"
+            },
+            "SDS Dark": {
+              "alias": "Green/400"
+            }
+          }
+        },
+        {
+          "name": "Icon/Positive/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/500"
+            },
+            "SDS Dark": {
+              "alias": "Green/600"
+            }
+          }
+        },
+        {
+          "name": "Icon/Positive/On Positive",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/100"
+            },
+            "SDS Dark": {
+              "alias": "Green/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Positive/On Positive Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/800"
+            },
+            "SDS Dark": {
+              "alias": "Green/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Positive/On Positive Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Green/900"
+            },
+            "SDS Dark": {
+              "alias": "Green/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Warning/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/900"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/200"
+            }
+          }
+        },
+        {
+          "name": "Icon/Warning/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/700"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/400"
+            }
+          }
+        },
+        {
+          "name": "Icon/Warning/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/600"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/600"
+            }
+          }
+        },
+        {
+          "name": "Icon/Warning/On Warning",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/1000"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/1000"
+            }
+          }
+        },
+        {
+          "name": "Icon/Warning/On Warning Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/800"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Warning/On Warning Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Yellow/900"
+            },
+            "SDS Dark": {
+              "alias": "Yellow/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Danger/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/700"
+            },
+            "SDS Dark": {
+              "alias": "Red/200"
+            }
+          }
+        },
+        {
+          "name": "Icon/Danger/Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/600"
+            },
+            "SDS Dark": {
+              "alias": "Red/400"
+            }
+          }
+        },
+        {
+          "name": "Icon/Danger/Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/500"
+            },
+            "SDS Dark": {
+              "alias": "Red/500"
+            }
+          }
+        },
+        {
+          "name": "Icon/Danger/On Danger",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/100"
+            },
+            "SDS Dark": {
+              "alias": "Red/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Danger/On Danger Secondary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/700"
+            },
+            "SDS Dark": {
+              "alias": "Red/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Danger/On Danger Tertiary",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Red/700"
+            },
+            "SDS Dark": {
+              "alias": "Red/100"
+            }
+          }
+        },
+        {
+          "name": "Icon/Disabled/Default",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "Gray/500"
+            }
+          }
+        },
+        {
+          "name": "Icon/Utilities/Icon",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Pink/600"
+            },
+            "SDS Dark": {
+              "alias": "Pink/400"
+            }
+          }
+        },
+        {
+          "name": "Icon/Utilities/Icon On Measurement",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Pink/800"
+            },
+            "SDS Dark": {
+              "alias": "Pink/200"
+            }
+          }
+        },
+        {
+          "name": "Icon/Disabled/On Disabled",
+          "type": "COLOR",
+          "valuesByMode": {
+            "SDS Light": {
+              "alias": "Gray/400"
+            },
+            "SDS Dark": {
+              "alias": "Gray/400"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Typography Primitives",
+      "modes": [
+        "Default"
+      ],
+      "variableCount": 31,
+      "variables": [
+        {
+          "name": "Family Sans",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Inter"
+          }
+        },
+        {
+          "name": "Family Serif",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Noto Serif"
+          }
+        },
+        {
+          "name": "Family Mono",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Roboto Mono"
+          }
+        },
+        {
+          "name": "Scale 01",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 12
+          }
+        },
+        {
+          "name": "Scale 02",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 14
+          }
+        },
+        {
+          "name": "Scale 03",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 16
+          }
+        },
+        {
+          "name": "Scale 04",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 20
+          }
+        },
+        {
+          "name": "Scale 05",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 24
+          }
+        },
+        {
+          "name": "Scale 06",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 32
+          }
+        },
+        {
+          "name": "Scale 07",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 40
+          }
+        },
+        {
+          "name": "Scale 08",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 48
+          }
+        },
+        {
+          "name": "Scale 09",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 64
+          }
+        },
+        {
+          "name": "Scale 10",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 72
+          }
+        },
+        {
+          "name": "Weight Thin",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 100
+          }
+        },
+        {
+          "name": "Weight Thin Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Thin Italic"
+          }
+        },
+        {
+          "name": "Weight Extra Light",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 200
+          }
+        },
+        {
+          "name": "Weight Extralight Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Extra Light Italic"
+          }
+        },
+        {
+          "name": "Weight Light",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 300
+          }
+        },
+        {
+          "name": "Weight Light Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Light Italic"
+          }
+        },
+        {
+          "name": "Weight Regular",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 400
+          }
+        },
+        {
+          "name": "Weight Regular Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Italic"
+          }
+        },
+        {
+          "name": "Weight Medium",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 500
+          }
+        },
+        {
+          "name": "Weight Medium Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Medium Italic"
+          }
+        },
+        {
+          "name": "Weight Semibold",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 600
+          }
+        },
+        {
+          "name": "Weight Semibold Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Semi Bold Italic"
+          }
+        },
+        {
+          "name": "Weight Bold",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 700
+          }
+        },
+        {
+          "name": "Weight Bold Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Bold Italic"
+          }
+        },
+        {
+          "name": "Weight Extra Bold",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 800
+          }
+        },
+        {
+          "name": "Weight Extra Bold Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Extra Bold Italic"
+          }
+        },
+        {
+          "name": "Weight Black",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 900
+          }
+        },
+        {
+          "name": "Weight Black Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Default": "Black Italic"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Responsive",
+      "modes": [
+        "Desktop",
+        "Mobile",
+        "Tablet"
+      ],
+      "variableCount": 4,
+      "variables": [
+        {
+          "name": "Device",
+          "type": "STRING",
+          "valuesByMode": {
+            "Desktop": "desktop",
+            "Mobile": "mobile",
+            "Tablet": "tablet"
+          }
+        },
+        {
+          "name": "Device Width",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Desktop": 1200,
+            "Mobile": 375,
+            "Tablet": 768
+          }
+        },
+        {
+          "name": "Root Font Size",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Desktop": {
+              "alias": "Scale 03"
+            },
+            "Mobile": {
+              "alias": "Scale 03"
+            },
+            "Tablet": {
+              "alias": "Scale 03"
+            }
+          }
+        },
+        {
+          "name": "Scale",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Desktop": 1,
+            "Mobile": 1.25,
+            "Tablet": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "Size",
+      "modes": [
+        "Default"
+      ],
+      "variableCount": 41,
+      "variables": [
+        {
+          "name": "Space/0",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 0
+          }
+        },
+        {
+          "name": "Space/050",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 2
+          }
+        },
+        {
+          "name": "Space/100",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 4
+          }
+        },
+        {
+          "name": "Space/150",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 6
+          }
+        },
+        {
+          "name": "Space/200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 8
+          }
+        },
+        {
+          "name": "Space/300",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 12
+          }
+        },
+        {
+          "name": "Space/400",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 16
+          }
+        },
+        {
+          "name": "Space/600",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 24
+          }
+        },
+        {
+          "name": "Space/800",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 32
+          }
+        },
+        {
+          "name": "Space/1200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 48
+          }
+        },
+        {
+          "name": "Space/1600",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 64
+          }
+        },
+        {
+          "name": "Space/2400",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 96
+          }
+        },
+        {
+          "name": "Space/4000",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 160
+          }
+        },
+        {
+          "name": "Space/Negative 100",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -4
+          }
+        },
+        {
+          "name": "Space/Negative 200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -8
+          }
+        },
+        {
+          "name": "Space/Negative 300",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -12
+          }
+        },
+        {
+          "name": "Space/Negative 400",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -16
+          }
+        },
+        {
+          "name": "Space/Negative 600",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -24
+          }
+        },
+        {
+          "name": "Radius/100",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 4
+          }
+        },
+        {
+          "name": "Radius/200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 8
+          }
+        },
+        {
+          "name": "Radius/400",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 16
+          }
+        },
+        {
+          "name": "Blur/100",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 4
+          }
+        },
+        {
+          "name": "Radius/Full",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 9999
+          }
+        },
+        {
+          "name": "Depth/0",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 0
+          }
+        },
+        {
+          "name": "Depth/025",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 1
+          }
+        },
+        {
+          "name": "Depth/100",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 4
+          }
+        },
+        {
+          "name": "Depth/200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 8
+          }
+        },
+        {
+          "name": "Depth/400",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 16
+          }
+        },
+        {
+          "name": "Depth/800",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 32
+          }
+        },
+        {
+          "name": "Depth/1200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 48
+          }
+        },
+        {
+          "name": "Depth/Negative 025",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -1
+          }
+        },
+        {
+          "name": "Depth/Negative 100",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -4
+          }
+        },
+        {
+          "name": "Depth/Negative 200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -8
+          }
+        },
+        {
+          "name": "Depth/Negative 400",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -16
+          }
+        },
+        {
+          "name": "Depth/Negative 800",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -32
+          }
+        },
+        {
+          "name": "Depth/Negative 1200",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": -48
+          }
+        },
+        {
+          "name": "Stroke/Border",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 1
+          }
+        },
+        {
+          "name": "Stroke/Focus Ring",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 2
+          }
+        },
+        {
+          "name": "Icon/Small",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 24
+          }
+        },
+        {
+          "name": "Icon/Medium",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 32
+          }
+        },
+        {
+          "name": "Icon/Large",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Default": 40
+          }
+        }
+      ]
+    },
+    {
+      "name": "Typography",
+      "modes": [
+        "Mode 1"
+      ],
+      "variableCount": 35,
+      "variables": [
+        {
+          "name": "Title Hero/Font Family",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Family Sans"
+            }
+          }
+        },
+        {
+          "name": "Title Hero/Size",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 10"
+            }
+          }
+        },
+        {
+          "name": "Title Hero/Font Weight",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Bold"
+            }
+          }
+        },
+        {
+          "name": "Title Page/Font Family",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Family Sans"
+            }
+          }
+        },
+        {
+          "name": "Title Page/Size Small",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 07"
+            }
+          }
+        },
+        {
+          "name": "Title Page/Size Base",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 08"
+            }
+          }
+        },
+        {
+          "name": "Title Page/Size Large",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 09"
+            }
+          }
+        },
+        {
+          "name": "Title Page/Font Weight",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Bold"
+            }
+          }
+        },
+        {
+          "name": "Subtitle/Font Family",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Family Sans"
+            }
+          }
+        },
+        {
+          "name": "Subtitle/Size Small",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 05"
+            }
+          }
+        },
+        {
+          "name": "Subtitle/Size Base",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 06"
+            }
+          }
+        },
+        {
+          "name": "Subtitle/Size Large",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 07"
+            }
+          }
+        },
+        {
+          "name": "Subtitle/Font Weight",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Regular"
+            }
+          }
+        },
+        {
+          "name": "Heading/Font Family",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Family Sans"
+            }
+          }
+        },
+        {
+          "name": "Heading/Size Small",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 04"
+            }
+          }
+        },
+        {
+          "name": "Heading/Size Base",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 05"
+            }
+          }
+        },
+        {
+          "name": "Heading/Size Large",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 06"
+            }
+          }
+        },
+        {
+          "name": "Heading/Font Weight",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Semibold"
+            }
+          }
+        },
+        {
+          "name": "Subheading/Font Family",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Family Sans"
+            }
+          }
+        },
+        {
+          "name": "Subheading/Size Small",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 03"
+            }
+          }
+        },
+        {
+          "name": "Subheading/Size Medium",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 04"
+            }
+          }
+        },
+        {
+          "name": "Subheading/Size Large",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 05"
+            }
+          }
+        },
+        {
+          "name": "Subheading/Font Weight",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Regular"
+            }
+          }
+        },
+        {
+          "name": "Body/Font Family",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Family Sans"
+            }
+          }
+        },
+        {
+          "name": "Body/Size Small",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 02"
+            }
+          }
+        },
+        {
+          "name": "Body/Size Medium",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 03"
+            }
+          }
+        },
+        {
+          "name": "Body/Size Large",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Scale 04"
+            }
+          }
+        },
+        {
+          "name": "Body/Font Weight Regular",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Regular"
+            }
+          }
+        },
+        {
+          "name": "Body/Font Weight Strong",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Semibold"
+            }
+          }
+        },
+        {
+          "name": "Body/Font Style Italic",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Weight Regular Italic"
+            }
+          }
+        },
+        {
+          "name": "Code/Font Family",
+          "type": "STRING",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Family Mono"
+            }
+          }
+        },
+        {
+          "name": "Code/Size Small",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Body/Size Small"
+            }
+          }
+        },
+        {
+          "name": "Code/Size Base",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Body/Size Medium"
+            }
+          }
+        },
+        {
+          "name": "Code/Size Large",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Body/Size Large"
+            }
+          }
+        },
+        {
+          "name": "Code/Font Weight",
+          "type": "FLOAT",
+          "valuesByMode": {
+            "Mode 1": {
+              "alias": "Body/Font Weight Regular"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

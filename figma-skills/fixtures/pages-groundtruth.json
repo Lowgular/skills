@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Cover",
+    "id": "3:5"
+  },
+  {
+    "name": "Foundations",
+    "id": "9762:187"
+  },
+  {
+    "name": "Icons",
+    "id": "7809:18809"
+  },
+  {
+    "name": "Examples",
+    "id": "7641:2142"
+  },
+  {
+    "name": "Composition guide",
+    "id": "83:32628"
+  },
+  {
+    "name": "Accordion",
+    "id": "128:10528"
+  },
+  {
+    "name": "AI Chat",
+    "id": "4309:529"
+  },
+  {
+    "name": "Avatars",
+    "id": "128:10526"
+  },
+  {
+    "name": "Buttons",
+    "id": "128:10284"
+  },
+  {
+    "name": "Calendar",
+    "id": "4333:9150"
+  },
+  {
+    "name": "Cards",
+    "id": "2143:13485"
+  },
+  {
+    "name": "Dialog",
+    "id": "128:10421"
+  },
+  {
+    "name": "Inputs",
+    "id": "128:10423"
+  },
+  {
+    "name": "Menu",
+    "id": "87:18810"
+  },
+  {
+    "name": "Navigation",
+    "id": "516:12822"
+  },
+  {
+    "name": "Notification",
+    "id": "128:10527"
+  },
+  {
+    "name": "Pagination",
+    "id": "128:10525"
+  },
+  {
+    "name": "Tabs",
+    "id": "128:11109"
+  },
+  {
+    "name": "Tags",
+    "id": "128:10523"
+  },
+  {
+    "name": "Text",
+    "id": "368:11410"
+  },
+  {
+    "name": "Tooltip",
+    "id": "280:23459"
+  },
+  {
+    "name": "Forms",
+    "id": "370:5433"
+  },
+  {
+    "name": "Sections",
+    "id": "348:13000"
+  },
+  {
+    "name": "Utilities",
+    "id": "7809:18808"
+  },
+  {
+    "name": "Component Playground",
+    "id": "522:12151"
+  }
+]

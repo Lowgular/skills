@@ -1,0 +1,596 @@
+{
+  "fileName": "Simple Design System (Community)",
+  "pageCount": 30,
+  "pages": [
+    {
+      "id": "3:5",
+      "name": "Cover",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "125:22",
+          "name": "Cover",
+          "type": "FRAME",
+          "w": 1920,
+          "h": 1080
+        }
+      ]
+    },
+    {
+      "id": "3377:21955",
+      "name": "---",
+      "childCount": 0,
+      "children": []
+    },
+    {
+      "id": "9762:187",
+      "name": "Foundations",
+      "childCount": 4,
+      "children": [
+        {
+          "id": "226:13829",
+          "name": "Typography",
+          "type": "SECTION",
+          "w": 2994,
+          "h": 3097
+        },
+        {
+          "id": "226:13679",
+          "name": "Color",
+          "type": "SECTION",
+          "w": 5370,
+          "h": 1829
+        },
+        {
+          "id": "226:13680",
+          "name": "Size",
+          "type": "SECTION",
+          "w": 3087,
+          "h": 1550
+        },
+        {
+          "id": "226:13682",
+          "name": "Effects",
+          "type": "SECTION",
+          "w": 2286,
+          "h": 1288
+        }
+      ]
+    },
+    {
+      "id": "7809:18809",
+      "name": "Icons",
+      "childCount": 6,
+      "children": [
+        {
+          "id": "522:12152",
+          "name": "16",
+          "type": "SECTION",
+          "w": 1080,
+          "h": 2904
+        },
+        {
+          "id": "5633:4845",
+          "name": "48",
+          "type": "SECTION",
+          "w": 1400,
+          "h": 3832
+        },
+        {
+          "id": "5633:9310",
+          "name": "40",
+          "type": "SECTION",
+          "w": 1320,
+          "h": 3600
+        },
+        {
+          "id": "5633:9326",
+          "name": "32",
+          "type": "SECTION",
+          "w": 1240,
+          "h": 3368
+        },
+        {
+          "id": "5633:9328",
+          "name": "24",
+          "type": "SECTION",
+          "w": 1160,
+          "h": 3136
+        },
+        {
+          "id": "5633:9331",
+          "name": "20",
+          "type": "SECTION",
+          "w": 1120,
+          "h": 3020
+        }
+      ]
+    },
+    {
+      "id": "9614:8269",
+      "name": "---",
+      "childCount": 0,
+      "children": []
+    },
+    {
+      "id": "7641:2142",
+      "name": "Examples",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "192:30011",
+          "name": "",
+          "type": "SECTION",
+          "w": 22780,
+          "h": 5874
+        }
+      ]
+    },
+    {
+      "id": "83:32628",
+      "name": "Composition guide",
+      "childCount": 7,
+      "children": [
+        {
+          "id": "83:34579",
+          "name": "Flexbox",
+          "type": "SECTION",
+          "w": 4943,
+          "h": 2304
+        },
+        {
+          "id": "78:25605",
+          "name": "Section",
+          "type": "SECTION",
+          "w": 5519,
+          "h": 1175
+        },
+        {
+          "id": "53:24897",
+          "name": "Cards",
+          "type": "SECTION",
+          "w": 3290,
+          "h": 1421
+        },
+        {
+          "id": "69:17183",
+          "name": "Forms",
+          "type": "SECTION",
+          "w": 1738,
+          "h": 758
+        },
+        {
+          "id": "48:11064",
+          "name": "Image",
+          "type": "SECTION",
+          "w": 2003,
+          "h": 677
+        },
+        {
+          "id": "189:28347",
+          "name": "Menus",
+          "type": "SECTION",
+          "w": 2124,
+          "h": 950
+        },
+        {
+          "id": "562:14004",
+          "name": "Text",
+          "type": "SECTION",
+          "w": 1166,
+          "h": 578
+        }
+      ]
+    },
+    {
+      "id": "2097:19152",
+      "name": "---",
+      "childCount": 0,
+      "children": []
+    },
+    {
+      "id": "128:10528",
+      "name": "Accordion",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "48:15796",
+          "name": "",
+          "type": "SECTION",
+          "w": 1360,
+          "h": 883
+        }
+      ]
+    },
+    {
+      "id": "4309:529",
+      "name": "AI Chat",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "4317:13179",
+          "name": "",
+          "type": "SECTION",
+          "w": 4964,
+          "h": 1053
+        }
+      ]
+    },
+    {
+      "id": "128:10526",
+      "name": "Avatars",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "9762:1102",
+          "name": "",
+          "type": "SECTION",
+          "w": 1816,
+          "h": 806
+        },
+        {
+          "id": "616:28124",
+          "name": "image 1",
+          "type": "RECTANGLE",
+          "w": 512,
+          "h": 512
+        }
+      ]
+    },
+    {
+      "id": "128:10284",
+      "name": "Buttons",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "9762:425",
+          "name": "",
+          "type": "SECTION",
+          "w": 2842,
+          "h": 752
+        }
+      ]
+    },
+    {
+      "id": "4333:9150",
+      "name": "Calendar",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "4333:9256",
+          "name": "Calendar",
+          "type": "SECTION",
+          "w": 1438,
+          "h": 961
+        }
+      ]
+    },
+    {
+      "id": "2143:13485",
+      "name": "Cards",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "48:11053",
+          "name": "",
+          "type": "SECTION",
+          "w": 1898,
+          "h": 1672
+        },
+        {
+          "id": "83:27055",
+          "name": "",
+          "type": "SECTION",
+          "w": 2838,
+          "h": 959
+        }
+      ]
+    },
+    {
+      "id": "128:10421",
+      "name": "Dialog",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "48:11055",
+          "name": "",
+          "type": "SECTION",
+          "w": 7355,
+          "h": 1622
+        }
+      ]
+    },
+    {
+      "id": "128:10423",
+      "name": "Inputs",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "4308:12802",
+          "name": "",
+          "type": "SECTION",
+          "w": 1911,
+          "h": 2014
+        },
+        {
+          "id": "656:7548",
+          "name": "Field Groups",
+          "type": "SECTION",
+          "w": 840,
+          "h": 632
+        }
+      ]
+    },
+    {
+      "id": "87:18810",
+      "name": "Menu",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "48:12313",
+          "name": "",
+          "type": "SECTION",
+          "w": 901,
+          "h": 666
+        },
+        {
+          "id": "78:22924",
+          "name": "Primitives",
+          "type": "SECTION",
+          "w": 1224,
+          "h": 514
+        }
+      ]
+    },
+    {
+      "id": "516:12822",
+      "name": "Navigation",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "516:12823",
+          "name": "",
+          "type": "SECTION",
+          "w": 775,
+          "h": 995
+        },
+        {
+          "id": "516:12824",
+          "name": "",
+          "type": "SECTION",
+          "w": 1115,
+          "h": 716
+        }
+      ]
+    },
+    {
+      "id": "128:10527",
+      "name": "Notification",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "48:11050",
+          "name": "",
+          "type": "SECTION",
+          "w": 1020,
+          "h": 520
+        }
+      ]
+    },
+    {
+      "id": "128:10525",
+      "name": "Pagination",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "48:12318",
+          "name": "",
+          "type": "SECTION",
+          "w": 689,
+          "h": 238
+        },
+        {
+          "id": "253:6305",
+          "name": "Primitives",
+          "type": "SECTION",
+          "w": 1234,
+          "h": 833
+        }
+      ]
+    },
+    {
+      "id": "128:11109",
+      "name": "Tabs",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "48:12327",
+          "name": "",
+          "type": "SECTION",
+          "w": 1453,
+          "h": 501
+        }
+      ]
+    },
+    {
+      "id": "128:10523",
+      "name": "Tags",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "56:8829",
+          "name": "",
+          "type": "SECTION",
+          "w": 2146,
+          "h": 677
+        }
+      ]
+    },
+    {
+      "id": "368:11410",
+      "name": "Text",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "219:8628",
+          "name": "",
+          "type": "SECTION",
+          "w": 2065,
+          "h": 772
+        },
+        {
+          "id": "48:12583",
+          "name": "",
+          "type": "SECTION",
+          "w": 1133,
+          "h": 1053
+        }
+      ]
+    },
+    {
+      "id": "280:23459",
+      "name": "Tooltip",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "280:23491",
+          "name": "",
+          "type": "SECTION",
+          "w": 1079,
+          "h": 423
+        }
+      ]
+    },
+    {
+      "id": "322:10723",
+      "name": "---",
+      "childCount": 0,
+      "children": []
+    },
+    {
+      "id": "370:5433",
+      "name": "Forms",
+      "childCount": 1,
+      "children": [
+        {
+          "id": "197:19808",
+          "name": "",
+          "type": "SECTION",
+          "w": 2700,
+          "h": 1222
+        }
+      ]
+    },
+    {
+      "id": "348:13000",
+      "name": "Sections",
+      "childCount": 8,
+      "children": [
+        {
+          "id": "78:25153",
+          "name": "Card Grid Sections",
+          "type": "SECTION",
+          "w": 1835,
+          "h": 8922
+        },
+        {
+          "id": "373:12938",
+          "name": "Page Sections",
+          "type": "SECTION",
+          "w": 1835,
+          "h": 4962
+        },
+        {
+          "id": "373:12778",
+          "name": "Panel Sections",
+          "type": "SECTION",
+          "w": 1835,
+          "h": 3213
+        },
+        {
+          "id": "78:25151",
+          "name": "Hero Sections",
+          "type": "SECTION",
+          "w": 1835,
+          "h": 4496
+        },
+        {
+          "id": "348:12987",
+          "name": "_Component Note",
+          "type": "INSTANCE",
+          "w": 320,
+          "h": 165
+        },
+        {
+          "id": "348:13002",
+          "name": "Footer",
+          "type": "SECTION",
+          "w": 1895,
+          "h": 1159
+        },
+        {
+          "id": "4317:13641",
+          "name": "AI",
+          "type": "SECTION",
+          "w": 1835,
+          "h": 1821
+        },
+        {
+          "id": "348:13003",
+          "name": "Header",
+          "type": "SECTION",
+          "w": 1860,
+          "h": 1780
+        }
+      ]
+    },
+    {
+      "id": "2140:12587",
+      "name": "---",
+      "childCount": 0,
+      "children": []
+    },
+    {
+      "id": "7809:18808",
+      "name": "Utilities",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "4565:1722",
+          "name": ".Helpers",
+          "type": "SECTION",
+          "w": 772,
+          "h": 864
+        },
+        {
+          "id": "128:10422",
+          "name": "Slot",
+          "type": "SECTION",
+          "w": 440,
+          "h": 286
+        }
+      ]
+    },
+    {
+      "id": "522:12151",
+      "name": "Component Playground",
+      "childCount": 2,
+      "children": [
+        {
+          "id": "522:11564",
+          "name": "Component Sample -> Light",
+          "type": "SECTION",
+          "w": 3188,
+          "h": 960
+        },
+        {
+          "id": "522:11599",
+          "name": "Component Sample -> Dark",
+          "type": "SECTION",
+          "w": 3188,
+          "h": 960
+        }
+      ]
+    }
+  ]
+}
