@@ -1,12 +1,16 @@
 #!/usr/bin/env node
 /**
- * gen.mjs — build datasets/{easy,medium,hard}.json from the live Figma file.
+ * gen.mjs — build datasets/rows.jsonl from the live Figma file.
  *
  * Row shape is deliberately flat and classical: one task, one grader, one
  * expected value.
  *
  *   { "id": "...", "task": "<one full sentence>", "grader": "open|value|list|refuse",
  *     "value": <node id | scalar | array | null>, "note": "<optional one-liner>" }
+ *
+ * Call sites write that ergonomic shape; the writer at the bottom adds the
+ * derived columns (tier, type, form, file_key) and carries `tags` — the one
+ * hand-written column — forward by id. Column contract: datasets/load.mjs.
  *
  * Why one fact per row: the previous shape had a per-case JSON contract printed
  * into the instruction, which (a) made response format part of what was being
@@ -24,14 +28,16 @@
  *           right answer is a refusal.
  *
  * Sources: fixtures/inventory.json (run inventory.mjs first) + a live CDP read
- * for box values. Run:  node gen.mjs [--write]
+ * for box values. Run:  node gen.mjs [--write] [--prune]
  */
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { config, cdpAlive } from "./figma-browser/lib/connect.mjs";
 import { connect } from "./figma-browser/lib/cdp.mjs";
 import { PROBE_FN, INSPECT_FN, VARS_FN } from "./figma-browser/lib/figma-fns.mjs";
+import { ROWS_PATH, CURATED, loadRows, classify, serialize } from "./datasets/load.mjs";
 
 const WRITE = process.argv.includes("--write");
+const PRUNE = process.argv.includes("--prune");
 const inv = JSON.parse(readFileSync(new URL("./fixtures/inventory.json", import.meta.url), "utf8"));
 const setBy = (n) => inv.sets.find((s) => s.name === n);
 const singleBy = (n) => inv.singles.find((s) => s.name === n);
@@ -548,7 +554,6 @@ row(medium, {
 
 // ──────────────────────────────────────────────────────────────── write
 
-const dir = new URL("./datasets/", import.meta.url);
 const files = { easy, medium, hard };
 const ids = new Set();
 for (const [tier, rows] of Object.entries(files)) {
@@ -562,18 +567,76 @@ for (const [tier, rows] of Object.entries(files)) {
     }
   }
 }
+/**
+ * Read-merge-write, because `tags` is the one column a human writes and this
+ * script owns the file. Every other column is derived and gets overwritten;
+ * CURATED comes forward by id. A curated row the generator no longer emits is
+ * NOT dropped silently — it is reported, and --prune is required to lose it.
+ */
+const prior = existsSync(ROWS_PATH) ? new Map(loadRows().map((r) => [r.id, r])) : new Map();
+
+const out = [];
+for (const [tier, rows] of Object.entries(files)) {
+  for (const r of rows) {
+    const { type, form } = classify(r.id);
+    const carried = {};
+    for (const c of CURATED) if (prior.get(r.id)?.[c]?.length) carried[c] = prior.get(r.id)[c];
+    out.push({
+      id: r.id,
+      tier,
+      type,
+      form,
+      file_key: process.env.FIGMA_FILE_KEY,
+      tags: [],
+      ...carried,
+      task: r.task,
+      note: r.note,
+      graders: r.graders,
+    });
+  }
+}
+out.sort((a, b) => a.id.localeCompare(b.id));
+
+// The diff summary is the actual review artifact. Nobody reads 328 lines of
+// JSON, but "5 answers changed on existing ids" is a line that stops a merge.
+const fresh = new Set(out.map((r) => r.id));
+const added = out.filter((r) => !prior.has(r.id));
+const removed = [...prior.values()].filter((r) => !fresh.has(r.id));
+const changed = out.filter((r) => {
+  const p = prior.get(r.id);
+  return p && JSON.stringify(p.graders) !== JSON.stringify(r.graders);
+});
+const orphaned = removed.filter((r) => r.tags?.length);
+const curated = out.filter((r) => r.tags?.length);
+
 for (const [tier, rows] of Object.entries(files)) {
   const byGrader = rows.reduce((a, r) => { for (const g of r.graders) a[g.name] = (a[g.name] || 0) + 1; return a; }, {});
   console.log(`${tier.padEnd(7)} ${String(rows.length).padStart(3)} rows   ${Object.entries(byGrader).map(([k, v]) => `${k} ${v}`).join(", ")}`);
 }
-console.log(`${"TOTAL".padEnd(7)} ${String(easy.length + medium.length + hard.length).padStart(3)} rows`);
+console.log(`${"TOTAL".padEnd(7)} ${String(out.length).padStart(3)} rows`);
+
+if (prior.size) {
+  console.log(
+    `\ndiff vs rows.jsonl: +${added.length} row(s), -${removed.length}, ` +
+      `${changed.length} answer(s) changed on existing ids, curation preserved on ${curated.length}`,
+  );
+  for (const r of changed.slice(0, 10)) {
+    console.log(`  ~ ${r.id}: ${JSON.stringify(prior.get(r.id).graders)} → ${JSON.stringify(r.graders)}`);
+  }
+  if (changed.length > 10) console.log(`  … ${changed.length - 10} more`);
+}
+
+if (orphaned.length && !PRUNE) {
+  console.error(`\n✗ ${orphaned.length} curated row(s) are no longer generated:`);
+  for (const r of orphaned) console.error(`    ${r.id}  [${r.tags.join(", ")}]`);
+  console.error(`  re-run with --prune to drop them, or fix the generator.`);
+  process.exit(1);
+}
 
 if (WRITE) {
-  mkdirSync(dir, { recursive: true });
-  for (const [tier, rows] of Object.entries(files)) {
-    writeFileSync(new URL(`./${tier}.json`, dir), JSON.stringify({ fileKey: process.env.FIGMA_FILE_KEY, tier, rows }, null, 2) + "\n");
-  }
-  console.log("\n✓ wrote datasets/{easy,medium,hard}.json — next: node build-eval.mjs");
+  mkdirSync(new URL("./datasets/", import.meta.url), { recursive: true });
+  writeFileSync(ROWS_PATH, out.map(serialize).join("\n") + "\n");
+  console.log(`\n✓ wrote datasets/rows.jsonl — next: node build-eval.mjs`);
 } else {
   console.log("\n(dry run — pass --write to save)");
 }

@@ -10,16 +10,17 @@
  * order — no JSON, so response format is never what is being measured.
  *
  * The answer key is NOT in the workspace: this is invoked by absolute path with
- * only TIER and ROW_ID, and reads datasets/<tier>.json from its own directory.
- * skillgrade copies the grader's `run:` line verbatim into <workspace>/tests/
- * test.sh, which is the agent's cwd — so an expected value there would be a
- * plain-text answer key.
+ * only ROW_ID, and reads datasets/rows.jsonl from its own directory. skillgrade
+ * copies the grader's `run:` line verbatim into <workspace>/tests/test.sh, which
+ * is the agent's cwd — so an expected value there would be a plain-text answer
+ * key. (TIER is also on that line, but only so harness/run-claude.mjs can
+ * reconstruct the task name; grading never reads it.)
  *
- * Env:  TIER, ROW_ID (required)   ANSWER_FILE (default answer.txt)   COVER_ID (3:5)
+ * Env:  ROW_ID (required)   ANSWER_FILE (default answer.txt)   COVER_ID (3:5)
  */
 import { readFileSync, existsSync } from "node:fs";
+import { rowById } from "../datasets/load.mjs";
 
-const TIER = (process.env.TIER || "").trim();
 const ROW_ID = (process.env.ROW_ID || "").trim();
 const ANSWER_FILE = process.env.ANSWER_FILE || "answer.txt";
 const COVER_ID = process.env.COVER_ID || "3:5";
@@ -249,16 +250,15 @@ function gradeRefuse(args, lines) {
 
 // ── main ──────────────────────────────────────────────────────────────────
 
-if (!TIER || !ROW_ID) emit(0, "TIER and ROW_ID are required", [{ name: "config", passed: false, message: "env unset" }]);
+if (!ROW_ID) emit(0, "ROW_ID is required", [{ name: "config", passed: false, message: "env unset" }]);
 
-let rows;
+let rw;
 try {
-  rows = JSON.parse(readFileSync(new URL(`../datasets/${TIER}.json`, import.meta.url), "utf8")).rows;
+  rw = rowById(ROW_ID);
 } catch (e) {
-  emit(0, `cannot read datasets/${TIER}.json`, [{ name: "config", passed: false, message: String(e.message || e) }]);
+  emit(0, "cannot read datasets/rows.jsonl", [{ name: "config", passed: false, message: String(e.message || e) }]);
 }
-const rw = rows.find((r) => r.id === ROW_ID);
-if (!rw) emit(0, `unknown ROW_ID "${ROW_ID}" in ${TIER}`, [{ name: "config", passed: false, message: "not in dataset" }]);
+if (!rw) emit(0, `unknown ROW_ID "${ROW_ID}"`, [{ name: "config", passed: false, message: "not in dataset" }]);
 
 const needsAnswerFile = rw.graders.some((g) => g.name !== "open");
 const lines = answerLines();
