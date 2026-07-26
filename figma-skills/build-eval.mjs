@@ -1,54 +1,145 @@
 /**
- * build-eval.mjs — generate eval.yaml from dataset.json.
+ * build-eval.mjs — datasets/{tier}.json → eval.yaml
  *
- * The dataset is the single source of truth: each case becomes one skillgrade
- * task whose grader is the generic check-open.mjs, parameterized only by the
- * case's expected node id. Run:  node build-eval.mjs
+ *   node build-eval.mjs                        # all three tiers
+ *   node build-eval.mjs --tier=easy            # one tier
+ *   node build-eval.mjs --tier=easy --row=id   # one row (repeatable, comma-separated)
+ *
+ * Two properties this file exists to guarantee:
+ *
+ * 1. The skill is actually injected. skillgrade auto-detects skills only at
+ *    <taskdir>/SKILL.md, <taskdir>/skills/*, <taskdir>/.agents/skills/*,
+ *    <taskdir>/.claude/skills/*  (core/skills.js). `figma-browser/` is none of
+ *    those, so without the explicit `skill:` key NOTHING is injected and every
+ *    run silently measures a bare agent. Comment it out for a RED baseline.
+ *
+ * 2. No expected value reaches the agent. skillgrade writes each grader's `run:`
+ *    line verbatim into <workspace>/tests/test.sh, and the workspace is the
+ *    agent's cwd. So graders get TIER + ROW_ID only, and are invoked by ABSOLUTE
+ *    path so they can read the dataset from outside the workspace. (An absolute
+ *    path also stops prepareTempTaskDir copying graders/ in, since it only
+ *    copies the first path segment of a relative reference.)
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ds = JSON.parse(readFileSync(new URL("./dataset.json", import.meta.url)));
+const HERE = dirname(fileURLToPath(import.meta.url));
+const argv = process.argv.slice(2);
+const only = (argv.find((a) => a.startsWith("--tier=")) || "").split("=")[1] || null;
+const TIERS = only ? [only] : ["easy", "medium", "hard"];
+// Row filter, so a one-task eval.yaml stays reproducible instead of being a
+// hand-trimmed copy of a generated file.
+const ROWS = (argv.find((a) => a.startsWith("--row=")) || "").split("=")[1];
+const ROW_SET = ROWS ? new Set(ROWS.split(",").map((s) => s.trim()).filter(Boolean)) : null;
+const GRADER = join(HERE, "graders", "grade.mjs");
 
-const instruction = (prompt) =>
-  `A dedicated Chrome is already running and logged in to Figma, with remote
+const PREAMBLE = (fileKey) => `A dedicated Chrome is already running and logged in to Figma, with remote
       debugging on http://localhost:9333. The Figma file "Simple Design System"
-      (file key ${ds.fileKey}) is open there.
+      (file key ${fileKey}) is open there.`;
 
-      Task: search for and OPEN the page called "${prompt}" in that file. The
-      exact page name may differ slightly from "${prompt}" — resolve it by
-      searching. When done, that page must be the ACTIVE page in the editor.
-      Do not edit the file. No blind canvas clicks.`;
+const RULES = "Do not edit the file. No blind canvas clicks.";
 
-const tasks = ds.cases
-  .map(
-    (c) => `  - name: ${c.id}
+/**
+ * The answer protocol. One line of answer.txt per question asked, nothing else —
+ * no JSON, no prose, no units the question did not ask for. Kept this plain so
+ * that response format is never what the score measures.
+ */
+function protocol(row) {
+  const needs = row.graders.filter((g) => g.name !== "open");
+  if (!needs.length) return "";
+  const g = needs[0];
+  if (needs.length === 1 && g.name === "value") {
+    return `
+      Write ONLY the answer to answer.txt — a single line, no explanation and no
+      label. If the property is not set at all, write: none`;
+  }
+  if (needs.length === 1 && g.name === "list") {
+    return `
+      Write ONLY the answer to answer.txt — a single line, the items separated by
+      commas, no explanation. Order does not matter.`;
+  }
+  if (needs.length === 1 && g.name === "refuse") {
+    return `
+      If this question has one unambiguous answer, write it to answer.txt.
+      If it does NOT — several different nodes could be meant, or the thing does
+      not exist in this file — say so on the first line of answer.txt and then
+      list the candidates you found, one per line, each with its node id.
+      Do not pick one and present it as the answer.`;
+  }
+  return `
+      Write your answers to answer.txt — one line per question asked, in the
+      order asked, nothing else.`;
+}
+
+const tasks = [];
+let total = 0;
+for (const tier of TIERS) {
+  const path = join(HERE, "datasets", `${tier}.json`);
+  if (!existsSync(path)) {
+    console.error(`⚠ no datasets/${tier}.json — run: node gen.mjs --write`);
+    continue;
+  }
+  const ds = JSON.parse(readFileSync(path, "utf8"));
+  for (const row of ds.rows) {
+    if (ROW_SET && !ROW_SET.has(row.id)) continue;
+    total++;
+    tasks.push(`  - name: ${tier}--${row.id}
     instruction: |
-      ${instruction(c.prompt)}
+      ${PREAMBLE(ds.fileKey)}
+
+      ${row.task}
+${protocol(row)}
+      ${RULES}
     graders:
       - type: deterministic
-        run: EXPECTED_ID=${c.target.nodeId} EXPECTED_NAME=${c.target.name} node graders/check-open.mjs
-        weight: 1.0`,
-  )
-  .join("\n\n");
+        run: TIER=${tier} ROW_ID=${row.id} node ${GRADER}
+        weight: 1.0`);
+  }
+}
 
-const yaml = `# GENERATED by build-eval.mjs from dataset.json — do not edit by hand.
-# Edit dataset.json, then: node build-eval.mjs
+const yaml = `# GENERATED by build-eval.mjs from datasets/*.json — do not edit by hand.
+# Edit the dataset (or gen.mjs), then: node build-eval.mjs
 #
-# Skills under test (auto-injected): figma-browser, figma-browser-actions.
-# Always run: --agent=claude --provider=local --parallel=1  (see README.md).
+# Always run: --provider=local --parallel=1
+#   local    the browser is on the host
+#   serial   the prompt is staged at the fixed path /tmp/.prompt.md, so
+#            concurrent trials overwrite each other. (Also: one Chrome, and
+#            \`open\` mutates the current page globally.)
+#
+# We use the \`command\` agent, not \`claude\`. The built-in claude adapter hardcodes
+# plain \`claude -p\`, whose only output is final text — no tool calls, no real
+# token counts, so "did it actually use the skill?" is unanswerable.
+#
+# The command is our own supervisor script rather than a \`claude -p …\` string,
+# because a script can do four things a config string cannot: stream the trace
+# while the trial runs, keep 320KB of NDJSON out of the results JSON, stamp one
+# trace id that joins results ↔ trace ↔ Claude's own transcript, and enforce a
+# tool denylist (DENY_TOOLS). See harness/run-claude.mjs.
+#
+# Graders take TIER + ROW_ID only and read the dataset from outside the
+# workspace, so neither this file nor any expected value reaches the agent.
 
 version: "1"
 
+# REQUIRED — without it skillgrade injects no skill and measures a bare agent.
+skill: figma-browser
+
 defaults:
-  agent: claude
+  agent: command
+  command: "node ${join(HERE, "harness", "run-claude.mjs")}"
   provider: local
   trials: 5
   timeout: 300
   threshold: 0.6
 
 tasks:
-${tasks}
+${tasks.join("\n\n")}
 `;
 
-writeFileSync(new URL("./eval.yaml", import.meta.url), yaml);
-console.log(`wrote eval.yaml — ${ds.cases.length} tasks from dataset.json`);
+if (ROW_SET && total !== ROW_SET.size) {
+  // A silently-dropped row id would produce a smaller eval than asked for.
+  console.error(`⚠ --row matched ${total} of ${ROW_SET.size} requested ids: ${[...ROW_SET].join(", ")}`);
+}
+writeFileSync(join(HERE, "eval.yaml"), yaml);
+console.log(`wrote eval.yaml — ${total} task(s) from ${TIERS.join(", ")}${ROW_SET ? ` [row filter: ${[...ROW_SET].join(", ")}]` : ""}`);

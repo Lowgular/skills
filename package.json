@@ -11,6 +11,6 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "skillgrade": "^0.1.6"
+    "skillgrade": "^0.2.2"
   }
 }

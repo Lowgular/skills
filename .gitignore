@@ -1,2 +1,20 @@
 node_modules/
 **/.env
+*.log
+.playwright-mcp/
+test-results
+
+# Chrome profiles hold a LOGGED-IN Figma session (cookies + auth tokens).
+# Never commit these — and they are hundreds of MB besides.
+.chrome-profile/
+**/.chrome-profile/
+*.chrome-profile/
+
+# Eval run artifacts
+results/
+**/results/
+
+# Agent trace logs — see figma-skills/LOGGING.md. Hundreds of MB, and the raw
+# streams contain file keys and workspace paths.
+runs/
+**/runs/

@@ -1,0 +1,2505 @@
+{
+  "fileKey": "o4J88pjxnuF7DSdLRhbtlO",
+  "tier": "hard",
+  "rows": [
+    {
+      "id": "axes-avatar",
+      "task": "What are the names of the variant axes on the Avatar component?",
+      "note": "3 axis/axes, 12 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Type",
+            "Size",
+            "Shape"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-avatar-type",
+      "task": "What types does the Avatar component support?",
+      "note": "The \"Type\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Initial",
+            "Image"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-avatar-size",
+      "task": "What sizes does the Avatar component support?",
+      "note": "The \"Size\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Large",
+            "Small",
+            "Medium"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-avatar-shape",
+      "task": "What shapes does the Avatar component support?",
+      "note": "The \"Shape\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Circle",
+            "Square"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-avatar-group",
+      "task": "What are the names of the variant axes on the Avatar Group component?",
+      "note": "1 axis/axes, 2 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Spacing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-avatar-group-spacing",
+      "task": "What spacing options does the Avatar Group component support?",
+      "note": "The \"Spacing\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Overlap",
+            "Spaced"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-button",
+      "task": "What are the names of the variant axes on the Button component?",
+      "note": "3 axis/axes, 18 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Variant",
+            "State",
+            "Size"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-button-variant",
+      "task": "What variants does the Button component support?",
+      "note": "The \"Variant\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Primary",
+            "Neutral",
+            "Subtle"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-button-state",
+      "task": "What states does the Button component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Hover",
+            "Disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-button-size",
+      "task": "What sizes does the Button component support?",
+      "note": "The \"Size\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Medium",
+            "Small"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-tag",
+      "task": "What are the names of the variant axes on the Tag component?",
+      "note": "3 axis/axes, 20 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Scheme",
+            "State",
+            "Variant"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-tag-scheme",
+      "task": "What colour schemes does the Tag component support?",
+      "note": "The \"Scheme\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Brand",
+            "Neutral",
+            "Positive",
+            "Danger",
+            "Warning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-tag-state",
+      "task": "What states does the Tag component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Hover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-tag-variant",
+      "task": "What variants does the Tag component support?",
+      "note": "The \"Variant\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Primary",
+            "Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-tag-toggle",
+      "task": "What are the names of the variant axes on the Tag Toggle component?",
+      "note": "1 axis/axes, 2 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-tag-toggle-state",
+      "task": "What states does the Tag Toggle component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Off",
+            "On"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-tooltip",
+      "task": "What are the names of the variant axes on the Tooltip component?",
+      "note": "1 axis/axes, 4 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Placement"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-tooltip-placement",
+      "task": "What placements does the Tooltip component support?",
+      "note": "The \"Placement\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Top",
+            "Left",
+            "Right",
+            "Bottom"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-card",
+      "task": "What are the names of the variant axes on the Card component?",
+      "note": "3 axis/axes, 8 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Asset Type",
+            "Variant",
+            "Direction"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-card-asset-type",
+      "task": "What asset types does the Card component support?",
+      "note": "The \"Asset Type\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Icon",
+            "Image"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-card-variant",
+      "task": "What variants does the Card component support?",
+      "note": "The \"Variant\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Stroke",
+            "Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-card-direction",
+      "task": "What directions does the Card component support?",
+      "note": "The \"Direction\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Horizontal",
+            "Vertical"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-pricing-card",
+      "task": "What are the names of the variant axes on the Pricing Card component?",
+      "note": "2 axis/axes, 4 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Device",
+            "Variant"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-pricing-card-device",
+      "task": "What devices does the Pricing Card component support?",
+      "note": "The \"Device\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Desktop",
+            "Mobile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-pricing-card-variant",
+      "task": "What variants does the Pricing Card component support?",
+      "note": "The \"Variant\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Stroke",
+            "Brand"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-input-field",
+      "task": "What are the names of the variant axes on the Input Field component?",
+      "note": "2 axis/axes, 6 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Value Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-input-field-state",
+      "task": "What states does the Input Field component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Disabled",
+            "Default",
+            "Error"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-input-field-value-type",
+      "task": "What value types does the Input Field component support?",
+      "note": "The \"Value Type\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-checkbox-field",
+      "task": "What are the names of the variant axes on the Checkbox Field component?",
+      "note": "2 axis/axes, 6 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Value Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-checkbox-field-state",
+      "task": "What states does the Checkbox Field component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-checkbox-field-value-type",
+      "task": "What value types does the Checkbox Field component support?",
+      "note": "The \"Value Type\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Unchecked",
+            "Checked",
+            "Indeterminate"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-radio-field",
+      "task": "What are the names of the variant axes on the Radio Field component?",
+      "note": "2 axis/axes, 4 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Value Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-radio-field-state",
+      "task": "What states does the Radio Field component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-radio-field-value-type",
+      "task": "What value types does the Radio Field component support?",
+      "note": "The \"Value Type\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Unchecked",
+            "Checked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-select-field",
+      "task": "What are the names of the variant axes on the Select Field component?",
+      "note": "2 axis/axes, 6 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Value Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-select-field-state",
+      "task": "What states does the Select Field component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Error",
+            "Disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-select-field-value-type",
+      "task": "What value types does the Select Field component support?",
+      "note": "The \"Value Type\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-switch-field",
+      "task": "What are the names of the variant axes on the Switch Field component?",
+      "note": "2 axis/axes, 4 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Value Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-switch-field-state",
+      "task": "What states does the Switch Field component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Disabled",
+            "Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-switch-field-value-type",
+      "task": "What value types does the Switch Field component support?",
+      "note": "The \"Value Type\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Unchecked",
+            "Checked"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-textarea-field",
+      "task": "What are the names of the variant axes on the Textarea Field component?",
+      "note": "2 axis/axes, 6 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Value Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-textarea-field-state",
+      "task": "What states does the Textarea Field component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Error",
+            "Disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-textarea-field-value-type",
+      "task": "What value types does the Textarea Field component support?",
+      "note": "The \"Value Type\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-search",
+      "task": "What are the names of the variant axes on the Search component?",
+      "note": "2 axis/axes, 4 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Value Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-search-state",
+      "task": "What states does the Search component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-search-value-type",
+      "task": "What value types does the Search component support?",
+      "note": "The \"Value Type\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Filled",
+            "Placeholder"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-menu-item",
+      "task": "What are the names of the variant axes on the Menu Item component?",
+      "note": "1 axis/axes, 3 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-menu-item-state",
+      "task": "What states does the Menu Item component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Hover",
+            "Disabled"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-navigation-button",
+      "task": "What are the names of the variant axes on the Navigation Button component?",
+      "note": "3 axis/axes, 12 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Direction",
+            "Type"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-navigation-button-state",
+      "task": "What states does the Navigation Button component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Hover",
+            "Active"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-navigation-button-direction",
+      "task": "What directions does the Navigation Button component support?",
+      "note": "The \"Direction\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Column",
+            "Row"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-navigation-button-type",
+      "task": "What types does the Navigation Button component support?",
+      "note": "The \"Type\" axis. Answer must not mix in options from the other 2 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Small",
+            "Medium"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-navigation-pill",
+      "task": "What are the names of the variant axes on the Navigation Pill component?",
+      "note": "1 axis/axes, 3 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-navigation-pill-state",
+      "task": "What states does the Navigation Pill component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Active",
+            "Hover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-pagination-page",
+      "task": "What are the names of the variant axes on the Pagination Page component?",
+      "note": "1 axis/axes, 4 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-pagination-page-state",
+      "task": "What states does the Pagination Page component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Hover",
+            "Current",
+            "Current Hover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-tab",
+      "task": "What are the names of the variant axes on the Tab component?",
+      "note": "2 axis/axes, 4 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "State",
+            "Active"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-tab-state",
+      "task": "What states does the Tab component support?",
+      "note": "The \"State\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Default",
+            "Hover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-tab-active",
+      "task": "What active states does the Tab component support?",
+      "note": "The \"Active\" axis. Answer must not mix in options from the other 1 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Off",
+            "On"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-notification",
+      "task": "What are the names of the variant axes on the Notification component?",
+      "note": "1 axis/axes, 2 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Variant"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-notification-variant",
+      "task": "What variants does the Notification component support?",
+      "note": "The \"Variant\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Message",
+            "Alert"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axes-text-price",
+      "task": "What are the names of the variant axes on the Text Price component?",
+      "note": "1 axis/axes, 2 variants in the set. The axis names live in componentPropertyDefinitions, not in the layer tree.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Size"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "axis-text-price-size",
+      "task": "What sizes does the Text Price component support?",
+      "note": "The \"Size\" axis. Answer must not mix in options from the other 0 axis/axes.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Large",
+            "Small"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-button",
+      "task": "Which content properties does the Button component expose? Exclude the variant axes.",
+      "note": "5 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Label",
+            "Icon End",
+            "Has Icon End",
+            "Has Icon Start",
+            "Icon Start"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-button-icon-end",
+      "task": "What Figma property type is the \"Icon End\" property of the Button component?",
+      "note": "INSTANCE_SWAP means a swappable child component, not a string.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "INSTANCE_SWAP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-button-icon-start",
+      "task": "What Figma property type is the \"Icon Start\" property of the Button component?",
+      "note": "INSTANCE_SWAP means a swappable child component, not a string.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "INSTANCE_SWAP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-avatar",
+      "task": "Which content properties does the Avatar component expose? Exclude the variant axes.",
+      "note": "1 property. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Initials"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-avatar-group",
+      "task": "Which content properties does the Avatar Group component expose? Exclude the variant axes.",
+      "note": "4 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Show Overflow",
+            "Number",
+            "Avatars",
+            "Avatars2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-avatar-group-avatars",
+      "task": "What Figma property type is the \"Avatars\" property of the Avatar Group component?",
+      "note": "SLOT means content projection (ng-content / children), not a value input.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "SLOT"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-avatar-group-avatars2",
+      "task": "What Figma property type is the \"Avatars2\" property of the Avatar Group component?",
+      "note": "SLOT means content projection (ng-content / children), not a value input.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "SLOT"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-tag",
+      "task": "Which content properties does the Tag component expose? Exclude the variant axes.",
+      "note": "2 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Removable",
+            "Label"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-card",
+      "task": "Which content properties does the Card component expose? Exclude the variant axes.",
+      "note": "6 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Asset",
+            "Button",
+            "Heading",
+            "Body",
+            "Icon",
+            "Body2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-card-icon",
+      "task": "What Figma property type is the \"Icon\" property of the Card component?",
+      "note": "INSTANCE_SWAP means a swappable child component, not a string.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "INSTANCE_SWAP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-card-body2",
+      "task": "What Figma property type is the \"Body2\" property of the Card component?",
+      "note": "SLOT means content projection (ng-content / children), not a value input.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "SLOT"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-notification",
+      "task": "Which content properties does the Notification component expose? Exclude the variant axes.",
+      "note": "7 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Dismissible",
+            "Icon",
+            "Has Icon",
+            "Has Button",
+            "Title",
+            "Body",
+            "Title2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-notification-icon",
+      "task": "What Figma property type is the \"Icon\" property of the Notification component?",
+      "note": "INSTANCE_SWAP means a swappable child component, not a string.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "INSTANCE_SWAP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-notification-title2",
+      "task": "What Figma property type is the \"Title2\" property of the Notification component?",
+      "note": "SLOT means content projection (ng-content / children), not a value input.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "SLOT"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-tooltip",
+      "task": "Which content properties does the Tooltip component expose? Exclude the variant axes.",
+      "note": "4 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Title",
+            "Body",
+            "Has Body",
+            "Slot"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-tooltip-slot",
+      "task": "What Figma property type is the \"Slot\" property of the Tooltip component?",
+      "note": "SLOT means content projection (ng-content / children), not a value input.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "SLOT"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-input-field",
+      "task": "Which content properties does the Input Field component expose? Exclude the variant axes.",
+      "note": "7 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Has Label",
+            "Has Error",
+            "Label",
+            "Error",
+            "Has Description",
+            "Description",
+            "Value"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-select-field",
+      "task": "Which content properties does the Select Field component expose? Exclude the variant axes.",
+      "note": "8 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Has Label",
+            "Has Error",
+            "Label",
+            "Error",
+            "Open",
+            "Description",
+            "Has Description",
+            "Value"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-checkbox-field",
+      "task": "Which content properties does the Checkbox Field component expose? Exclude the variant axes.",
+      "note": "3 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Has Description",
+            "Description",
+            "Label"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-switch-field",
+      "task": "Which content properties does the Switch Field component expose? Exclude the variant axes.",
+      "note": "4 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Description",
+            "Has Label",
+            "Label",
+            "Has Description"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-menu-item",
+      "task": "Which content properties does the Menu Item component expose? Exclude the variant axes.",
+      "note": "6 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Has Description",
+            "Has Icon",
+            "Icon",
+            "Has Shortcut",
+            "Label",
+            "Description"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-menu-item-icon",
+      "task": "What Figma property type is the \"Icon\" property of the Menu Item component?",
+      "note": "INSTANCE_SWAP means a swappable child component, not a string.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "INSTANCE_SWAP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-navigation-button",
+      "task": "Which content properties does the Navigation Button component expose? Exclude the variant axes.",
+      "note": "4 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Label",
+            "Icon",
+            "Has Icon",
+            "Has Label"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-navigation-button-icon",
+      "task": "What Figma property type is the \"Icon\" property of the Navigation Button component?",
+      "note": "INSTANCE_SWAP means a swappable child component, not a string.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "INSTANCE_SWAP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-tag-toggle",
+      "task": "Which content properties does the Tag Toggle component expose? Exclude the variant axes.",
+      "note": "3 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Show Icon",
+            "Icon",
+            "Label"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proptype-tag-toggle-icon",
+      "task": "What Figma property type is the \"Icon\" property of the Tag Toggle component?",
+      "note": "INSTANCE_SWAP means a swappable child component, not a string.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "INSTANCE_SWAP"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-text-price",
+      "task": "Which content properties does the Text Price component expose? Exclude the variant axes.",
+      "note": "4 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Price",
+            "Label",
+            "Currency",
+            "Has Label"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "props-textarea-field",
+      "task": "Which content properties does the Textarea Field component expose? Exclude the variant axes.",
+      "note": "7 properties. Figma suffixes the keys (\"Label#2:0\") — the suffix is storage detail.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Has Label",
+            "Has Error",
+            "Label",
+            "Error",
+            "Description",
+            "Has Description",
+            "Value"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uses-avatar-block",
+      "task": "Which other components is the Avatar Block component built out of?",
+      "note": "Each child INSTANCE must be resolved to its main component — a layer name can be renamed and is not reliable.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Avatar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-avatar-block",
+      "task": "What are the names of the text layers inside the Avatar Block component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Title",
+            "Description"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-avatar-block-title",
+      "task": "Which text style is the \"Title\" layer in Avatar Block using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Strong"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-avatar-block-title",
+      "task": "Which design token is the text colour of the \"Title\" layer in Avatar Block bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-avatar-block-description",
+      "task": "Which text style is the \"Description\" layer in Avatar Block using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-avatar-block-description",
+      "task": "Which design token is the text colour of the \"Description\" layer in Avatar Block bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Tertiary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uses-pricing-card",
+      "task": "Which other components is the Pricing Card (Desktop / Brand) component built out of?",
+      "note": "Each child INSTANCE must be resolved to its main component — a layer name can be renamed and is not reliable.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Text Heading",
+            "Text Price",
+            "Text List",
+            "Button"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uses-card",
+      "task": "Which other components is the Card (Asset Icon / Default / Vertical) component built out of?",
+      "note": "Each child INSTANCE must be resolved to its main component — a layer name can be renamed and is not reliable.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Info",
+            "Button Group"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-card",
+      "task": "What are the names of the text layers inside the Card (Asset Icon / Default / Vertical) component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Title",
+            "Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-card-title",
+      "task": "Which text style is the \"Title\" layer in Card (Asset Icon / Default / Vertical) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Heading"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-card-title",
+      "task": "Which design token is the text colour of the \"Title\" layer in Card (Asset Icon / Default / Vertical) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-card-body-text-for-whatever-you-d-like-to-say-add-main-takeaway-points-quotes-anecdotes-or-even-a-very-very-short-story",
+      "task": "Which text style is the \"Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.\" layer in Card (Asset Icon / Default / Vertical) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-card-body-text-for-whatever-you-d-like-to-say-add-main-takeaway-points-quotes-anecdotes-or-even-a-very-very-short-story",
+      "task": "Which design token is the text colour of the \"Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.\" layer in Card (Asset Icon / Default / Vertical) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uses-notification",
+      "task": "Which other components is the Notification (Alert) component built out of?",
+      "note": "Each child INSTANCE must be resolved to its main component — a layer name can be renamed and is not reliable.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Info",
+            "Button Danger",
+            "Icon Button Danger"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-notification",
+      "task": "What are the names of the text layers inside the Notification (Alert) component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Title",
+            "Body text."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-notification-title",
+      "task": "Which text style is the \"Title\" layer in Notification (Alert) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Strong"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-notification-title",
+      "task": "Which design token is the text colour of the \"Title\" layer in Notification (Alert) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Danger/On Danger Tertiary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-notification-body-text",
+      "task": "Which text style is the \"Body text.\" layer in Notification (Alert) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-notification-body-text",
+      "task": "Which design token is the text colour of the \"Body text.\" layer in Notification (Alert) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Danger/On Danger Tertiary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uses-menu-item",
+      "task": "Which other components is the Menu Item (Default) component built out of?",
+      "note": "Each child INSTANCE must be resolved to its main component — a layer name can be renamed and is not reliable.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Star",
+            "Menu Shortcut"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-menu-item",
+      "task": "What are the names of the text layers inside the Menu Item (Default) component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Label",
+            "Description"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-menu-item-label",
+      "task": "Which text style is the \"Label\" layer in Menu Item (Default) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-menu-item-label",
+      "task": "Which design token is the text colour of the \"Label\" layer in Menu Item (Default) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-menu-item-description",
+      "task": "Which text style is the \"Description\" layer in Menu Item (Default) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Small"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-menu-item-description",
+      "task": "Which design token is the text colour of the \"Description\" layer in Menu Item (Default) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-input-field",
+      "task": "What are the names of the text layers inside the Input Field (Default / Value Default) component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Label",
+            "Description",
+            "Value",
+            "Error"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-input-field-label",
+      "task": "Which text style is the \"Label\" layer in Input Field (Default / Value Default) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-input-field-label",
+      "task": "Which design token is the text colour of the \"Label\" layer in Input Field (Default / Value Default) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-input-field-description",
+      "task": "Which text style is the \"Description\" layer in Input Field (Default / Value Default) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-input-field-description",
+      "task": "Which design token is the text colour of the \"Description\" layer in Input Field (Default / Value Default) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-input-field-value",
+      "task": "Which text style is the \"Value\" layer in Input Field (Default / Value Default) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Single Line/Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-input-field-value",
+      "task": "Which design token is the text colour of the \"Value\" layer in Input Field (Default / Value Default) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-input-field-error",
+      "task": "Which text style is the \"Error\" layer in Input Field (Default / Value Default) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-input-field-error",
+      "task": "Which design token is the text colour of the \"Error\" layer in Input Field (Default / Value Default) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-tooltip",
+      "task": "What are the names of the text layers inside the Tooltip (Top) component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Title",
+            "Body text"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-tooltip-title",
+      "task": "Which text style is the \"Title\" layer in Tooltip (Top) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Strong"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-tooltip-body-text",
+      "task": "Which text style is the \"Body text\" layer in Tooltip (Top) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Small"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "uses-checkbox-field",
+      "task": "Which other components is the Checkbox Field (Default / Value Checked) component built out of?",
+      "note": "Each child INSTANCE must be resolved to its main component — a layer name can be renamed and is not reliable.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Check"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-checkbox-field",
+      "task": "What are the names of the text layers inside the Checkbox Field (Default / Value Checked) component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Label",
+            "Description"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-checkbox-field-label",
+      "task": "Which text style is the \"Label\" layer in Checkbox Field (Default / Value Checked) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-checkbox-field-label",
+      "task": "Which design token is the text colour of the \"Label\" layer in Checkbox Field (Default / Value Checked) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-checkbox-field-description",
+      "task": "Which text style is the \"Description\" layer in Checkbox Field (Default / Value Checked) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Body Base"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-checkbox-field-description",
+      "task": "Which design token is the text colour of the \"Description\" layer in Checkbox Field (Default / Value Checked) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textlayers-text-content-heading",
+      "task": "What are the names of the text layers inside the Text Content Heading (Start) component?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Heading",
+            "Subheading"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-text-content-heading-heading",
+      "task": "Which text style is the \"Heading\" layer in Text Content Heading (Start) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Heading"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-text-content-heading-heading",
+      "task": "Which design token is the text colour of the \"Heading\" layer in Text Content Heading (Start) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textstyle-text-content-heading-subheading",
+      "task": "Which text style is the \"Subheading\" layer in Text Content Heading (Start) using?",
+      "note": "The style binding is on textStyleId and is invisible in the resolved font values — two layers can both read Inter 16px while using different styles.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Subheading"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "textcolor-text-content-heading-subheading",
+      "task": "Which design token is the text colour of the \"Subheading\" layer in Text Content Heading (Start) bound to?",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Text/Default/Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-ui-groups",
+      "task": "Which pages of this file define component sets? Skip the internal \"Utilities\" and \"Examples\" pages.",
+      "note": "The scope rule is stated in the task so the boundary is not a guess; what is tested is walking every page and checking for COMPONENT_SETs.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Accordion",
+            "AI Chat",
+            "Avatars",
+            "Buttons",
+            "Calendar",
+            "Cards",
+            "Dialog",
+            "Inputs",
+            "Menu",
+            "Navigation",
+            "Notification",
+            "Pagination",
+            "Tabs",
+            "Tags",
+            "Text",
+            "Tooltip",
+            "Sections"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-page-inputs",
+      "task": "Which component sets are defined on the Inputs page?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Checkbox Field",
+            "Date Picker Field",
+            "Date Input Field",
+            "Input Field",
+            "Radio Field",
+            "Select Field",
+            "Search",
+            "Slider Field",
+            "Switch Field",
+            "Textarea Field"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-page-buttons",
+      "task": "Which component sets are defined on the Buttons page?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Button",
+            "Icon Button",
+            "Button Group",
+            "Button Danger"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-page-avatars",
+      "task": "Which component sets are defined on the Avatars page?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Avatar",
+            "Avatar Group"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-page-tags",
+      "task": "Which component sets are defined on the Tags page?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Tag",
+            "Tag Toggle"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-page-navigation",
+      "task": "Which component sets are defined on the Navigation page?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Navigation Button",
+            "Navigation Button List",
+            "Navigation Pill List",
+            "Navigation Pill"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-page-pagination",
+      "task": "Which component sets are defined on the Pagination page?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Pagination Next",
+            "Pagination Previous",
+            "Pagination Page"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-page-text",
+      "task": "Which component sets are defined on the Text page?",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Text Content Heading",
+            "Text Content Title",
+            "Text Link List",
+            "Text List",
+            "Text Price"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-text-styles",
+      "task": "List the names of every text style in this file, leaving out the internal ones whose name starts with a dot.",
+      "note": "The two \"Single Line/\" styles are easy to miss — they duplicate names above them and differ only in line-height.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Title Hero",
+            "Title Page",
+            "Subtitle",
+            "Heading",
+            "Subheading",
+            "Body Base",
+            "Body Strong",
+            "Body Emphasis",
+            "Body Link",
+            "Body Small",
+            "Body Small Strong",
+            "Body Code",
+            "Single Line/Body Base",
+            "Single Line/Body Small Strong"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-effect-styles",
+      "task": "List the names of every effect style defined in this file.",
+      "note": "Effect styles are a separate namespace from variables; a run that searches only variables concludes there are no shadows.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Drop Shadow/100",
+            "Drop Shadow/200",
+            "Drop Shadow/300",
+            "Drop Shadow/400",
+            "Drop Shadow/500",
+            "Drop Shadow/600",
+            "Blur/Overlay",
+            "Blur/Layer",
+            "Blur/Glass",
+            "Inner Shadow/100",
+            "Inner Shadow/200",
+            "Inner Shadow/300",
+            "Inner Shadow/400",
+            "Inner Shadow/500",
+            "Inner Shadow/600"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "refuse-carousel",
+      "task": "What is the background colour of the Carousel component?",
+      "note": "There is no Carousel in this file. The failure is inventing a colour or silently substituting Tabs.",
+      "graders": [
+        {
+          "name": "refuse",
+          "arguments": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "refuse-tag-background",
+      "task": "What is the Tag component's background colour?",
+      "note": "Tag has 5 colour schemes x 2 states x 2 variants; 'the' background does not exist. Must name the axes, not pick one.",
+      "graders": [
+        {
+          "name": "refuse",
+          "arguments": [
+            "5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "refuse-pricing-card-button",
+      "task": "What is the background colour of the button in the Pricing Card?",
+      "note": "Four Button instances live inside the Pricing Card component set, at two different widths. Any single answer is a guess.",
+      "graders": [
+        {
+          "name": "refuse",
+          "arguments": [
+            "2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-variable-collections",
+      "task": "What are the names of the variable collections in this file?",
+      "note": "6 collections. \"Color Primitives\" and \"Color\" are separate — the first holds raw ramps, the second the semantic tokens that alias them.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Color Primitives",
+            "Color",
+            "Typography Primitives",
+            "Responsive",
+            "Size",
+            "Typography"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-color-collections",
+      "task": "Which variable collections in this file hold colours?",
+      "note": "The honest answer to \"what are the colours?\" — there are two distinct answers (raw ramps vs semantic tokens), so the question has to be resolved before it can be answered.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Color Primitives",
+            "Color"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-color-groups",
+      "task": "What are the top-level groups of the semantic Color variable collection?",
+      "note": "4 groups over 136 variables. Asked at the group level because listing 136 names is not a gradable answer.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Background",
+            "Text",
+            "Border",
+            "Icon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-color-primitive-families",
+      "task": "What colour families does the Color Primitives collection define?",
+      "note": "10 families of 10 steps each. Includes Black and White as full 10-step ramps, which is easy to miss.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Brand",
+            "Black",
+            "White",
+            "Green",
+            "Gray",
+            "Pink",
+            "Red",
+            "Slate",
+            "Yellow",
+            "Blue"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-size-groups",
+      "task": "What are the top-level groups of the Size variable collection?",
+      "note": "The answer to \"what are the size tokens?\" at a gradable level. Note Depth (13) and Icon (3) live here too — a run that assumes size means only Space and Radius misses half of it.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Space",
+            "Radius",
+            "Blur",
+            "Depth",
+            "Stroke",
+            "Icon"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-typography-groups",
+      "task": "What are the top-level groups of the Typography variable collection?",
+      "note": "Parallel to the text styles but a different namespace — these are variables, not styles.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Title Hero",
+            "Title Page",
+            "Subtitle",
+            "Heading",
+            "Subheading",
+            "Body",
+            "Code"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-modes-color",
+      "task": "What modes does the \"Color\" variable collection have?",
+      "note": "2 modes — every variable in this collection resolves to a different value per mode.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "SDS Light",
+            "SDS Dark"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-modes-responsive",
+      "task": "What modes does the \"Responsive\" variable collection have?",
+      "note": "3 modes — every variable in this collection resolves to a different value per mode.",
+      "graders": [
+        {
+          "name": "list",
+          "arguments": [
+            "Desktop",
+            "Mobile",
+            "Tablet"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-vars-color-primitives",
+      "task": "How many variables are defined in the \"Color Primitives\" variable collection?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "100"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-vars-color",
+      "task": "How many variables are defined in the \"Color\" variable collection?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "136"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-vars-typography-primitives",
+      "task": "How many variables are defined in the \"Typography Primitives\" variable collection?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "31"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-vars-responsive",
+      "task": "How many variables are defined in the \"Responsive\" variable collection?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-vars-size",
+      "task": "How many variables are defined in the \"Size\" variable collection?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "41"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-vars-typography",
+      "task": "How many variables are defined in the \"Typography\" variable collection?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "35"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-component-sets",
+      "task": "How many component sets (COMPONENT_SET nodes, not individual components) does this file define across all of its pages?",
+      "note": "The boundary is stated in the task because it is the whole difficulty: variants inside a set are COMPONENTs, and counting those instead gives a number in the hundreds.",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "78"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-text-styles",
+      "task": "How many text styles does this file define, including the internal dot-prefixed ones?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "16"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "count-effect-styles",
+      "task": "How many effect styles does this file define?",
+      "graders": [
+        {
+          "name": "count",
+          "arguments": [
+            "15"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inv-all-component-sets",
+      "task": "List the names of every component set defined in this file, comma-separated.",
+      "note": "78 sets. Graded by RECALL, not exact match — extras are ignored, so the score says how much of the file the run actually walked rather than pass/fail on one debatable entry.",
+      "graders": [
+        {
+          "name": "contains",
+          "arguments": [
+            "Examples / Home Page",
+            "Examples/About",
+            "Examples/Contact Us",
+            "Examples/Pricing",
+            "Examples/Waitlist",
+            "Examples/Landing Page",
+            "Examples/Article",
+            "Examples/Shop",
+            "Examples/Product Detail Page",
+            "Examples/Portfolio",
+            "Examples/AI Chat",
+            "Examples/Slot",
+            "Accordion Item",
+            "AI Chat Box",
+            "Avatar",
+            "Avatar Group",
+            "Button",
+            "Icon Button",
+            "Button Group",
+            "Button Danger",
+            "Calendar Button",
+            "Card",
+            "Pricing Card",
+            "Dialog Body",
+            "Checkbox Field",
+            "Date Picker Field",
+            "Date Input Field",
+            "Input Field",
+            "Radio Field",
+            "Select Field",
+            "Search",
+            "Slider Field",
+            "Switch Field",
+            "Textarea Field",
+            "Menu Item",
+            "Navigation Button",
+            "Navigation Button List",
+            "Navigation Pill List",
+            "Navigation Pill",
+            "Notification",
+            "Pagination Next",
+            "Pagination Previous",
+            "Pagination Page",
+            "Tab",
+            "Tag",
+            "Tag Toggle",
+            "Text Content Heading",
+            "Text Content Title",
+            "Text Link List",
+            "Text List",
+            "Text Price",
+            "Tooltip",
+            "Card Grid Icon",
+            "Card Grid Image",
+            "Card Grid Content List",
+            "Card Grid Pricing",
+            "Card Grid Testimonials",
+            "Card Grid Reviews",
+            "Page Accordion",
+            "Page Product",
+            "Page Product Results",
+            "Page Newsletter",
+            "Panel Image Content",
+            "Panel Image Content Reverse",
+            "Panel Image",
+            "Panel Image Double",
+            "Hero Basic",
+            "Hero Actions",
+            "Hero Newsletter",
+            "Hero Form",
+            "Hero Image",
+            "Hero (Slot)",
+            "Footer",
+            "AI Chatbot",
+            "Header",
+            "Header Auth",
+            "_Component Annotation",
+            "_Component Note"
+          ]
+        }
+      ]
+    }
+  ]
+}

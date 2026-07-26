@@ -1,0 +1,643 @@
+{
+  "fileKey": "o4J88pjxnuF7DSdLRhbtlO",
+  "tier": "medium",
+  "rows": [
+    {
+      "id": "prop-button-variant-primary-state-default-size-medium-fills",
+      "task": "What is the fill colour of the Button component, Primary / Default / Medium variant?",
+      "note": "Requires resolving \"Variant=Primary, State=Default, Size=Medium\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#2c2c2c"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-primary-state-default-size-medium-fills",
+      "task": "Which variable is the fill colour of the Button component, Primary / Default / Medium variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Brand/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-primary-state-default-size-medium-cornerradius",
+      "task": "What is the cornerRadius of the Button component, Primary / Default / Medium variant?",
+      "note": "Requires resolving \"Variant=Primary, State=Default, Size=Medium\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-primary-state-default-size-medium-cornerradius",
+      "task": "Which variable is the cornerRadius of the Button component, Primary / Default / Medium variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Radius/200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-primary-state-default-size-medium-itemspacing",
+      "task": "What is the itemSpacing of the Button component, Primary / Default / Medium variant?",
+      "note": "Requires resolving \"Variant=Primary, State=Default, Size=Medium\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-primary-state-default-size-medium-itemspacing",
+      "task": "Which variable is the itemSpacing of the Button component, Primary / Default / Medium variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Space/200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-primary-state-hover-size-medium-fills",
+      "task": "What is the fill colour of the Button component, Primary / Hover / Medium variant?",
+      "note": "Requires resolving \"Variant=Primary, State=Hover, Size=Medium\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#1e1e1e"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-primary-state-hover-size-medium-fills",
+      "task": "Which variable is the fill colour of the Button component, Primary / Hover / Medium variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Brand/Hover"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-primary-state-disabled-size-medium-fills",
+      "task": "What is the fill colour of the Button component, Primary / Disabled / Medium variant?",
+      "note": "Requires resolving \"Variant=Primary, State=Disabled, Size=Medium\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#d9d9d9"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-primary-state-disabled-size-medium-fills",
+      "task": "Which variable is the fill colour of the Button component, Primary / Disabled / Medium variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Disabled/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-neutral-state-default-size-medium-fills",
+      "task": "What is the fill colour of the Button component, Neutral / Default / Medium variant?",
+      "note": "Requires resolving \"Variant=Neutral, State=Default, Size=Medium\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#e3e3e3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-neutral-state-default-size-medium-fills",
+      "task": "Which variable is the fill colour of the Button component, Neutral / Default / Medium variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Neutral/Tertiary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-neutral-state-default-size-medium-strokes",
+      "task": "What is the stroke colour of the Button component, Neutral / Default / Medium variant?",
+      "note": "Requires resolving \"Variant=Neutral, State=Default, Size=Medium\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#767676"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-neutral-state-default-size-medium-strokes",
+      "task": "Which variable is the stroke colour of the Button component, Neutral / Default / Medium variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Border/Neutral/Secondary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-subtle-state-default-size-medium-fills",
+      "task": "What is the fill colour of the Button component, Subtle / Default / Medium variant?",
+      "note": "This variant genuinely has no fills — the answer is \"none\". Inventing a colour is the failure.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "none"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-primary-state-default-size-small-paddingtop",
+      "task": "What is the paddingTop of the Button component, Primary / Default / Small variant?",
+      "note": "Requires resolving \"Variant=Primary, State=Default, Size=Small\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-primary-state-default-size-small-paddingtop",
+      "task": "Which variable is the paddingTop of the Button component, Primary / Default / Small variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Space/200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-button-variant-primary-state-default-size-small-itemspacing",
+      "task": "What is the itemSpacing of the Button component, Primary / Default / Small variant?",
+      "note": "Requires resolving \"Variant=Primary, State=Default, Size=Small\" out of 18 variants of Button.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-button-variant-primary-state-default-size-small-itemspacing",
+      "task": "Which variable is the itemSpacing of the Button component, Primary / Default / Small variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Space/200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-tag-scheme-brand-state-default-variant-primary-fills",
+      "task": "What is the fill colour of the Tag component, Brand / Default / Primary variant?",
+      "note": "Requires resolving \"Scheme=Brand, State=Default, Variant=Primary\" out of 20 variants of Tag.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#2c2c2c"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-tag-scheme-brand-state-default-variant-primary-fills",
+      "task": "Which variable is the fill colour of the Tag component, Brand / Default / Primary variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Brand/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-tag-scheme-brand-state-default-variant-primary-cornerradius",
+      "task": "What is the cornerRadius of the Tag component, Brand / Default / Primary variant?",
+      "note": "Requires resolving \"Scheme=Brand, State=Default, Variant=Primary\" out of 20 variants of Tag.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-tag-scheme-brand-state-default-variant-primary-cornerradius",
+      "task": "Which variable is the cornerRadius of the Tag component, Brand / Default / Primary variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Radius/200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-tag-scheme-danger-state-default-variant-primary-fills",
+      "task": "What is the fill colour of the Tag component, Danger / Default / Primary variant?",
+      "note": "Requires resolving \"Scheme=Danger, State=Default, Variant=Primary\" out of 20 variants of Tag.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#ec221f"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-tag-scheme-danger-state-default-variant-primary-fills",
+      "task": "Which variable is the fill colour of the Tag component, Danger / Default / Primary variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Danger/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-tag-scheme-positive-state-default-variant-primary-fills",
+      "task": "What is the fill colour of the Tag component, Positive / Default / Primary variant?",
+      "note": "Requires resolving \"Scheme=Positive, State=Default, Variant=Primary\" out of 20 variants of Tag.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#14ae5c"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-tag-scheme-positive-state-default-variant-primary-fills",
+      "task": "Which variable is the fill colour of the Tag component, Positive / Default / Primary variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Positive/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-avatar-type-initial-size-large-shape-circle-cornerradius",
+      "task": "What is the cornerRadius of the Avatar component, Initial / Large / Circle variant?",
+      "note": "Requires resolving \"Type=Initial, Size=Large, Shape=Circle\" out of 12 variants of Avatar.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "9999"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-avatar-type-initial-size-large-shape-circle-cornerradius",
+      "task": "Which variable is the cornerRadius of the Avatar component, Initial / Large / Circle variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Radius/Full"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-avatar-type-initial-size-large-shape-circle-width",
+      "task": "What is the width of the Avatar component, Initial / Large / Circle variant?",
+      "note": "Requires resolving \"Type=Initial, Size=Large, Shape=Circle\" out of 12 variants of Avatar.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "40"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-avatar-type-initial-size-small-shape-square-cornerradius",
+      "task": "What is the cornerRadius of the Avatar component, Initial / Small / Square variant?",
+      "note": "Requires resolving \"Type=Initial, Size=Small, Shape=Square\" out of 12 variants of Avatar.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-avatar-type-initial-size-small-shape-square-cornerradius",
+      "task": "Which variable is the cornerRadius of the Avatar component, Initial / Small / Square variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Radius/100"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-avatar-type-initial-size-small-shape-square-width",
+      "task": "What is the width of the Avatar component, Initial / Small / Square variant?",
+      "note": "Requires resolving \"Type=Initial, Size=Small, Shape=Square\" out of 12 variants of Avatar.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "24"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-avatar-type-initial-size-medium-shape-circle-width",
+      "task": "What is the width of the Avatar component, Initial / Medium / Circle variant?",
+      "note": "Requires resolving \"Type=Initial, Size=Medium, Shape=Circle\" out of 12 variants of Avatar.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "32"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-menu-item-state-hover-fills",
+      "task": "What is the fill colour of the Menu Item component, Hover variant?",
+      "note": "Requires resolving \"State=Hover\" out of 3 variants of Menu Item.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#2c2c2c"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-menu-item-state-hover-fills",
+      "task": "Which variable is the fill colour of the Menu Item component, Hover variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Brand/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-notification-variant-alert-fills",
+      "task": "What is the fill colour of the Notification component, Alert variant?",
+      "note": "Requires resolving \"Variant=Alert\" out of 2 variants of Notification.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#fee9e7"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-notification-variant-alert-fills",
+      "task": "Which variable is the fill colour of the Notification component, Alert variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Danger/Tertiary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-notification-variant-alert-cornerradius",
+      "task": "What is the cornerRadius of the Notification component, Alert variant?",
+      "note": "Requires resolving \"Variant=Alert\" out of 2 variants of Notification.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-notification-variant-alert-cornerradius",
+      "task": "Which variable is the cornerRadius of the Notification component, Alert variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Radius/200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-tooltip-placement-top-fills",
+      "task": "What is the fill colour of the Tooltip component, Top variant?",
+      "note": "Requires resolving \"Placement=Top\" out of 4 variants of Tooltip.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#ffffff"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-tooltip-placement-top-fills",
+      "task": "Which variable is the fill colour of the Tooltip component, Top variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Default/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-tooltip-placement-top-cornerradius",
+      "task": "What is the cornerRadius of the Tooltip component, Top variant?",
+      "note": "Requires resolving \"Placement=Top\" out of 4 variants of Tooltip.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-tooltip-placement-top-cornerradius",
+      "task": "Which variable is the cornerRadius of the Tooltip component, Top variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Radius/200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-navigation-pill-state-active-fills",
+      "task": "What is the fill colour of the Navigation Pill component, Active variant?",
+      "note": "Requires resolving \"State=Active\" out of 3 variants of Navigation Pill.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#f5f5f5"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-navigation-pill-state-active-fills",
+      "task": "Which variable is the fill colour of the Navigation Pill component, Active variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Brand/Tertiary"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prop-pagination-page-state-current-fills",
+      "task": "What is the fill colour of the Pagination Page component, Current variant?",
+      "note": "Requires resolving \"State=Current\" out of 4 variants of Pagination Page.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "#2c2c2c"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "token-pagination-page-state-current-fills",
+      "task": "Which variable is the fill colour of the Pagination Page component, Current variant, bound to?",
+      "note": "The variable name, not the resolved value — this is the fact a view-only file cannot give you.",
+      "graders": [
+        {
+          "name": "value",
+          "arguments": [
+            "Background/Brand/Default"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "open-pricing-card",
+      "task": "Open the Pricing Card component definition and select it.",
+      "note": "14 nodes match /pricing card/i and 13 are INSTANCEs; the definition is the COMPONENT_SET. Opening its page is not enough — the node itself must end up selected.",
+      "graders": [
+        {
+          "name": "open",
+          "arguments": [
+            "1444:11846"
+          ]
+        }
+      ]
+    }
+  ]
+}
