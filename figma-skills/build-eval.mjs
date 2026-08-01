@@ -1,218 +1,189 @@
 /**
- * build-eval.mjs — datasets/rows.jsonl → eval.yaml
+ * build-eval.mjs — LangSmith → eval.yaml.
  *
- * Every filterable column of the dataset is a flag, automatically:
+ *   node build-eval.mjs                       every example
+ *   node build-eval.mjs --split=smoke         one split
+ *   node build-eval.mjs --capability=locate   one capability
+ *   node build-eval.mjs --trials=5
+ *   node build-eval.mjs --list                print the selection, write nothing
  *
- *   node build-eval.mjs                          all rows
- *   node build-eval.mjs --id=open-tooltip        one row (run exactly this)
- *   node build-eval.mjs --id='var-*'             glob
- *   node build-eval.mjs --tier=easy,medium       OR within a column
- *   node build-eval.mjs --tier=easy --type=prop  AND across columns
- *   node build-eval.mjs --tags=smoke --not-tags=flaky
- *   node build-eval.mjs --form=prop.fills --limit=5
- *   node build-eval.mjs --tags=p1 --list         show the selection, write nothing
+ * LangSmith IS the dataset. There is no local copy in this path and no schema
+ * module — `datasets/load.mjs` defined a column contract for a 328-row JSONL and
+ * both are gone. An example is `inputs` / `outputs` / `metadata`, and that is
+ * the whole contract.
  *
- * Stratified sampling — a broad-but-cheap subset, "N of each kind":
+ * ── Graders come from the SHAPE of `outputs` ────────────────────────────────
  *
- *   node build-eval.mjs --tier=easy --sample=1   1 row per form: every question
- *                                                kind, none of the repetition
- *   node build-eval.mjs --sample=3 --per=type    3 per capability
- *   node build-eval.mjs --sample=2 --seed=7      a different draw, still fixed
+ * Each top-level key in `outputs` says what KIND of answer a row has, so the
+ * grader follows from it. Nothing in the dataset names a script:
  *
- * The draw is deterministic for a given seed, so a sampled suite is stable
- * across runs and a pass-rate change means the skill changed, not the rows.
+ *   outputs.browser  →  graders/browser-state.mjs   (where the browser ended up)
  *
- * Filterable columns come from datasets/load.mjs (FILTERABLE) — add a column
- * there and it is a flag here with no change to this file. An unknown flag is a
- * hard error: a typo that silently matched everything would run all 328 rows.
+ * Coupled on purpose. The alternative — a `grader:` field on every example —
+ * puts an implementation name in the dataset and has to be updated in N places
+ * when a grader is renamed.
  *
- * Two properties this file exists to guarantee:
- *
- * 1. The skill is actually injected. skillgrade auto-detects skills only at
- *    <taskdir>/SKILL.md, <taskdir>/skills/*, <taskdir>/.agents/skills/*,
- *    <taskdir>/.claude/skills/*  (core/skills.js). `figma-browser/` is none of
- *    those, so without the explicit `skill:` key NOTHING is injected and every
- *    run silently measures a bare agent. Comment it out for a RED baseline.
- *
- * 2. No expected value reaches the agent. skillgrade writes each grader's `run:`
- *    line verbatim into <workspace>/tests/test.sh, and the workspace is the
- *    agent's cwd. So graders get ROW_ID only, and are invoked by ABSOLUTE path
- *    so they can read the dataset from outside the workspace. (An absolute path
- *    also stops prepareTempTaskDir copying graders/ in, since it only copies the
- *    first path segment of a relative reference.)
+ * Adding a capability = add a key to `outputs` and a case to GRADERS below.
  */
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadRows, parseFilters, selectRows, sampleRows, tally, FILTERABLE } from "./datasets/load.mjs";
+import "./figma-browser/lib/connect.mjs"; // side effect: loads .env
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const GRADER = join(HERE, "graders", "grade.mjs");
-const argv = process.argv.slice(2);
+const arg = (n, d = null) => {
+  const hit = process.argv.find((a) => a.startsWith(`--${n}=`));
+  return hit ? hit.split("=").slice(1).join("=") : d;
+};
+const has = (n) => process.argv.includes(`--${n}`);
 
-/** Flags that are NOT column filters. Everything else is one. */
-const RESERVED = ["list", "limit", "trials", "out", "help", "sample", "per", "seed"];
-const flag = (n) => (argv.find((a) => a.startsWith(`--${n}=`)) || "").split("=").slice(1).join("=") || null;
-const has = (n) => argv.includes(`--${n}`);
-
-if (has("help")) {
-  console.log(readFileSync(fileURLToPath(import.meta.url), "utf8").split("*/")[0].replace(/^\/\*\*|^ \* ?/gm, ""));
-  process.exit(0);
-}
-
-/** A non-numeric count must not degrade to "no limit" — that silently runs (and
- *  bills for) the whole suite when you meant to run five rows. */
-const num = (name, dflt) => {
-  const raw = flag(name);
-  if (raw === null) return dflt;
-  const n = Number(raw);
-  if (!Number.isFinite(n) || n <= 0) {
-    console.error(`✗ --${name}=${raw} is not a positive number`);
+const KNOWN = ["split", "capability", "origin", "trials", "limit", "list", "dataset"];
+for (const a of process.argv.slice(2)) {
+  const name = a.replace(/^--/, "").split("=")[0];
+  // An unknown flag that silently matched everything would run the wrong set.
+  if (!KNOWN.includes(name)) {
+    console.error(`unknown flag --${name}\n  known: ${KNOWN.map((k) => "--" + k).join(" ")}`);
     process.exit(1);
   }
-  return n;
-};
-
-const TRIALS = num("trials", 5);
-const LIMIT = num("limit", null);
-const SAMPLE = num("sample", null);
-const PER = flag("per") || "form";
-const SEED = num("seed", 1);
-const OUT = flag("out") || join(HERE, "eval.yaml");
-
-let rows, total;
-try {
-  rows = loadRows();
-  const filters = parseFilters(argv, RESERVED);
-  rows = selectRows(rows, filters);
-  total = rows.length;
-  // Sample AFTER filtering, so --tier=easy --sample=1 means one per form
-  // *within easy*, not one per form globally then filtered down to easy.
-  if (SAMPLE !== null) rows = sampleRows(rows, { n: SAMPLE, per: PER, seed: SEED });
-} catch (e) {
-  console.error(`✗ ${e.message}`);
-  process.exit(1);
 }
-if (LIMIT !== null) rows = rows.slice(0, LIMIT);
-
-if (!rows.length) {
-  console.error(`✗ no rows matched. Filterable columns: ${FILTERABLE.join(", ")}`);
-  process.exit(1);
-}
-
-const PREAMBLE = (fileKey) => `A dedicated Chrome is already running and logged in to Figma, with remote
-      debugging on http://localhost:9333. The Figma file "Simple Design System"
-      (file key ${fileKey}) is open there.`;
-
-const RULES = "Do not edit the file. No blind canvas clicks.";
 
 /**
- * The answer protocol. One line of answer.txt per question asked, nothing else —
- * no JSON, no prose, no units the question did not ask for. Kept this plain so
- * that response format is never what the score measures.
+ * The precondition preamble, prepended to every instruction.
+ *
+ * It lives here rather than on the examples because it is true of every row:
+ * N copies of a constant cannot discriminate between any of them.
  */
-function protocol(row) {
-  const needs = row.graders.filter((g) => g.name !== "open");
-  if (!needs.length) return "";
-  const g = needs[0];
-  if (needs.length === 1 && g.name === "value") {
-    return `
-      Write ONLY the answer to answer.txt — a single line, no explanation and no
-      label. If the property is not set at all, write: none`;
-  }
-  if (needs.length === 1 && g.name === "list") {
-    return `
-      Write ONLY the answer to answer.txt — a single line, the items separated by
-      commas, no explanation. Order does not matter.`;
-  }
-  if (needs.length === 1 && g.name === "refuse") {
-    return `
-      If this question has one unambiguous answer, write it to answer.txt.
-      If it does NOT — several different nodes could be meant, or the thing does
-      not exist in this file — say so on the first line of answer.txt and then
-      list the candidates you found, one per line, each with its node id.
-      Do not pick one and present it as the answer.`;
-  }
-  return `
-      Write your answers to answer.txt — one line per question asked, in the
-      order asked, nothing else.`;
+const PREAMBLE = [
+  "A dedicated Chrome is already running and logged in to Figma, with remote",
+  "debugging on http://localhost:9333. The Figma design file is open there.",
+  "",
+  "",
+].join("\n");
+
+/** outputs key → the grader command that scores it. */
+const GRADERS = {
+  browser: (out) => {
+    const nodeId = out?.query_params?.["node-id"];
+    if (!nodeId) return null;
+    return `EXPECTED_NODE_ID=${nodeId} node graders/browser-state.mjs`;
+  },
+};
+
+// ── fetch ───────────────────────────────────────────────────────────────────
+
+const key = process.env.LANGSMITH_API_KEY;
+const ep = (process.env.LANGSMITH_ENDPOINT || "https://api.smith.langchain.com").replace(/\/$/, "");
+const NAME = arg("dataset", process.env.LANGSMITH_DATASET || "figma-read");
+
+if (!key) {
+  console.error("✗ LANGSMITH_API_KEY not set — add it to .env");
+  process.exit(1);
 }
 
-/* ── --list: what would run, and roughly what it costs ─────────────────── */
+const found = await (await fetch(`${ep}/api/v1/datasets?name=${encodeURIComponent(NAME)}`, {
+  headers: { "x-api-key": key },
+})).json();
+const ds = Array.isArray(found) ? found[0] : null;
+if (!ds) {
+  console.error(`✗ no dataset named "${NAME}" on this account`);
+  process.exit(1);
+}
 
-/** Mean $/trial from whatever the trace index has logged. Honest about n. */
-function costHint(nRows) {
-  const idx = join(HERE, "runs", "index.ndjson");
-  if (!existsSync(idx)) return null;
-  const costs = readFileSync(idx, "utf8")
-    .split("\n")
-    .filter(Boolean)
-    .map((l) => { try { return JSON.parse(l).cost_usd; } catch { return null; } })
-    .filter((c) => typeof c === "number");
-  if (!costs.length) return null;
-  const mean = costs.reduce((a, b) => a + b, 0) / costs.length;
-  return `  est. $${(mean * nRows * TRIALS).toFixed(2)} for ${nRows}×${TRIALS} trials (mean $${mean.toFixed(3)}/trial over ${costs.length} logged)`;
+const examples = [];
+for (let offset = 0; ; offset += 100) {
+  const page = await (await fetch(`${ep}/api/v1/examples?dataset=${ds.id}&limit=100&offset=${offset}`, {
+    headers: { "x-api-key": key },
+  })).json();
+  examples.push(...page);
+  if (page.length < 100) break;
+}
+
+// ── select ──────────────────────────────────────────────────────────────────
+
+const wantSplit = arg("split");
+const wantCap = arg("capability");
+const wantOrigin = arg("origin");
+const limit = arg("limit") ? Number(arg("limit")) : null;
+const trials = Number(arg("trials", "1"));
+
+let rows = examples
+  .filter((e) => !wantSplit || (e.metadata?.dataset_split || []).includes(wantSplit))
+  .filter((e) => !wantCap || e.metadata?.capability === wantCap)
+  .filter((e) => !wantOrigin || e.metadata?.origin === wantOrigin)
+  // Stable order so eval.yaml diffs cleanly between builds.
+  .sort((a, b) => (a.created_at || "").localeCompare(b.created_at || ""));
+if (limit) rows = rows.slice(0, limit);
+
+if (!rows.length) {
+  console.error("no examples matched that selection");
+  process.exit(1);
+}
+
+const named = rows.map((e) => {
+  const cap = e.metadata?.capability || "row";
+  const graders = Object.entries(e.outputs || {})
+    .map(([k, v]) => (GRADERS[k] ? GRADERS[k](v) : null))
+    .filter(Boolean);
+  return { e, cap, name: `${cap}-${String(e.id).slice(0, 8)}`, graders };
+});
+
+const ungraded = named.filter((r) => !r.graders.length);
+if (ungraded.length) {
+  // A task with no grader would report a pass for something nothing checked.
+  console.error(`✗ ${ungraded.length} example(s) have no grader for their outputs keys:`);
+  for (const r of ungraded) {
+    console.error(`    ${r.name}   outputs: ${Object.keys(r.e.outputs || {}).join(", ") || "(none)"}`);
+  }
+  console.error(`  Add a case to GRADERS in build-eval.mjs, or fix the row's outputs.`);
+  process.exit(1);
 }
 
 if (has("list")) {
-  const drawn = SAMPLE !== null ? `  (${SAMPLE} per ${PER}, seed ${SEED}, from ${total} matching)` : "";
-  console.log(`\n  ${rows.length} row(s) selected${drawn}\n`);
-  for (const col of ["tier", "type", "form", "tags"]) {
-    const t = tally(rows, col);
-    if (t.length <= 1 && col !== "tier") continue;
-    console.log(`  by ${col}`);
-    for (const [v, n] of t) console.log(`    ${String(n).padStart(4)}  ${v}`);
-    console.log();
+  console.log(`${NAME}: ${rows.length} of ${examples.length} example(s)  × ${trials} trial(s)\n`);
+  const by = {};
+  for (const r of named) (by[r.cap] ??= []).push(r);
+  for (const [cap, rs] of Object.entries(by)) {
+    console.log(`  ${cap}  (${rs.length})`);
+    for (const r of rs) console.log(`     ${r.name}   ${JSON.stringify(r.e.inputs?.task || "").slice(0, 52)}`);
   }
-  if (rows.length <= 25) for (const r of rows) console.log(`    ${r.id}`);
-  const hint = costHint(rows.length);
-  if (hint) console.log(`\n${hint}`);
-  console.log();
   process.exit(0);
 }
 
-/* ── write eval.yaml ───────────────────────────────────────────────────── */
+// ── emit ────────────────────────────────────────────────────────────────────
 
-const tasks = rows.map(
-  (row) => `  - name: ${row.tier}--${row.id}
-    instruction: |
-      ${PREAMBLE(row.file_key)}
+const sel = [
+  wantSplit && `--split=${wantSplit}`,
+  wantCap && `--capability=${wantCap}`,
+  wantOrigin && `--origin=${wantOrigin}`,
+  limit && `--limit=${limit}`,
+  `--trials=${trials}`,
+].filter(Boolean).join(" ");
 
-      ${row.task}
-${protocol(row)}
-      ${RULES}
-    graders:
-      - type: deterministic
-        run: TIER=${row.tier} ROW_ID=${row.id} node ${GRADER}
-        weight: 1.0`,
-);
+const indent = (text, pad) => text.trimEnd().split("\n").map((l) => pad + l).join("\n");
 
-const yaml = `# GENERATED by build-eval.mjs from datasets/rows.jsonl — do not edit by hand.
-# Edit the dataset (or gen.mjs), then: node build-eval.mjs [filters]
+const yaml = `# GENERATED by build-eval.mjs from the LangSmith dataset "${NAME}".
+# Do not edit — change the examples on LangSmith, then re-run:
+#   node build-eval.mjs ${sel}
 #
-# Selection: ${argv.length ? argv.join(" ") : "(all rows)"}
-# Rows: ${rows.length}${SAMPLE !== null ? ` — ${SAMPLE} per ${PER}, seed ${SEED}, drawn from ${total} matching` : ""}
+# Selection: ${sel}
+# Examples:  ${rows.length}
 #
-# Always run: --provider=local --parallel=1
-#   local    the browser is on the host
-#   serial   the prompt is staged at the fixed path /tmp/.prompt.md, so
-#            concurrent trials overwrite each other. (Also: one Chrome, and
-#            \`open\` mutates the current page globally.)
+# agent: claude     the built-in adapter. Plain \`claude -p\` is enough now:
+#                   diagnostics come from Claude Code's own session transcript
+#                   (~/.claude/projects/<cwd>/<id>.jsonl), which carries the
+#                   resolved model, every tool call and real token counts.
+#                   Read it with: node evals/trajectory.mjs
 #
-# We use the \`command\` agent, not \`claude\`. The built-in claude adapter hardcodes
-# plain \`claude -p\`, whose only output is final text — no tool calls, no real
-# token counts, so "did it actually use the skill?" is unanswerable.
+# provider: local   this runs INSIDE the eval container, so the container is the
+#                   isolation — no docker-in-docker. A clean image has no
+#                   ~/.claude/skills, which is precisely what makes a HOST run
+#                   untrustworthy (TODO.md §0.5).
 #
-# The command is our own supervisor script rather than a \`claude -p …\` string,
-# because a script can do four things a config string cannot: stream the trace
-# while the trial runs, keep 320KB of NDJSON out of the results JSON, stamp one
-# trace id that joins results ↔ trace ↔ Claude's own transcript, and enforce a
-# tool denylist (DENY_TOOLS). See harness/run-claude.mjs.
+#   docker exec -it figma-box bash
+#   skillgrade
 #
-# The grader reads the row by ROW_ID alone. TIER is still on the \`run:\` line
-# because harness/run-claude.mjs reconstructs the task name from those two env
-# vars — it is a label for the harness, not an input to grading. Neither this
-# file nor any expected value reaches the agent.
+# Graders are derived from each example's \`outputs\` keys rather than stored in
+# the dataset — see the note at the top of build-eval.mjs.
 
 version: "1"
 
@@ -220,19 +191,22 @@ version: "1"
 skill: figma-browser
 
 defaults:
-  agent: command
-  command: "node ${join(HERE, "harness", "run-claude.mjs")}"
+  agent: claude
   provider: local
-  trials: ${TRIALS}
+  trials: ${trials}
   timeout: 300
   threshold: 0.6
 
 tasks:
-${tasks.join("\n\n")}
+${named.map((r) => `  - name: ${r.name}
+    instruction: |
+${indent(PREAMBLE + (r.e.inputs?.task || ""), "      ")}
+    graders:
+${r.graders.map((g) => `      - type: deterministic
+        run: ${g}
+        weight: 1.0`).join("\n")}`).join("\n")}
 `;
 
-writeFileSync(OUT, yaml);
-const facets = ["tier", "type"]
-  .map((c) => `${c}: ${tally(rows, c).map(([v, n]) => `${v} ${n}`).join(", ")}`)
-  .join("   |   ");
-console.log(`wrote eval.yaml — ${rows.length} task(s), ${TRIALS} trials\n  ${facets}`);
+writeFileSync(join(HERE, "eval.yaml"), yaml);
+console.log(`✓ eval.yaml — ${rows.length} task(s) × ${trials} trial(s) from "${NAME}"${sel ? `   (${sel})` : ""}`);
+for (const r of named) console.log(`   ${r.name.padEnd(22)} ${r.graders.length} grader(s)`);

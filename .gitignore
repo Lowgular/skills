@@ -18,3 +18,6 @@ results/
 # streams contain file keys and workspace paths.
 runs/
 **/runs/
+
+# a baked Figma session — never commit
+environment/profile-seed/

@@ -9,7 +9,7 @@
  * Start here:  node lib/figma.mjs help
  */
 
-import { config, cdpAlive, ensureChrome } from "./connect.mjs";
+import { config as baseConfig, cdpAlive, ensureChrome, sessionFile } from "./connect.mjs";
 import { connect } from "./cdp.mjs";
 import { PROBE_FN, PAGES_FN, FIND_FN, LAYERS_FN, INSPECT_FN, CSS_FN, VARS_FN, SELECT_FN } from "./figma-fns.mjs";
 
@@ -23,6 +23,14 @@ const flag = (name, dflt) => {
   return eq === -1 ? true : hit.slice(eq + 1);
 };
 const JSON_OUT = !!flag("json", false);
+
+/**
+ * The ambient read, once per process — this file is the entry point, so this is
+ * where session context stops being ambient. Everything downstream is handed a
+ * slug; nothing else here calls config() bare.
+ */
+const FILE = sessionFile();
+const config = () => baseConfig({ file: FILE });
 
 const emit = (obj) => console.log(JSON.stringify(obj, null, 2));
 const die = (msg, hint) => {
@@ -80,12 +88,7 @@ const NO_API = [
  */
 async function withFigma(fn) {
   const cfg = config();
-  if (!cfg.fileKey) {
-    return escalate("No Figma file configured (FIGMA_FILE_KEY is unset).", [
-      `Ask which Figma file to read, then set FIGMA_FILE_KEY in .env to its file key`,
-      `(the segment after /design/ in the URL).`,
-    ]);
-  }
+  if (!cfg.fileKey) return escalate(cfg.fileError, [cfg.fileHint]);
   if (!(await cdpAlive(cfg.port))) {
     return escalate(`No Chrome is listening on port ${cfg.port}.`, NOT_RUNNING(cfg.port));
   }
@@ -110,7 +113,8 @@ async function status() {
   const cfg = config();
   const report = {
     ok: false, port: cfg.port, profile: cfg.profile, chromeBin: cfg.bin,
-    chromeBinExists: cfg.binExists, fileKey: cfg.fileKey, cdpAlive: false, figmaApi: false,
+    chromeBinExists: cfg.binExists, figmaFile: cfg.figmaFile, fileKey: cfg.fileKey,
+    cdpAlive: false, figmaApi: false,
   };
   report.cdpAlive = await cdpAlive(cfg.port);
   if (!report.cdpAlive) {
@@ -118,7 +122,7 @@ async function status() {
     else console.log(`  port ${cfg.port}\n  profile ${cfg.profile}\n  chrome ${cfg.bin}${cfg.binExists ? "" : "  ✗ NOT FOUND"}\n  ✗ CDP not answering`);
     return escalate(`No Chrome is listening on port ${cfg.port}.`, NOT_RUNNING(cfg.port));
   }
-  if (!cfg.fileKey) return escalate("No Figma file configured (FIGMA_FILE_KEY is unset).", ["Ask which Figma file to read and set FIGMA_FILE_KEY in .env."]);
+  if (!cfg.fileKey) return escalate(cfg.fileError, [cfg.fileHint]);
 
   const cdp = await connect({ port: cfg.port, match: cfg.fileKey, openUrl: cfg.fileUrl });
   try {
@@ -134,7 +138,7 @@ async function status() {
   else {
     console.log(`  port     ${cfg.port}`);
     console.log(`  profile  ${cfg.profile}`);
-    console.log(`  file     ${cfg.fileKey}`);
+    console.log(`  file     ${cfg.figmaFile}  (${cfg.fileKey})`);
     console.log(`  ✓ CDP alive`);
     console.log(report.ok ? `  ✓ window.figma live — currentPage="${report.currentPage}"\n\n✓ ready\n` : `  ✗ window.figma absent`);
   }
@@ -150,7 +154,7 @@ async function login() {
   console.log(`\n  profile  ${cfg.profile}\n  port     ${cfg.port}\n  opening  ${target}`);
   const { launched } = await ensureChrome({ url: target });
   console.log(launched ? "  ✓ Chrome launched" : `  ✓ Chrome already running on :${cfg.port}`);
-  if (!cfg.fileKey) return console.log("\n  ⚠ FIGMA_FILE_KEY unset — log in, set it in .env, then: figma.mjs status\n");
+  if (!cfg.fileKey) return console.log(`\n  ⚠ ${cfg.fileError} — log in, then: ${cfg.fileHint}\n`);
 
   console.log(`\n  → Log in as a user who can EDIT this file, and leave the tab open.`);
   console.log(`    Waiting up to ${waitMs / 1000}s for the design editor…\n`);

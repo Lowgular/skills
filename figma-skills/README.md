@@ -49,8 +49,8 @@ design editor), with an actionable fix for each failure. If Chrome isn't up:
 | | |
 |---|---|
 | Chrome on :9333 | `~/.figma-chrome` profile, logged in |
-| SDS file | editable copy at `FIGMA_FILE_KEY` (`.env`) |
-| agent | `--agent=claude` (Claude Code CLI uses its own OAuth) |
+| SDS file | editable copy, bound as `FIGMA_FILE_SDS` (`.env`) |
+| agent | `agent: command` in `eval.yaml` (Claude Code CLI uses its own OAuth) |
 
 ## The dataset
 
@@ -69,7 +69,7 @@ a lockfile, so it is committed. `eval.yaml` is the build artifact.
 | `tier` | `easy` \| `medium` \| `hard` | difficulty |
 | `type` | `open`, `prop`, `token`, `axes`, `refuse`, … | the capability under test |
 | `form` | `prop.fills`, `style.fontsize`, … | the exact question form — 44 of them; the sampling stratum |
-| `file_key` | which Figma file the answer came from | |
+| `figma_file` | which design system, as a slug (`sds`) | the key lives in `.env` as `FIGMA_FILE_<SLUG>`, never in the row |
 | `tags` | `smoke`, `p1`, … | **the only hand-written column** |
 | `task` `note` `graders` | the question, why it's hard, the answer key | |
 
@@ -188,7 +188,9 @@ overwrite each other between write and read and can silently run the wrong task.
 
 ```bash
 node build-eval.mjs --tier=hard --type=refuse        # pick the rows first
-npx skillgrade --agent=claude --provider=local --parallel=1 --smoke
+npx skillgrade --provider=local --parallel=1 --smoke
+# no --agent: eval.yaml sets `agent: command`, and --agent=claude would override
+# it back to the built-in adapter, which emits final text only and no trace.
 npx skillgrade preview            # or: preview browser
 ```
 
@@ -219,6 +221,109 @@ The dataset and `eval.yaml` themselves are never copied. (`TIER=` is also on the
 name, and grading never reads it.)
 
 If you add a grader, keep that property: no expected value in the `run:` line.
+
+## Starting a session
+
+Four commands. `.env` is auto-loaded by `connect.mjs`, so no `--env-file` needed.
+
+```bash
+node environment/box.mjs build     # once per skill change
+node environment/box.mjs up        # start the container (Chromium inside it)
+node environment/box.mjs login     # ONE-TIME per session: log in, session goes into the box
+node evals/run.mjs --smoke    # 5 trials
+```
+
+`login` opens Chrome **on your machine**, waits for you to log in, then pipes the
+session into the container. That is the only step a script cannot do — Figma
+logins are SSO/2FA/password-manager, they need a real window in front of a real
+person. It is idempotent: if this machine is already logged in it skips straight
+to the transfer, so re-run it whenever the container's session expires.
+
+Everything else lives inside the container. You never see its browser.
+
+```bash
+node environment/box.mjs status    # is it up, is window.figma live?
+node environment/box.mjs down      # stop (the profile volume survives)
+node datasets/pull.mjs        # LangSmith → datasets/rows.jsonl
+```
+
+Working on the dataset: edit examples on LangSmith, `pull` to bring them down,
+then `run`. LangSmith is the source of truth; `rows.jsonl` is a working copy, so
+hand-editing it is lost on the next pull.
+
+## Running the agent in Docker — on the subscription, no API key
+
+**Verified 2026-08-01.** Claude Code runs inside a container against your normal
+Claude subscription. It does *not* need `ANTHROPIC_API_KEY`, and the macOS
+Keychain (where the desktop token actually lives, service
+`Claude Code-credentials`) never has to be read.
+
+```bash
+docker run -it --rm <image> claude setup-token     # real TTY required
+```
+
+`setup-token` is an OAuth flow with **two copy-paste moments, and the first one
+is a trap**: the browser shows an *authorization code* you paste back into the
+terminal; only afterwards does it print the **token**. The token starts
+`sk-ant-oat01-` and is ~108 characters. Pasting the code instead gives
+`401 Invalid bearer token` — which is still progress over `Not logged in`,
+because it proves the variable is being read.
+
+It is not persisted anywhere. Pass it in:
+
+```bash
+CLAUDE_CODE_OAUTH_TOKEN=sk-ant-oat01-…      # in .env
+docker run --rm -e CLAUDE_CODE_OAUTH_TOKEN <image> sh -c 'echo "who are you?" | claude -p'
+```
+
+Two failure modes worth knowing, both measured:
+
+- **`claude` exits 0 when it is not logged in**, printing
+  `Not logged in · Please run /login`. Exit status alone cannot distinguish a
+  working trial from one that never reached the model, so `evals/run.mjs` matches
+  the text and fails the trial instead of scoring stale browser state.
+- **`--bare` would break this.** Its help says Anthropic auth becomes *"strictly
+  ANTHROPIC_API_KEY or apiKeyHelper … OAuth and keychain are never read"* — so it
+  forces the billing change this avoids, and it also skips hooks, auto-memory and
+  CLAUDE.md discovery, quietly changing what is measured.
+
+**Why bother:** a clean container has no `~/.claude/skills`, and a global skill
+of the same name beats the one injected into the workspace — measured by
+sabotaging the workspace copy and watching the task pass anyway (see `TODO.md`
+§0.5). In a container the skill under test is the only one present, so that
+whole class of "which artifact did I actually grade?" disappears.
+
+### Figma in a containerised Chromium — what it takes
+
+Tested 2026-08-01 on arm64. It must be **Chromium** (no arm64 Linux Chrome).
+Three separate walls, each one a failed run before the flag was found:
+
+```bash
+chromium --headless=new --no-sandbox --disable-dev-shm-usage \
+  --user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 \
+                (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36" \
+  --disable-blink-features=AutomationControlled \
+  --use-gl=angle --use-angle=swiftshader --enable-unsafe-swiftshader \
+  --remote-debugging-port=9333 --user-data-dir=/tmp/prof
+# plus: docker run --shm-size=2g
+```
+
+| wall | symptom | fix |
+|---|---|---|
+| Figma's CDN blocks the default headless UA | `403 ERROR … Request blocked` from CloudFront | a real desktop `--user-agent` |
+| Chrome 151 disables SwiftShader for WebGL | *"We can't open this file because WebGL isn't supported"* | `--use-angle=swiftshader --enable-unsafe-swiftshader` |
+| `claude` refuses root | `--dangerously-skip-permissions cannot be used with root` | `USER node` in the Dockerfile |
+
+With those, the editor **renders**: the URL resolves to
+`…?node-id=3-5&p=f`, `webgl: true`, and the page is Figma's real editor chrome.
+
+**What is still missing: a logged-in session.** Anonymous access gets the
+view-only community preview, which has no `window.figma` — the same limitation
+described under *Auth model*. Copying the host profile will not work: Chrome
+encrypts its cookie store with a key from the macOS Keychain, so the DB does not
+decrypt on Linux. The session has to be established **inside** the container
+once and kept in a named volume — either by driving the login over CDP or by
+running headful behind Xvfb/VNC for a one-time manual login.
 
 ## Observability
 
@@ -257,9 +362,23 @@ why the eval uses the `command` agent instead of the built-in `claude` one.
 
 ## Portability
 
-`FIGMA_FILE_KEY` is machine-specific (your editable SDS copy). To run elsewhere:
-duplicate the community "Simple Design System" into that account's drafts, open
-it in the editor, set the new key in `.env`, then `node gen.mjs --write` to
-re-derive every expected value against the new copy — the `file_key` column
-records which file each row was read from. Run it without `--write` first: the
-diff summary tells you how many answers moved.
+A file key is machine-specific — it names one account's editable copy — so no key
+appears in the dataset. Rows carry a `figma_file` slug and `.env` binds it:
+
+```bash
+FIGMA_FILE_SDS=<key>          # slug `sds` → your copy
+```
+
+`connect.mjs config({ file })` resolves it, in this order: `--file=<slug>` →
+`FIGMA_FILE=<slug>` (what the harness exports per trial) → the sole binding if
+only one exists → an error listing the bound slugs. So a single design system
+needs no selector anywhere, and every script that reaches Figma — `figma.mjs`,
+`gen.mjs`, `inventory.mjs`, `extract.mjs`, `graders/grade.mjs` — inherits the
+same rule from that one function.
+
+To run elsewhere: duplicate the community "Simple Design System" into that
+account's drafts, open it in the editor, point `FIGMA_FILE_SDS` at the new key,
+then `node gen.mjs --write` to re-derive every expected value against that copy.
+Run it without `--write` first — the diff summary tells you how many answers
+moved. Expect movement: `open` rows grade on node ids, which differ between
+copies, while value rows (`#2c2c2c`, `Space/200`) survive duplication.

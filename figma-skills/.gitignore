@@ -1,0 +1,4 @@
+
+# never commit a seeded Figma session
+.cookies*.json
+figma-seed-*.json

@@ -2,6 +2,131 @@
 
 Lives outside `figma-browser/` on purpose: notes about the skill, not part of it.
 
+## 0. LangSmith dataset schemas — removed 2026-08-01, revisit later
+
+`inputs_schema_definition` / `outputs_schema_definition` were set on the
+`figma-read` dataset and then cleared the same day. They cost more than they
+gave while the row shape is still moving.
+
+**Why they hurt now.** LangSmith validates *existing* examples when a schema is
+applied, not just new writes. So any shape change becomes a three-step dance —
+clear the schema, migrate every row, re-apply — for what should be a one-line
+edit. Renaming `context.start_page` to `context.browser` on a **one-row**
+dataset needed exactly that.
+
+**Why they are still worth having eventually.** `additionalProperties: false` is
+what would have caught the real drift: a stray `selection` or `node` key, or a
+dataset description that documents a shape no example uses any more. Prose
+conventions rot silently; a schema fails loudly at write time.
+
+**Revisit when the shape stops moving** — concretely, once `read-values` and
+`refuse` rows exist and `outputs` has held still across all three capabilities.
+Then a schema locks a shape that has earned it, instead of freezing a guess.
+
+## 0.5 Skill isolation — the workspace copy does not win (measured 2026-08-01)
+
+**The finding.** A workspace copy of `figma-browser` was placed at
+`<cwd>/.claude/skills/figma-browser` and **sabotaged** — `lib/figma.mjs`
+replaced with `exit 3`. The task still succeeded. The agent loaded
+`~/.claude/skills/figma-browser` instead. A softer sentinel test (an added
+SKILL.md instruction) agreed: the workspace copy's instruction was never obeyed.
+
+**What it invalidates.** `evalContext()` hashes `<cwd>/.claude/skills/...` into
+`skill_sha`, so the manifest fingerprints a directory that did not run. No
+number so far is wrong — the global entry is a symlink back to this repo (§1),
+so the bytes are identical — but the isolation is fictional, and skill-TDD
+breaks the moment you want to A/B a modified skill: the workspace copy is
+ignored and the eval keeps grading the global one.
+
+**What does not fix it.** Overriding `HOME` for the child so `~/.claude` moves:
+Claude Code's credentials do not follow, and the agent lands on
+`Not logged in · Please run /login`. Symlinking `.credentials.json` /
+`.claude.json` into the fake home did not help.
+
+**What is in place now.** `evals/run.mjs` preflights and REFUSES to run while
+`~/.claude/skills/figma-browser` exists, printing the `mv … .off` fix.
+`--allow-global-skill` opts out knowingly. Loud beats silently-wrong.
+
+**Docker — evaluated 2026-08-01, DROPPED.** skillgrade ships a `docker` provider
+that would solve this properly: it builds from a clean base and injects only the
+named skills into `/workspace/.claude/skills`, so there is no global skill to
+shadow anything. What it costs, measured rather than guessed:
+
+- **Auth.** `claude` in a bare container prints `Not logged in · Please run
+  /login` — and **exits 0**. The subscription token is in the macOS Keychain
+  (service `Claude Code-credentials`), which a Linux container cannot read.
+  `claude setup-token` ("long-lived token, requires Claude subscription") is the
+  supported bridge and avoids `ANTHROPIC_API_KEY`, but it is an interactive OAuth
+  flow needing a real TTY, and skillgrade's provider has **no volume mounts**
+  (`HostConfig` is only `NanoCpus` + `Memory`), so a token would ride in as an
+  env var visible to `docker inspect`.
+- **Browser.** arm64 host ⇒ Chromium, not Chrome (no arm64 Linux build). Chromium
+  image builds fine. Untested and the real risk: whether Figma's WebGL editor and
+  `window.figma` work headless in a container. The Figma profile would need its
+  own named volume and a one-time login.
+- **No mounts also means no traces** — `cleanup()` force-removes the container,
+  so the span store would have to be extracted with `getArchive` or it is lost.
+
+Decision: not worth it now. The provider is built for API-key agents; making a
+subscription work inside it is a workaround, not a fix. Revisit only if hermetic
+CI becomes the goal.
+
+**Kept from the exercise:** `claude` exiting 0 while unauthenticated is a real
+harness bug — `evals/run.mjs` now detects the not-logged-in output and fails the
+trial instead of scoring stale browser state.
+
+**Still open.** Whether a Claude Code setting can disable global skill discovery
+per-run. That would give isolation without renaming a symlink or containerising.
+
+## 0.6 `npx skillgrade --provider=docker` — 90% there, parked 2026-08-01
+
+The goal: no custom runner. `eval.yaml` with `agent: claude` + `provider: docker`,
+skillgrade owns the container lifecycle. Everything is written and in the repo
+(`eval.yaml`, `environment/Dockerfile`, `boot.sh`, `seed.mjs`,
+`graders/browser-state.mjs`). **It does not pass.**
+
+What works: image builds, skill injected into `/workspace/.claude/skills`, agent
+authenticates and runs, graders execute in-container, and the agent escalates
+correctly when the browser is missing.
+
+**The one blocker: the browser never starts in skillgrade's container.** Grader
+reports `no page target on :9333 after 30s`. Ruled out by measurement:
+
+- Not the commit — `docker commit` preserves `User=node` and
+  `Entrypoint=[/workspace/environment/boot.sh]`; verified by replicating
+  create → exec → commit, and a container from that image boots fine.
+- Not CPU starvation — `cpus: 2` → `8` changed nothing.
+- Not the image — a container run by hand from the same image seeds in <30s
+  (`seed: window.figma live (18 cookies)`, 8 chromium processes).
+
+So it is something in `setup()`'s `createContainer` (`Tty: true`, `Env` list,
+`NanoCpus`/`Memory`, no `--shm-size`) or in how prepare()'s temp container —
+which also runs the ENTRYPOINT and starts a Chromium — leaves `/profile` before
+it is committed. Next step would be to keep a failed container alive and read
+`/tmp/chrome.log` inside it; skillgrade force-removes it on cleanup, so that
+needs a patch or a `--keep` flag.
+
+**Two things that would still be wrong even once it boots:**
+
+1. **The answer key lands in the sandbox.** `provider.runCommand` is
+   `container.exec`, so graders run in the agent's cwd and `EXPECTED_NODE_ID`
+   sits in `tests/test.sh`. The host-side setup deliberately avoids this
+   (absolute-path graders reading the dataset outside the workspace). Tolerable
+   only for browser-state rows — knowing a node id does not let an agent fake
+   having navigated there. It breaks for any row whose answer is text.
+2. **Cold browser per trial.** No volumes, container per trial, so Figma boots
+   from scratch every time. The warm box does 8–25s per trial, measured. For
+   this skill the "scalable" option is the slower one, because the expensive
+   part cannot be shared.
+
+**Fixes found along the way that are worth keeping regardless:**
+
+- `IS_SANDBOX=1` — skillgrade execs as root despite `USER node`, and `claude`
+  refuses `--dangerously-skip-permissions` as root. Set it in `.env`; the image
+  `ENV` does not reach the exec.
+- The built-in `claude` agent's plain `-p` is no longer a reason to avoid it:
+  diagnostics come from Claude Code's session transcript, not stdout.
+
 ## 1. Capability lost when the global Figma skills were removed
 
 `~/.claude/skills/figma-browser` is now a **symlink** to `figma-skills/figma-browser`,
@@ -52,6 +177,34 @@ Fix verified earlier: two-pass enumeration + `matched`/`truncated` fields and a
 `--limit` flag; `_round(raw.a)`.
 
 ## 4. Dataset
+
+### Multi-file: what is left before a SECOND design system works
+
+The slug indirection is in and verified against one file (`sds`): rows carry
+`figma_file`, `.env` binds `FIGMA_FILE_<SLUG>` → key, `connect.mjs config({file})`
+resolves, and no key crosses a process boundary. Remaining, all only needed once
+a second slug exists:
+
+- **`gen.mjs` overwrites.** `writeFileSync(ROWS_PATH, out…)` keeps only what it
+  just generated, and the orphan guard is `removed.filter(r => r.tags?.length)` —
+  with every row at `tags: []`, generating against a second file would silently
+  drop all 328 `sds` rows without even asking for `--prune`. Must merge on
+  `figma_file`, keeping rows from other slugs untouched. **Do this before
+  pointing `gen.mjs` at anything new.**
+- **Key rows on `(figma_file, id)`.** Both files will produce `open-tooltip`, and
+  `loadRows` throws on a duplicate id — correctly, but it blocks the merge. Do
+  not namespace the id instead: `classify()` reads `parts[0]` and, for
+  `suffix: "last"` rules, the final segment, so `prop-…-fills@mui` would
+  classify as form `prop.fills@mui`. `rowById` becomes `rowById(file, id)`, and
+  the grader's `run:` line already carries `FIGMA_FILE` to pass it.
+- **Pre-open a tab per file.** `cdp.mjs` matches targets by URL substring so
+  concurrent files are fine, but a file with no open tab pays `connect()`
+  opening one and polling ~20× on its first trial.
+- **A row whose slug is unbound** currently reaches `config()` and errors per
+  trial. Cheaper to refuse at build time: `build-eval.mjs` knows every selected
+  row's slug and could check the bindings once.
+
+### Answers
 
 - 2 easy rows expect `#ffffff` for a colour that is white at 70% / 40% alpha
   (`var-text-default-secondary-sds-dark`, `var-text-default-tertiary-sds-dark`).
