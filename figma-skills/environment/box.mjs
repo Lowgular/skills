@@ -100,6 +100,16 @@ export function up({ file = null } = {}) {
     // would start a second browser against an empty profile and report
     // "not logged in". Pin it.
     "-e", "FIGMA_CHROME_PROFILE=/profile",
+    /**
+     * Makes the skill return the browser to the file's opening view on the
+     * first operation of each trial, so a trial cannot pass on the previous
+     * trial's position. See maybeReset() in figma.mjs.
+     *
+     * Set HERE and not in .env on purpose: .env is bind-mounted and shared with
+     * the host, where this skill drives the human's own browser. Eval behaviour
+     * belongs to the eval box.
+     */
+    "-e", "FIGMA_RESET_ON_CONNECT=1",
     "-v", `${VOLUME}:/profile`,
     /**
      * ONE mount: figma-skills itself, nothing else from the monorepo.

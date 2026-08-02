@@ -491,6 +491,21 @@ export const VARS_FN = `async ({ query }) => {
  * re-init wait, and no selection-drift class of bug to guard against. (The
  * clean-agent baseline found this independently.)
  */
+/**
+ * Back to the file's opening view: first page, nothing selected.
+ *
+ * Only an eval harness has any business calling this — see the gate in
+ * figma.mjs. A human's browser position is theirs.
+ */
+export const RESET_FN = `async () => {
+  if (typeof figma === "undefined") return { error: "window.figma absent" };
+  const p = figma.root.children[0];
+  if (!p) return { error: "file has no pages" };
+  if (figma.currentPage.id !== p.id) await figma.setCurrentPageAsync(p);
+  figma.currentPage.selection = [];
+  return { page: figma.currentPage.name, pageId: figma.currentPage.id };
+}`;
+
 export const SELECT_FN = `async ({ nodeId }) => {
   if (typeof figma === "undefined") return { error: "window.figma absent" };
   const n = await figma.getNodeByIdAsync(nodeId);

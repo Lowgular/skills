@@ -214,7 +214,52 @@ a second slug exists:
 - SKILL.md never says how to report a two-component value. That silence is why
   the model fused them into `rgba(255,255,255,0.7)`.
 
-## 5. Harness
+## 4.5 Trial reset — solved 2026-08-02, with two constraints left
+
+skillgrade has **no pre-task hook**. Checked against the installed source, not
+the README: `dist/core/config.types.d.ts` has exactly two `setup` fields —
+`docker.setup` and `graders[].setup` — and `dist/commands/run.js:317-325` emits
+both as Dockerfile `RUN` lines at image build. Neither runs per trial, and
+`graders[].setup` never runs at all under `provider: local`. The lifecycle in
+`evalRunner.runSingleTrial` is `provider.setup` (file copy only, no command) →
+`agent.run` → graders → `cleanup`. There is no seam before the agent.
+
+So the reset moved into the **skill**, on its way in: `maybeReset()` in
+`figma.mjs`, called from `withFigma` — the funnel every read operation already
+passes through. Off unless `FIGMA_RESET_ON_CONNECT` is set, which only
+`box.mjs up` sets; a human's browser position is theirs. Latched once per cwd,
+because every operation is its own process and skillgrade's local provider
+gives each trial a fresh workspace dir — without the latch, `inspect` would
+wipe what `open` just selected and no task could ever complete.
+
+A grader-side reset was built first and removed: too late to define a start
+state, and a second copy of the definition of "neutral" to keep in sync.
+
+Three things this does not cover:
+
+- **An agent that never calls the skill** cannot trigger the skill's reset, so
+  it grades against the previous trial's leftovers. Scores 0 on its own merits
+  unless that leftover happens to be this row's answer.
+- **`--parallel` is unusable.** One browser, so concurrent trials would reset
+  each other mid-measurement. Trials must stay sequential. Nothing enforces it.
+- **A row whose answer IS the neutral node** (`Cover`, `3-5` in the SDS copy)
+  would auto-pass, because reset parks the browser exactly there. No such row
+  exists; it is a trap for whoever adds a "go to the cover page" row.
+
+Found on the way: **the URL lags the Plugin API by 1-2s.** Figma pushes history
+asynchronously, so a grader reading `location.href` the instant the agent stops
+can see the *previous* position. This produced a false pass in testing — the
+reset moved Figma to `Cover` but `node-id=1444-11846` was still in the address
+bar, so the next read scored 1 against a browser that had done nothing. The
+grader now waits for the URL, but only in the direction that cannot manufacture
+a pass. Any future grader reading the URL needs the same care.
+
+## 5. Harness — STALE, the harness is deleted
+
+Kept only for the two notes that outlived it (blob spill, subagent nesting).
+Everything referencing `run-claude.mjs` describes code that no longer exists.
+
+
 
 - **Guardrail unused.** `DENY_TOOLS=Agent` in `run-claude.mjs` would close the
   subagent bypass. Off by default.
@@ -238,6 +283,13 @@ path) and `report.mjs` (deleted — `logs.mjs` records what it used to infer).
   ours and `skills_used: ["figma-browser"]` still reported success — 109 rows
   measured the wrong artifact. Record the resolved path + content hash, and warn
   on a name collision with `~/.claude/skills`.
+- **No per-trial `setup` hook.** Any skill driving a stateful external resource
+  (a browser, a DB, a logged-in session) needs to reset between trials, and
+  there is nowhere to put it: the two existing `setup` fields are build-time
+  Dockerfile `RUN`s. Without one, `trials > 1` silently measures inherited
+  state — trial 2 passes on trial 1's leftovers. A `setup:` sibling to
+  `instruction`, run through `provider.runCommand` before `agent.run`, is a
+  handful of lines in `runSingleTrial`. Worth a PR.
 - **`command` is not scanned for relative file refs.** `prepareTempTaskDir`
   copies dirs referenced from `graders[].run` only, so `command: "node
   mycli.js"` (README:273) fails with MODULE_NOT_FOUND. Verified empirically.

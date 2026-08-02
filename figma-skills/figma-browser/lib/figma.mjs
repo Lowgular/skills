@@ -9,9 +9,13 @@
  * Start here:  node lib/figma.mjs help
  */
 
+import { createHash } from "node:crypto";
+import { existsSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { config as baseConfig, cdpAlive, ensureChrome, sessionFile } from "./connect.mjs";
 import { connect } from "./cdp.mjs";
-import { PROBE_FN, PAGES_FN, FIND_FN, LAYERS_FN, INSPECT_FN, CSS_FN, VARS_FN, SELECT_FN } from "./figma-fns.mjs";
+import { PROBE_FN, PAGES_FN, FIND_FN, LAYERS_FN, INSPECT_FN, CSS_FN, VARS_FN, SELECT_FN, RESET_FN } from "./figma-fns.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -80,6 +84,40 @@ const NO_API = [
 ];
 
 /**
+ * Return the browser to the file's opening view, ONCE per task. Eval only.
+ *
+ * ── Why this is gated, and why it is once ───────────────────────────────────
+ *
+ * An eval needs every trial to start from the same place, or a trial passes on
+ * the previous trial's position: "open Pricing card" scores full marks against
+ * a browser already parked on Pricing card. A human running this skill needs
+ * the exact opposite — their browser is where they left it on purpose, and a
+ * read-only tool that silently navigates away is a tool nobody trusts. So this
+ * is off unless FIGMA_RESET_ON_CONNECT is set, which only the eval box sets.
+ *
+ * ONCE matters as much as the gate. Every operation is its own process and
+ * every process connects, so "reset on connect" without a latch would mean
+ * reset before EVERY command — and the workflow this skill prescribes is
+ * `open` then `inspect`. The second command would wipe what the first
+ * selected, and the task could never be completed at all.
+ *
+ * The latch is cwd. skillgrade's local provider gives each trial a fresh
+ * workspace directory (providers/local.js: /tmp/skillgrade-<random>) and runs
+ * the agent in it, so cwd is a per-trial identity that every child process
+ * inherits for free — no session to thread, no id to invent. A new trial is a
+ * new directory, so it resets again.
+ */
+function maybeReset(cdp) {
+  if (!process.env.FIGMA_RESET_ON_CONNECT) return null;
+  const mark = join(tmpdir(), `figma-reset-${createHash("sha1").update(process.cwd()).digest("hex").slice(0, 12)}`);
+  if (existsSync(mark)) return null;
+  // Written BEFORE the reset runs: if the reset throws, the retry storm of
+  // resetting on every subsequent command is worse than not resetting at all.
+  writeFileSync(mark, process.cwd());
+  return cdp.evaluate(run(RESET_FN, {}), { timeoutMs: 15_000 }).catch(() => null);
+}
+
+/**
  * Attach to the file tab and confirm the Plugin API is live.
  *
  * Every read operation goes through here, so auth failures surface at the point
@@ -99,6 +137,7 @@ async function withFigma(fn) {
     if (!probe) {
       return escalate("Chrome is running, but the Figma Plugin API is not available on that tab.", NO_API);
     }
+    await maybeReset(cdp);
     return await fn(cdp, cfg);
   } finally {
     cdp.close();
