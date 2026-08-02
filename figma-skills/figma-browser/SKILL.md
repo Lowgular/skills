@@ -54,6 +54,28 @@ Every value bound to a variable also carries `token` (the variable's name) and
 `var` (its `codeSyntax.WEB`). That is the design-system link and it is the most
 useful thing here — a raw hex without its token is nearly worthless.
 
+**Report the value AND its variable, always.** One without the other is half an
+answer: the value alone cannot be traced back to the system, and the variable
+alone cannot be checked against what is on screen.
+
+**Typography is the exception you have to work for.** `inspect` returns
+`fontName`, `fontSize` and `lineHeight` as bare values with no `token` — but
+they ARE variable-bound, and the binding simply is not on the node. Look it up
+by style name:
+
+```bash
+figma.mjs inspect "^Title Hero$"     # Inter / Bold / 72 — no variable in sight
+figma.mjs vars "^Title Hero/"        # Title Hero/Font Family → Family Sans → "Inter"
+```
+
+`vars` gives the alias and the resolved value together, so it answers both
+halves on its own. Two collections: `Typography` holds the per-style variables
+(`<Style>/Font Family`, `/Font Weight`, `/Size`) and `Typography Primitives`
+holds what they alias (`Family Sans`, `Family Serif`, `Family Mono`).
+
+The variable group does not always match the style name — the style `Body Code`
+is driven by `Code/Font Family`. Search, do not assume.
+
 If CSS is genuinely what's wanted, `inspect --css` (or `css`) projects the same
 read into CSS names, adding `font-weight`, `flex-*` and `fit-content` sizing.
 

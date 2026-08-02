@@ -141,7 +141,7 @@ export function summarise(jsonl) {
 
   const steps = [];
   let model = null, sessionId = null;
-  let inTok = 0, outTok = 0, cacheRead = 0;
+  let inTok = 0, outTok = 0, cacheRead = 0, cacheWrite = 0;
 
   for (const l of lines) {
     sessionId ??= l.sessionId || null;
@@ -152,6 +152,7 @@ export function summarise(jsonl) {
       inTok += msg.usage.input_tokens || 0;
       outTok += msg.usage.output_tokens || 0;
       cacheRead += msg.usage.cache_read_input_tokens || 0;
+      cacheWrite += msg.usage.cache_creation_input_tokens || 0;
     }
     for (const b of Array.isArray(msg.content) ? msg.content : []) {
       if (b.type !== "tool_use") continue;
@@ -182,7 +183,7 @@ export function summarise(jsonl) {
     usedCli: cliCalls.length > 0,
     rolledOwn: steps.some((s) => s.rolledOwn),
     subagent: steps.some((s) => s.tool === "Agent" || s.tool === "Task"),
-    tokens: { in: inTok, out: outTok, cacheRead },
+    tokens: { in: inTok, out: outTok, cacheRead, cacheWrite },
   };
 }
 
@@ -286,6 +287,25 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   };
   const t = summarise(pullTranscript());
 
+  /**
+   * Everything the transcript knows that nothing else does, as one parseable
+   * check. skillgrade's results JSON records only estimateTokens() guesses and
+   * never the model or session, so without this an uploader would have to go
+   * find the transcript itself — and it has no way to know which trial's cwd
+   * produced which file. This grader has already read it; publishing beats
+   * making someone else re-derive it.
+   */
+  const usage = (x) => ({
+    name: "usage",
+    passed: true,
+    message: JSON.stringify({
+      session: x.sessionId, model: x.model,
+      in: x.tokens.in, out: x.tokens.out,
+      cache_read: x.tokens.cacheRead, cache_write: x.tokens.cacheWrite,
+      tools: x.tools, cli: x.cliCalls,
+    }),
+  });
+
   if (process.argv.includes("--grade")) {
     const emit = (o) => { console.log(JSON.stringify(o)); process.exit(0); };
     if (!t) emit({ score: 0, details: "no transcript found", checks: [] });
@@ -300,6 +320,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
           { name: "skill loaded", passed: t.skillInvoked, message: t.skillInvoked ? "Skill tool used" : "never loaded" },
           { name: "called figma.mjs", passed: t.usedCli, message: `${t.cliCalls}/${t.tools} tool calls` },
           { name: "did not roll its own", passed: !t.rolledOwn, message: t.rolledOwn ? "wrote or ran its own code" : "none" },
+          usage(t),
         ],
       });
     }
@@ -328,6 +349,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       checks: [
         { name: `mode=${mode}`, passed: r.ok, message: `actual: ${t.tokens_.join(" → ") || "(no tool calls)"}` },
         ...steps.map((e) => ({ name: e, passed: !r.missing.includes(e), message: r.missing.includes(e) ? "not called" : "called" })),
+        usage(t),
       ],
     });
   }
