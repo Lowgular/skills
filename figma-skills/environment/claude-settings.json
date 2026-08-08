@@ -1,0 +1,40 @@
+{
+  "_comment": [
+    "Baked to /home/node/.claude/settings.json. Claude Code rewrites this file",
+    "for its own keys (skipDangerousModePermissionPrompt after the first bypass",
+    "run; extraKnownMarketplaces and enabledPlugins when a plugin is installed),",
+    "so it is COPIED BEFORE the plugin install in the Dockerfile — the installer",
+    "merges into it. Copying afterwards would drop enabledPlugins and the plugin",
+    "would be present but off.",
+    "",
+    "The hooks below are ours, not the LangSmith plugin's: the plugin brings its",
+    "own hooks/hooks.json and needs nothing here. See graders/session-stamp.mjs.",
+    "UserPromptSubmit fires first and unconditionally, which is what makes the",
+    "stamp reliable; SubagentStop is the only place a delegated turn's separate",
+    "transcript path is ever reported; SessionEnd catches the final state."
+  ],
+  "skipDangerousModePermissionPrompt": true,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "/usr/local/bin/session-stamp", "timeout": 10 }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "/usr/local/bin/session-stamp", "timeout": 10 }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          { "type": "command", "command": "/usr/local/bin/session-stamp", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}

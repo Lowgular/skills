@@ -49,7 +49,17 @@
 import { spawnSync } from "node:child_process";
 import { pullTranscript } from "./trajectory.mjs";
 
-const MODEL = process.env.SCORE_ANSWER_MODEL || "claude-haiku-4-5-20251001";
+/**
+ * Sonnet, not Haiku. Measured on one real answer, repeated runs of the SAME
+ * text: haiku ~15/19, sonnet 13/14, opus 6/6. Haiku's failures are wholesale —
+ * every required term flips to "other" at once, so a correct answer scores 0
+ * rather than losing a point. That is the worst possible shape for a grader:
+ * indistinguishable from a genuinely wrong agent.
+ *
+ * Extraction runs once per graded row, so the tier costs little; a grader that
+ * disagrees with itself costs the whole dataset.
+ */
+const MODEL = process.env.SCORE_ANSWER_MODEL || "claude-sonnet-5";
 
 const emit = (score, details, checks = []) => {
   console.log(JSON.stringify({ score, details, checks }));
@@ -130,6 +140,14 @@ function extract(answer) {
     encoding: "utf8",
     // NOT the trial workspace — see the header.
     cwd: "/tmp",
+    /**
+     * The extractor must not trace. The box enables the LangSmith plugin for
+     * every `claude` process, and this is a `claude` process — left alone it
+     * would post one trace per graded row into the project you go to when a
+     * trial looks wrong, doubling the run count with runs that graded rather
+     * than ran. The agent's trace is the evidence; the grader's is noise.
+     */
+    env: { ...process.env, TRACE_TO_LANGSMITH: "false" },
     maxBuffer: 8 * 1024 * 1024,
     timeout: 120_000,
   });

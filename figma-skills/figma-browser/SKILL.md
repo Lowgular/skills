@@ -5,82 +5,41 @@ description: Read a Figma design — values, design tokens, variants, component 
 
 # Figma
 
-One command. Every operation is a Bash call:
+Every operation is one Bash call:
 
 ```bash
 node <skill>/lib/figma.mjs <operation> [target] [--json]
 ```
 
-## Workflow — work the panels, in order
+**Navigate first, then inspect.** Reaching for a value without selecting the
+layer is how you end up reading the wrong node.
 
-The operations map onto the Figma UI. **Navigate first, then inspect.** Reaching
-straight for a value without selecting the layer is how you end up reading the
-wrong node.
+| command | Figma UI | answers | detail |
+|---|---|---|---|
+| `figma.mjs pages` | the page list | what is in this file | |
+| `figma.mjs find <regexp>` | Cmd+F | where is this thing | [open.md](references/open.md) |
+| `figma.mjs open <id\|regexp>` | double-click a page or component | makes it the selection | [open.md](references/open.md) |
+| `figma.mjs layers [target] [--depth=N]` | left panel | what is this made of | [layers.md](references/layers.md) |
+| `figma.mjs inspect [target] [--css]` | right panel | a layer's values · a COMPONENT_SET's contract · an INSTANCE's overrides | [inspect.md](references/inspect.md) · [components.md](references/components.md) |
+| `figma.mjs vars <regexp\|id>` | Variables panel | what a token resolves to, per mode | [vars.md](references/vars.md) |
+| `figma.mjs status` `login` `help` | | connection, auth, every parameter | |
 
-| Figma UI | operation |
-|---|---|
-| page list | `pages` |
-| double-click a page or component → it opens, selected | `open <name\|id>` |
-| **left panel** — the layer tree | `layers` — no argument means the current page |
-| **right panel** — properties of the selected layer | `inspect` — no argument means the selection |
-| Cmd+F search box — when you don't know where a thing is | `find <regexp>` |
-| the Variables panel | `vars <regexp>` |
+`target` is a node id (`12:34`, `I12:34;56:78`), a regexp, or `selection`;
+omitted, it means the current selection — or for `layers`, the current page.
 
-```bash
-figma.mjs pages                       # what's in this file
-figma.mjs open avatars                # a page — it becomes the active page
-figma.mjs layers                      # what's on it
-figma.mjs open "^Avatar Block$"       # a component — it becomes the selection
-figma.mjs layers selection --depth=3  # what it's built from
-figma.mjs inspect                     # properties of the selection
-```
+## Reporting
 
-`layers` answers *"what is this made of"* — per layer it gives the type, the
-component an `INSTANCE` came from with its variant, and the text style of a
-`TEXT` layer. It carries no property values, so it stays small: use it to find
-the layer you want, then `inspect` that layer.
-
-`inspect` answers *"what are its values"*.
-
-## Speak Figma, not CSS
-
-`inspect` reports what the Plugin API actually calls things — `fills`,
-`strokes`, `cornerRadius`, `itemSpacing`, `layoutMode`, `paddingTop`,
-`fontName.style`. Report those names and values as they come. **Do not translate
-to CSS unless you are asked to**: `cornerRadius` is `8`, not `8px`; a weight is
-`"Semi Bold"`, not `600`; alignment is `"CENTER"`, not `center`.
-
-Every value bound to a variable also carries `token` (the variable's name) and
-`var` (its `codeSyntax.WEB`). That is the design-system link and it is the most
-useful thing here — a raw hex without its token is nearly worthless.
-
-**Report the value AND its variable, always.** One without the other is half an
-answer: the value alone cannot be traced back to the system, and the variable
-alone cannot be checked against what is on screen.
-
-**Typography is the exception you have to work for.** `inspect` returns
-`fontName`, `fontSize` and `lineHeight` as bare values with no `token` — but
-they ARE variable-bound, and the binding simply is not on the node. Look it up
-by style name:
-
-```bash
-figma.mjs inspect "^Title Hero$"     # Inter / Bold / 72 — no variable in sight
-figma.mjs vars "^Title Hero/"        # Title Hero/Font Family → Family Sans → "Inter"
-```
-
-`vars` gives the alias and the resolved value together, so it answers both
-halves on its own. Two collections: `Typography` holds the per-style variables
-(`<Style>/Font Family`, `/Font Weight`, `/Size`) and `Typography Primitives`
-holds what they alias (`Family Sans`, `Family Serif`, `Family Mono`).
-
-The variable group does not always match the style name — the style `Body Code`
-is driven by `Code/Font Family`. Search, do not assume.
-
-If CSS is genuinely what's wanted, `inspect --css` (or `css`) projects the same
-read into CSS names, adding `font-weight`, `flex-*` and `fit-content` sizing.
-
-Anything taking `<id|regexp>` also accepts a node id (`12:34`, `I12:34;56:78`),
-plus `selection` for the current selection. Run `help` for every parameter.
+- **Speak Figma, not CSS** unless asked. `cornerRadius` is `8`, not `8px`; a
+  weight is `"Semi Bold"`, not `600`; alignment is `"CENTER"`, not `center`.
+- **Value AND variable, always.** A hex without its `token` is half an answer;
+  a token without its value cannot be checked against the screen.
+- **Typography is the exception.** `inspect` reports `fontName`/`fontSize` with
+  no `token` even though they are variable-bound. The variable lives in `vars`,
+  looked up by style name — `vars "^Title Hero/"`. Two commands, always.
+- **Never answer from a partial read.** `vars` is paged — `pages > 1` means you
+  have not seen them all.
+- **Read the contract, do not infer it.** A component's properties are data on
+  the node; do not reconstruct them from child names.
 
 ## Rules
 

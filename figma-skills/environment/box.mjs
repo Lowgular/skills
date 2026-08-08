@@ -110,6 +110,24 @@ export function up({ file = null } = {}) {
      * belongs to the eval box.
      */
     "-e", "FIGMA_RESET_ON_CONNECT=1",
+    /**
+     * LangSmith tracing for the agent under test.
+     *
+     * The plugin reads these from the process env, and skillgrade's local
+     * provider spawns `claude` with {...process.env}, so setting them on the
+     * container is enough — nothing has to be threaded through eval.yaml.
+     *
+     * The key is inherited (bare -e) rather than interpolated, so it comes from
+     * .env via connect.mjs and never appears in this file or in shell history.
+     * It IS visible to `docker inspect`, exactly like FIGMA_COOKIES above.
+     *
+     * Traces are for reading a failed row, not for scoring one — graders parse
+     * the local transcript. Set TRACE_TO_LANGSMITH=false to turn it all off.
+     */
+    "-e", `TRACE_TO_LANGSMITH=${process.env.TRACE_TO_LANGSMITH ?? "true"}`,
+    "-e", "LANGSMITH_API_KEY",
+    "-e", "LANGSMITH_ENDPOINT",
+    "-e", `CC_LANGSMITH_PROJECT=${process.env.CC_LANGSMITH_PROJECT || "figma-eval-traces"}`,
     "-v", `${VOLUME}:/profile`,
     /**
      * ONE mount: figma-skills itself, nothing else from the monorepo.

@@ -9,8 +9,12 @@ FROM node:22-slim
 
 # Chromium, not Chrome: no arm64 Linux build of Chrome exists.
 # bash because provider.runCommand execs `/bin/bash -c`.
+#
+# git is not optional despite nothing here being a repo: `claude plugin
+# marketplace add` clones over git, and without it the add fails as an opaque
+# "ERR_STREAM_PREMATURE_CLOSE" rather than "git not found".
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      chromium fonts-liberation fonts-dejavu-core ca-certificates procps bash \
+      chromium fonts-liberation fonts-dejavu-core ca-certificates procps bash git \
  && rm -rf /var/lib/apt/lists/*
 
 # skillgrade is installed here so the box needs only figma-skills mounted —
@@ -48,6 +52,11 @@ ENV IS_SANDBOX=1
 # claude refuses --dangerously-skip-permissions as root.
 RUN mkdir -p /work && chown node:node /work
 
+# The hook that records which transcript belongs to which trial. Root-owned and
+# on PATH so the settings.json entry is a bare command with no paths in it.
+COPY environment/session-stamp-hook.sh /usr/local/bin/session-stamp
+RUN chmod 0755 /usr/local/bin/session-stamp
+
 USER node
 
 # Pre-complete the interactive first-run state.
@@ -60,6 +69,24 @@ RUN node -e "const fs=require('fs'),p=process.env.HOME+'/.claude.json'; \
   const j=fs.existsSync(p)?JSON.parse(fs.readFileSync(p,'utf8')):{}; \
   Object.assign(j,{hasCompletedOnboarding:true,theme:'dark',bypassPermissionsModeAccepted:true}); \
   fs.writeFileSync(p,JSON.stringify(j,null,2));"
+
+# Our hooks FIRST, the plugin install SECOND — the installer merges
+# extraKnownMarketplaces and enabledPlugins into this same file, so the reverse
+# order silently disables the plugin. See the comment inside the JSON.
+COPY --chown=node:node environment/claude-settings.json /home/node/.claude/settings.json
+
+# LangSmith tracing.
+#
+# For DEBUGGING, not grading. A failed row becomes a tree with tool inputs AND
+# RESULTS in it, which is the one thing the local debug view cannot show
+# (summarise() collects tool_use blocks only). Graders keep reading the local
+# transcript: they must be deterministic and offline, and the trace is redacted,
+# eventually consistent and posted by async hooks.
+#
+# Inert unless TRACE_TO_LANGSMITH=true reaches the process (environment/box.mjs
+# passes it), so a plain `docker run` of this image traces nothing.
+RUN claude plugin marketplace add langchain-ai/langsmith-claude-code-plugins \
+ && claude plugin install langsmith-tracing@langsmith-claude-code-plugins --scope user
 
 # /work is where figma-skills is mounted: eval.yaml, graders, and
 # .claude/skills/figma-browser (a symlink to ../../figma-browser, so skillgrade

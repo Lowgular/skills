@@ -357,8 +357,18 @@ const css = () => {
 const vars = () =>
   withFigma(async (cdp) => {
     const q = pos[0];
-    if (!q) return die("usage: vars <regexp|variable-id>");
-    const r = await cdp.evaluate(run(VARS_FN, { query: q }), { timeoutMs: 60_000 });
+    if (!q) return die("usage: vars <regexp|variable-id> [--limit=N|all] [--page=N]");
+    // Page size 40 by default for the same reason `find` caps — a broad regexp
+    // against a file with hundreds of variables is a lot of JSON. `all` is one
+    // page holding every match, not a separate mode.
+    const rawLimit = String(flag("limit", 40));
+    const limit = rawLimit.toLowerCase() === "all" ? null : Number(rawLimit);
+    if (limit !== null && (!Number.isInteger(limit) || limit < 1)) {
+      return die(`--limit must be a positive integer or "all" (got "${rawLimit}")`);
+    }
+    const page = Number(flag("page", 1));
+    if (!Number.isInteger(page) || page < 1) return die(`--page must be a positive integer (got "${flag("page", 1)}")`);
+    const r = await cdp.evaluate(run(VARS_FN, { query: q, limit, page }), { timeoutMs: 60_000 });
     if (r.error) return die(r.error);
     emit(r);
   });

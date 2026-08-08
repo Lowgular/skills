@@ -151,6 +151,17 @@ function latestResults() {
 
 // ── LangSmith ───────────────────────────────────────────────────────────────
 
+/**
+ * LangSmith rejects a feedback score with more than 4 decimal places — 422, and
+ * because feedback is posted one call at a time, the FIRST such score aborts the
+ * upload with the session and runs already created. Half an experiment.
+ *
+ * Our scorers produce them routinely: score-answer.mjs returns 0.8 + 0.2 × k/n,
+ * so three optional terms with two mentioned is 0.9333333333333333. Rounding is
+ * lossless at the precision anyone reads.
+ */
+const round4 = (n) => (typeof n === "number" && Number.isFinite(n) ? Math.round(n * 1e4) / 1e4 : n);
+
 /** dotted_order encodes parentage as <start><Z><uuid> segments joined by ".". */
 const stamp = (iso) => iso.replace(/[-:]/g, "").replace(/\.(\d{3})Z$/, "$1000Z");
 const seg = (iso, id) => `${stamp(iso)}${id}`;
@@ -271,12 +282,12 @@ for (const file of results) {
       });
     }
 
-    feedback.push({ run_id: runId, key: "reward", score: t.reward });
+    feedback.push({ run_id: runId, key: "reward", score: round4(t.reward) });
     t.grader_results.forEach((g, i) => {
       feedback.push({
         run_id: runId,
         key: keys?.[i] || `${g.grader_type}-${i}`,
-        score: g.score,
+        score: round4(g.score),
         comment: (g.details || "").slice(0, 2000),
       });
     });

@@ -100,7 +100,7 @@ export const LAYERS_FN = `async ({ nodeId, depth }) => {
     try { const s = await figma.getStyleByIdAsync(id); return s ? s.name : null; } catch (e) { return null; }
   };
 
-  async function ser(n, d) {
+  async function serialize(n, d) {
     const o = { id: n.id, name: n.name, type: n.type };
     if (n.visible === false) o.hidden = true;
     if (n.type === "INSTANCE") {
@@ -116,7 +116,7 @@ export const LAYERS_FN = `async ({ nodeId, depth }) => {
       o.textStyle = await _style(n.textStyleId);
     }
     if (n.children && n.children.length) {
-      if (d > 0) { o.children = []; for (const c of n.children) o.children.push(await ser(c, d - 1)); }
+      if (d > 0) { o.children = []; for (const c of n.children) o.children.push(await serialize(c, d - 1)); }
       else o.childCount = n.children.length;
     }
     return o;
@@ -125,15 +125,15 @@ export const LAYERS_FN = `async ({ nodeId, depth }) => {
   if (nodeId === "selection") {
     const sel = figma.currentPage.selection;
     if (!sel.length) return { error: "nothing is selected — open a node first" };
-    const nodes = []; for (const n of sel) nodes.push(await ser(n, depth));
+    const nodes = []; for (const n of sel) nodes.push(await serialize(n, depth));
     return { page: figma.currentPage.name, nodes };
   }
   if (!nodeId || nodeId === "page") {
-    return { page: figma.currentPage.name, nodes: [await ser(figma.currentPage, depth)] };
+    return { page: figma.currentPage.name, nodes: [await serialize(figma.currentPage, depth)] };
   }
   const target = await figma.getNodeByIdAsync(nodeId);
   if (!target) return { error: "node not found: " + nodeId };
-  return { page: (_pageOf(target) || target).name || null, nodes: [await ser(target, depth)] };
+  return { page: (_pageOf(target) || target).name || null, nodes: [await serialize(target, depth)] };
 }`;
 
 /**
@@ -257,15 +257,88 @@ export const INSPECT_FN = `async ({ nodeId, depth }) => {
     return o;
   }
 
-  async function ser(n, d) {
+  /**
+   * The component's public API — what anyone placing it may configure.
+   *
+   * Five types, all of them Figma's, not any file's convention:
+   *   VARIANT        pick one of variantOptions
+   *   TEXT           overridable string
+   *   BOOLEAN        show/hide a layer
+   *   INSTANCE_SWAP  swap in another component
+   *   SLOT           arbitrary nested content
+   * An unrecognised type passes through rather than being dropped — SLOT is a
+   * later addition than the other four, so the set is not assumed closed.
+   *
+   * Keys keep Figma's suffix (\`Label#2:0\`), because that is what an instance's
+   * override map is keyed by and what you must match programmatically. \`name\`
+   * carries the display half — what a designer actually says — and is emitted
+   * only when it differs, which is exactly the non-VARIANT properties.
+   *
+   * preferredValues is COUNTED, never listed. It holds cross-file library keys
+   * (576 of them on Button's icon slots), and resolving one to a name is an
+   * importComponentByKeyAsync round trip each. That is the vars-truncation
+   * mistake in a new costume: a payload nobody asked for, crowding out the
+   * answer.
+   */
+  const contractOf = (defs) => {
+    const out = {};
+    for (const key of Object.keys(defs || {})) {
+      const d = defs[key] || {};
+      const e = { type: d.type };
+      const display = key.split("#")[0];
+      if (display !== key) e.name = display;
+      if (d.defaultValue !== undefined) e.defaultValue = d.defaultValue;
+      if (d.variantOptions) e.options = d.variantOptions;
+      if (d.preferredValues) e.preferredValueCount = d.preferredValues.length;
+      out[key] = e;
+    }
+    return Object.keys(out).length ? out : undefined;
+  };
+
+  /** What one INSTANCE actually set, against that API. */
+  const overridesOf = async (props) => {
+    const out = {};
+    for (const key of Object.keys(props || {})) {
+      const p = props[key] || {};
+      const e = { type: p.type, value: p.value };
+      const display = key.split("#")[0];
+      if (display !== key) e.name = display;
+      const b = await _varOf(p.boundVariables, "value");
+      if (b) { e.token = b.token; e.var = b.var; }
+      out[key] = e;
+    }
+    return Object.keys(out).length ? out : undefined;
+  };
+
+  async function serialize(n, d) {
     const o = { id: n.id, name: n.name, type: n.type, properties: await propsOf(n) };
+
+    // COMPONENT_SET holds the contract; so does a standalone COMPONENT. On a
+    // COMPONENT that IS a variant, Figma throws rather than returning the
+    // parent's — hence the try, and hence reading the parent instead.
+    if (n.type === "COMPONENT_SET" || n.type === "COMPONENT") {
+      let defs = null;
+      try { defs = n.componentPropertyDefinitions; } catch (e) { defs = null; }
+      if (!defs && n.parent && n.parent.type === "COMPONENT_SET") {
+        try { defs = n.parent.componentPropertyDefinitions; } catch (e) {}
+      }
+      const c = contractOf(defs);
+      if (c) o.componentProperties = c;
+      // Which variant this particular child is, when it is one.
+      if (n.type === "COMPONENT" && n.variantProperties) o.variantProperties = n.variantProperties;
+    }
+
     if (n.type === "INSTANCE") {
       try { const mc = await n.getMainComponentAsync();
             if (mc) o.mainComponent = mc.parent && mc.parent.type === "COMPONENT_SET" ? mc.parent.name : mc.name; } catch (e) {}
       if (n.variantProperties) o.variantProperties = n.variantProperties;
+      let ov = null;
+      try { ov = await overridesOf(n.componentProperties); } catch (e) {}
+      if (ov) o.componentProperties = ov;
     }
+
     if (n.children && n.children.length) {
-      if (d > 0) { o.children = []; for (const c of n.children) o.children.push(await ser(c, d - 1)); }
+      if (d > 0) { o.children = []; for (const c of n.children) o.children.push(await serialize(c, d - 1)); }
       else o.childCount = n.children.length;
     }
     return o;
@@ -274,12 +347,12 @@ export const INSPECT_FN = `async ({ nodeId, depth }) => {
   if (nodeId === "selection") {
     const sel = figma.currentPage.selection;
     if (!sel.length) return { error: "nothing is selected — open a node first" };
-    const nodes = []; for (const n of sel) nodes.push(await ser(n, depth));
+    const nodes = []; for (const n of sel) nodes.push(await serialize(n, depth));
     return { page: figma.currentPage.name, nodes };
   }
   const target = await figma.getNodeByIdAsync(nodeId);
   if (!target) return { error: "node not found: " + nodeId };
-  return { page: (_pageOf(target) || {}).name || null, nodes: [await ser(target, depth)] };
+  return { page: (_pageOf(target) || {}).name || null, nodes: [await serialize(target, depth)] };
 }`;
 
 export const CSS_FN = `async ({ nodeId, depth }) => {
@@ -415,7 +488,7 @@ export const CSS_FN = `async ({ nodeId, depth }) => {
     return css;
   }
 
-  async function ser(n, d) {
+  async function serialize(n, d) {
     const o = { id: n.id, name: n.name, type: n.type, css: await cssOf(n) };
     if (n.type === "TEXT") o.characters = n.characters;
     if (n.type === "INSTANCE") {
@@ -424,7 +497,7 @@ export const CSS_FN = `async ({ nodeId, depth }) => {
       if (n.variantProperties) o.variant = n.variantProperties;
     }
     if (n.children && n.children.length) {
-      if (d > 0) { o.children = []; for (const c of n.children) o.children.push(await ser(c, d - 1)); }
+      if (d > 0) { o.children = []; for (const c of n.children) o.children.push(await serialize(c, d - 1)); }
       else o.childCount = n.children.length;
     }
     return o;
@@ -434,15 +507,46 @@ export const CSS_FN = `async ({ nodeId, depth }) => {
   if (nodeId === "selection") {
     const sel = figma.currentPage.selection;
     if (!sel.length) return { error: "nothing selected" };
-    const nodes = []; for (const n of sel) nodes.push(await ser(n, depth));
+    const nodes = []; for (const n of sel) nodes.push(await serialize(n, depth));
     return { page: figma.currentPage.name, nodes };
   }
   if (!target) return { error: "node not found: " + nodeId };
-  return { page: (_pageOf(target) || {}).name || null, nodes: [await ser(target, depth)] };
+  return { page: (_pageOf(target) || {}).name || null, nodes: [await serialize(target, depth)] };
 }`;
 
-/** Variable lookup by name or id, with aliases resolved per mode. */
-export const VARS_FN = `async ({ query }) => {
+/**
+ * Variable lookup by name or id, with aliases resolved per mode.
+ *
+ * ── Paged, because a page is navigable and a cap is not ─────────────────────
+ *
+ * The Plugin API does not paginate: getLocalVariablesAsync() returns every
+ * local variable in one call. The paging here is ours, and it exists only to
+ * keep a broad regexp from putting a few hundred entries in front of the
+ * agent at once.
+ *
+ * Every response is a full page envelope — page, pages, page_size, total —
+ * so "is this all of them?" is answerable from the response alone, and the
+ * next page is a parameter rather than a different query. --limit=all is not
+ * a special case: it is one page holding everything, page 1 of 1.
+ *
+ * The previous version capped at 40 and said nothing, reporting count: 40 for
+ * a file with 347 variables. Nothing downstream could tell a complete answer
+ * from a truncated one — not the agent, not a grader, not a human reading the
+ * output. A limit that cannot be detected is not a limit, it is a wrong
+ * answer.
+ *
+ * (That cap was also applied per collection, since the `break` left only the
+ * inner loop, so the real ceiling was 40 x collections. Nobody meant that.)
+ *
+ * ── One call, then filter ───────────────────────────────────────────────────
+ *
+ * It used to fetch every variable by id and THEN test the regexp, so a query
+ * matching three variables still paid 347 round trips. Names come back with
+ * getLocalVariablesAsync(), so the filter happens locally and only matches pay
+ * for mode resolution. The old path is kept as a fallback for a Figma build
+ * that predates the bulk getter.
+ */
+export const VARS_FN = `async ({ query, limit, page }) => {
   ${HELPERS}
   if (typeof figma === "undefined") return { error: "window.figma absent" };
   const cols = await figma.variables.getLocalVariableCollectionsAsync();
@@ -463,25 +567,49 @@ export const VARS_FN = `async ({ query }) => {
       const inner = nextMode ? await resolve(next, nextMode, seen) : {};
       return Object.assign({ alias: next.name }, inner);
     }
-    if (v.resolvedType === "COLOR" && raw && typeof raw === "object" && "r" in raw) return { value: _hex(raw), alpha: raw.a };
+    // _round, not raw: the API returns 0.699999988079071 for 70%, and line 252
+    // in this same file already rounds. Two spellings of one value is a bug.
+    if (v.resolvedType === "COLOR" && raw && typeof raw === "object" && "r" in raw) return { value: _hex(raw), alpha: _round(raw.a) };
     return { value: raw };
   }
 
   let rx; try { rx = new RegExp(query, "i"); } catch (e) { return { error: "bad regexp: " + e.message }; }
-  const out = [];
-  for (const c of cols) {
-    for (const id of c.variableIds) {
-      const v = await figma.variables.getVariableByIdAsync(id);
-      if (!v) continue;
-      if (v.id !== query && !rx.test(v.name)) continue;
-      const modes = {};
-      for (const m of c.modes) modes[m.name] = await resolve(v, m.modeId, [v.id]);
-      out.push({ id: v.id, name: v.name, collection: c.name, type: v.resolvedType,
-                 var: (v.codeSyntax || {}).WEB || null, modes });
-      if (out.length >= 40) break;
+
+  // Every local variable, names included, without a round trip each.
+  let all = null;
+  if (typeof figma.variables.getLocalVariablesAsync === "function") {
+    all = await figma.variables.getLocalVariablesAsync();
+  } else {
+    all = [];
+    for (const c of cols) {
+      for (const id of c.variableIds) {
+        const v = await figma.variables.getVariableByIdAsync(id);
+        if (v) all.push(v);
+      }
     }
   }
-  return { query, count: out.length, variables: out };
+
+  const hits = all.filter((v) => v.id === query || rx.test(v.name));
+
+  // limit == null means "one page holding everything". An empty result is
+  // still page 1 of 1 — "page 1 of 0" is a shape nobody should have to parse.
+  const total = hits.length;
+  const size = limit == null ? total : limit;
+  const pages = size > 0 ? Math.max(1, Math.ceil(total / size)) : 1;
+  // Clamped rather than rejected: an overshooting page number comes back as
+  // the last page, and \`pages\` says where the agent actually is.
+  const current = Math.min(Math.max(1, page || 1), pages);
+
+  const out = [];
+  for (const v of hits.slice((current - 1) * size, (current - 1) * size + size)) {
+    const c = cols.find((x) => x.id === v.variableCollectionId);
+    const modes = {};
+    if (c) for (const m of c.modes) modes[m.name] = await resolve(v, m.modeId, [v.id]);
+    out.push({ id: v.id, name: v.name, collection: c ? c.name : null, type: v.resolvedType,
+               var: (v.codeSyntax || {}).WEB || null, modes });
+  }
+
+  return { query, page: current, pages, page_size: size, total, variables: out };
 }`;
 
 /**

@@ -51,7 +51,7 @@
  */
 import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 
 const OPS = "pages|find|layers|inspect|css|vars|open|help|status|login";
 const CLI_CALL = new RegExp(`figma\\.mjs["']?\\s+(${OPS})\\b`);
@@ -72,6 +72,23 @@ const WRITE_TOOLS = new Set(["Write", "Edit", "MultiEdit", "NotebookEdit"]);
 const ROLLED_OWN = /(^|\s|\|)(node|python3?|deno|bun)\s+-(e|c)\b|<<\s*['"]?EOF|>\s*\S+\.(mjs|js|cjs|ts|py|sh)\b|\btee\s+\S+\.(mjs|js|py|sh)\b/;
 
 /**
+ * What the UserPromptSubmit hook recorded for THIS trial, or null.
+ *
+ * Keyed by the trial workspace basename, which the grader shares with the agent
+ * because skillgrade's local provider runs both in the same cwd. Absent by
+ * design on a host run, on an image built before the hook existed, and whenever
+ * the hook failed — all of which fall through to the convention below.
+ */
+function readStamp() {
+  const dir = process.env.SKILLGRADE_SESSION_DIR || "/tmp/skillgrade-sessions";
+  try {
+    return JSON.parse(readFileSync(join(dir, `${basename(process.cwd())}.json`), "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+/**
  * The most recent session transcript.
  *
  * Two paths, because this runs in two places: as a skillgrade grader it executes
@@ -86,6 +103,25 @@ const ROLLED_OWN = /(^|\s|\|)(node|python3?|deno|bun)\s+-(e|c)\b|<<\s*['"]?EOF|>
  */
 export function pullTranscript(boxName = "figma-box") {
   const inContainer = existsSync("/.dockerenv");
+
+  /**
+   * The stamp, if the hook left one. Claude Code hands every hook the
+   * `transcript_path` and `session_id` on stdin, so this is the authoritative
+   * answer and everything below it is a guess. See graders/session-stamp.mjs.
+   *
+   * Subagent transcripts are concatenated: a delegated turn writes a SEPARATE
+   * file, and without this its tool calls are simply absent from the
+   * trajectory. Order does not matter to any mode except `strict`/`sequence`,
+   * and a row that delegates has bigger problems than step order.
+   */
+  const stamped = readStamp();
+  if (stamped?.transcript_path && existsSync(stamped.transcript_path)) {
+    return [stamped.transcript_path, ...(stamped.subagents || [])]
+      .filter((p) => existsSync(p))
+      .map((p) => readFileSync(p, "utf8"))
+      .join("\n");
+  }
+
   const root = join(process.env.HOME || "", ".claude", "projects");
   if (inContainer && existsSync(root)) {
     /**
