@@ -1,11 +1,11 @@
 /**
  * build-eval.mjs — LangSmith → eval.yaml.
  *
- *   node build-eval.mjs                       every example
- *   node build-eval.mjs --split=smoke         one split
- *   node build-eval.mjs --capability=locate   one capability
- *   node build-eval.mjs --trials=5
- *   node build-eval.mjs --list                print the selection, write nothing
+ *   node langsmith/build-eval.mjs                     every example
+ *   node langsmith/build-eval.mjs --split=smoke       one split
+ *   node langsmith/build-eval.mjs --capability=locate one capability
+ *   node langsmith/build-eval.mjs --trials=5
+ *   node langsmith/build-eval.mjs --list              print the selection, write nothing
  *
  * LangSmith IS the dataset. There is no local copy in this path and no schema
  * module — `datasets/load.mjs` defined a column contract for a 328-row JSONL and
@@ -29,9 +29,11 @@ import { writeFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import "./figma-browser/lib/connect.mjs"; // side effect: loads .env
+import "../figma-browser/lib/connect.mjs"; // side effect: loads .env
 
 const HERE = dirname(fileURLToPath(import.meta.url));
+// eval.yaml belongs beside the skill and the graders it references, one level up.
+const ROOT = join(HERE, "..");
 const arg = (n, d = null) => {
   const hit = process.argv.find((a) => a.startsWith(`--${n}=`));
   return hit ? hit.split("=").slice(1).join("=") : d;
@@ -128,6 +130,65 @@ const GRADERS = {
       weight: typeof weight === "number" ? weight : 1.0,
     };
   },
+
+  /**
+   * `outputs.extract` — the answer is data, but the agent writes prose.
+   *
+   *   {"expect":[{"name":"Body/xs R","fontSize":12}],"at":"$root","by":"name"}
+   *
+   * Identical spec to `json`, because it is the same golden: a model
+   * transcribes the prose into the golden's shape, then the same deterministic
+   * diff scores it. Nothing about the row changes if it moves between the two.
+   *
+   * The row's QUESTION is attached here rather than authored per row. Without
+   * it the extractor cannot tell an aside from an answer — measured, it
+   * transcribed a whole document into 21 invented keys and counted four styles
+   * the answer had explicitly ruled out. With it, the same answers scored 1.00
+   * four runs out of four.
+   *
+   * Prefer this over `answer` for anything with a shape. `answer` asks a
+   * judgement per term and was measured flipping on identical input (0.00,
+   * 1.00, 1.00, 0.00, 1.00), and its `forbidden` list penalised answers that
+   * showed their working.
+   */
+  extract: (out, e) => {
+    if (out?.expect === undefined || out.expect === null) return null;
+    const { weight, ...spec } = out;
+    spec.question ??= e?.inputs?.task || null;
+    return {
+      run: `node graders/score-extract.mjs --spec=${shq(JSON.stringify(spec))}`,
+      weight: typeof weight === "number" ? weight : 1.0,
+    };
+  },
+
+  /**
+   * `outputs.json` — rows whose answer IS data, diffed against a golden.
+   *
+   *   {"expect":[{"name":"Body/xs R","fontSize":12}],"at":"$root","by":"name"}
+   *
+   *   at   where to look in the agent's JSON; "$root" is the whole answer, a key
+   *        name digs in so a golden of {count, styles} can grade only the styles.
+   *   by   for arrays of objects, the field that identifies an entry. Entries are
+   *        paired on it, so a reordered answer is fine and a renamed one is not.
+   *
+   * Weight 1 — for these rows this IS the verdict. Unlike `answer`, no model is
+   * involved: the row has a schema, so the judgement is a comparison and the
+   * same input always gives the same number. That matters here because the LLM
+   * extractor `answer` depends on was measured flipping wholesale on ~1 run in 6,
+   * turning a correct answer into a 0.
+   *
+   * A null `expect` returns null rather than a zero-weight grader, so a row
+   * authored without a golden trips the "nothing decides pass/fail" guard and
+   * cannot be run by accident.
+   */
+  json: (out) => {
+    if (out?.expect === undefined || out.expect === null) return null;
+    const { weight, ...spec } = out;
+    return {
+      run: `node graders/score-json.mjs --spec=${shq(JSON.stringify(spec))}`,
+      weight: typeof weight === "number" ? weight : 1.0,
+    };
+  },
 };
 
 /**
@@ -210,7 +271,7 @@ if (!rows.length) {
 const named = rows.map((e) => {
   const cap = e.metadata?.capability || "row";
   const keys = Object.keys(e.outputs || {});
-  const derived = keys.map((k) => (GRADERS[k] ? GRADERS[k](e.outputs[k]) : null)).filter(Boolean);
+  const derived = keys.map((k) => (GRADERS[k] ? GRADERS[k](e.outputs[k], e) : null)).filter(Boolean);
   const dropped = new Set(keys.map((k) => supersededBy[k]).filter(Boolean));
   const always = ALWAYS.filter((g) => !dropped.has(g.run));
   // Only weighted graders decide anything; the rest report.
@@ -270,7 +331,7 @@ const indent = (text, pad) => text.trimEnd().split("\n").map((l) => pad + l).joi
  * mounts figma-skills only, .git lives a directory above it, and git is not
  * installed in the image — so nothing downstream can work it out. Without it,
  * two experiments from different code states are indistinguishable, which is a
- * gap in the PZU setup worth not repeating.
+ * gap worth not repeating.
  */
 let GIT_SHA = "nogit";
 try {
@@ -282,7 +343,7 @@ try {
 const yaml = `# GENERATED by build-eval.mjs from the LangSmith dataset "${NAME}".
 # git: ${GIT_SHA}
 # Do not edit — change the examples on LangSmith, then re-run:
-#   node build-eval.mjs ${sel}
+#   node langsmith/build-eval.mjs ${sel}
 #
 # Selection: ${sel}
 # Examples:  ${rows.length}
@@ -296,7 +357,8 @@ const yaml = `# GENERATED by build-eval.mjs from the LangSmith dataset "${NAME}"
 # provider: local   this runs INSIDE the eval container, so the container is the
 #                   isolation — no docker-in-docker. A clean image has no
 #                   ~/.claude/skills, which is precisely what makes a HOST run
-#                   untrustworthy (TODO.md §0.5).
+#                   untrustworthy: a clean image has no ~/.claude/skills,
+#                   so the host run can silently measure a different skill.
 #
 #   docker exec -it figma-box bash
 #   skillgrade
@@ -326,6 +388,6 @@ ${r.graders.map((g) => `      - type: deterministic
         weight: ${g.weight}`).join("\n")}`).join("\n")}
 `;
 
-writeFileSync(join(HERE, "eval.yaml"), yaml);
+writeFileSync(join(ROOT, "eval.yaml"), yaml);
 console.log(`✓ eval.yaml — ${rows.length} task(s) × ${trials} trial(s) from "${NAME}"${sel ? `   (${sel})` : ""}`);
 for (const r of named) console.log(`   ${r.name.padEnd(22)} ${r.scoring.length} scoring + ${r.graders.length - r.scoring.length} reporting`);

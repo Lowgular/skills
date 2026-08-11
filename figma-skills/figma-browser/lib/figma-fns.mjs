@@ -204,6 +204,23 @@ export const INSPECT_FN = `async ({ nodeId, depth }) => {
 
     const f = await paints(n.fills); if (f) o.fills = f;
     const s = await paints(n.strokes); if (s) o.strokes = s;
+    /**
+     * The STYLE a paint came from, when it came from one.
+     *
+     * token/var above cover variable-bound values, which is how a
+     * variables-based design system links a colour back to the system. A
+     * styles-based one does not use variables at all: it publishes named paint
+     * styles and nodes reference them by id. Both are ordinary Figma; the second
+     * is what every file built before variables shipped still uses.
+     *
+     * This was missing, and the effect was severe rather than cosmetic: on a
+     * file with 61 paint styles and no variables, every fill came back as a bare
+     * hex with no link to the design system at all, while textStyleId and
+     * effectStyleId two rows below were resolved. The skill spoke one dialect
+     * and silently lost the other.
+     */
+    const fs = await _style(n.fillStyleId); if (fs) o.fillStyle = fs;
+    const ss = await _style(n.strokeStyleId); if (ss) o.strokeStyle = ss;
     await set("strokeWeight");
     if (n.strokes && n.strokes.length) {
       if (n.strokeAlign) o.strokeAlign = n.strokeAlign;
@@ -336,6 +353,21 @@ export const INSPECT_FN = `async ({ nodeId, depth }) => {
       try { ov = await overridesOf(n.componentProperties); } catch (e) {}
       if (ov) o.componentProperties = ov;
     }
+
+    /**
+     * WHICH LAYER a component property drives.
+     *
+     * The contract says a component takes Label and IconLeft. This says Label
+     * feeds THIS text node's characters and IconLeft toggles THAT layer's
+     * visibility. Without it the contract is a list of names with no wiring, and
+     * anyone generating code from it has to guess which layer each prop touches
+     * — usually by matching the property name against layer names, which is the
+     * same fragile inference that component properties were added to retire.
+     *
+     * Shape is Figma's: { characters: "Label#2:0", visible: "IconLeft#42:0" } —
+     * the NODE field on the left, the property that drives it on the right.
+     */
+    if (n.componentPropertyReferences) o.drivenBy = n.componentPropertyReferences;
 
     if (n.children && n.children.length) {
       if (d > 0) { o.children = []; for (const c of n.children) o.children.push(await serialize(c, d - 1)); }
@@ -609,7 +641,143 @@ export const VARS_FN = `async ({ query, limit, page }) => {
                var: (v.codeSyntax || {}).WEB || null, modes });
   }
 
-  return { query, page: current, pages, page_size: size, total, variables: out };
+  /**
+   * The collections, on every response — the same bargain as counts in
+   * STYLES_FN.
+   *
+   * A variable's value is meaningless without knowing which modes exist, and
+   * "what modes does this system have" was previously answerable only by reading
+   * some variable and inspecting the keys of its modes object. This function
+   * has had the collection list in hand the whole time and threw it away.
+   */
+  // Guarded: this is context alongside the answer, so a collection with an
+  // unexpected shape must cost the caller nothing. An empty list reads as
+  // "none reported", which is honest; a throw would lose the variables too.
+  let collections = [];
+  try {
+    collections = cols.map((c) => ({
+      name: c.name,
+      modes: (c.modes || []).map((m) => m.name),
+      defaultMode: ((c.modes || []).find((m) => m.modeId === c.defaultModeId) || (c.modes || [])[0] || {}).name || null,
+      variables: (c.variableIds || []).length,
+    }));
+  } catch (e) { collections = []; }
+
+  return { query, collections, page: current, pages, page_size: size, total, variables: out };
+}`;
+
+/**
+ * The four style tables, as one listing.
+ *
+ * Figma publishes exactly four kinds of style and they are the four sections of
+ * the right-hand panel: paint, text, effect, grid. All four exist in every file;
+ * what a file DOES with them is its own business. So this is deliberately one
+ * operation over four API calls rather than four commands — the work is
+ * identical (enumerate, filter, page) and only the per-entry shape differs,
+ * which is what `inspect` already does for node types.
+ *
+ * ── Why one command ─────────────────────────────────────────────────────────
+ *
+ * Names cross the type boundary. A design system that publishes an elevation
+ * ramp has `Elevation/Light/1` as BOTH a paint style (the surface colour) and an
+ * effect style (the shadow) — the same name, two tables. `styles "^Elevation/"`
+ * answers "what is elevation made of" in one call; four commands would split
+ * that answer and leave the agent to notice the overlap itself.
+ *
+ * ── counts, always ──────────────────────────────────────────────────────────
+ *
+ * Every response carries the per-type totals whatever the filter, so one call
+ * says which kinds exist and how large each is. Without it an agent cannot tell
+ * "this file publishes no grid styles" from "my regexp missed them", and
+ * discovering the fourth type would depend on reading the flag documentation.
+ *
+ * Paging matches `vars` exactly — one paging idiom in the skill, not two.
+ */
+export const STYLES_FN = `async ({ query, types, limit, page }) => {
+  ${HELPERS}
+  if (typeof figma === "undefined") return { error: "window.figma absent" };
+
+  // Figma reports a length as {value, unit}. Render it the way its own UI does:
+  // "AUTO", a percentage, or a number — never a raw object.
+  const unit = (u) => {
+    if (!u || _mixed(u)) return undefined;
+    if (u.unit === "AUTO") return "AUTO";
+    if (u.unit === "PERCENT") return _round(u.value) + "%";
+    return _round(u.value);
+  };
+
+  const paintOf = (p) => {
+    if (p.type !== "SOLID") return { type: p.type };
+    const e = { type: "SOLID", hex: _hex(p.color) };
+    if (p.opacity !== undefined && p.opacity !== 1) e.opacity = _round(p.opacity);
+    return e;
+  };
+
+  const wanted = (t) => !types || types.indexOf(t) !== -1;
+  const all = [];
+  const counts = { paint: 0, text: 0, effect: 0, grid: 0 };
+
+  const paints = await figma.getLocalPaintStylesAsync();
+  counts.paint = paints.length;
+  if (wanted("paint")) for (const s of paints) {
+    all.push({ type: "paint", name: s.name, paints: s.paints.map(paintOf) });
+  }
+
+  const texts = await figma.getLocalTextStylesAsync();
+  counts.text = texts.length;
+  if (wanted("text")) for (const s of texts) {
+    const e = { type: "text", name: s.name };
+    if (s.fontName && !_mixed(s.fontName)) { e.fontFamily = s.fontName.family; e.fontStyle = s.fontName.style; }
+    e.fontSize = _round(s.fontSize);
+    const lh = unit(s.lineHeight); if (lh !== undefined) e.lineHeight = lh;
+    const ls = unit(s.letterSpacing); if (ls !== undefined) e.letterSpacing = ls;
+    if (s.paragraphSpacing) e.paragraphSpacing = _round(s.paragraphSpacing);
+    if (s.paragraphIndent) e.paragraphIndent = _round(s.paragraphIndent);
+    if (s.textCase && s.textCase !== "ORIGINAL") e.textCase = s.textCase;
+    if (s.textDecoration && s.textDecoration !== "NONE") e.textDecoration = s.textDecoration;
+    all.push(e);
+  }
+
+  const fx = await figma.getLocalEffectStylesAsync();
+  counts.effect = fx.length;
+  if (wanted("effect")) for (const s of fx) {
+    all.push({ type: "effect", name: s.name, effects: s.effects.filter((x) => x.visible !== false).map((x) => {
+      const e = { type: x.type, radius: _round(x.radius) };
+      if (x.offset) { e.offsetX = _round(x.offset.x); e.offsetY = _round(x.offset.y); }
+      if (x.spread) e.spread = _round(x.spread);
+      if (x.color) { e.hex = _hex(x.color); e.alpha = _round(x.color.a); }
+      return e;
+    }) });
+  }
+
+  const grids = await figma.getLocalGridStylesAsync();
+  counts.grid = grids.length;
+  if (wanted("grid")) for (const s of grids) {
+    all.push({ type: "grid", name: s.name, grids: s.layoutGrids.map((g) => {
+      const e = { pattern: g.pattern };
+      if (g.count !== undefined && g.count !== Infinity) e.count = g.count;
+      if (g.sectionSize !== undefined) e.sectionSize = _round(g.sectionSize);
+      if (g.gutterSize !== undefined) e.gutterSize = _round(g.gutterSize);
+      if (g.offset !== undefined) e.offset = _round(g.offset);
+      if (g.alignment) e.alignment = g.alignment;
+      return e;
+    }) });
+  }
+
+  let rx; try { rx = new RegExp(query || ".", "i"); } catch (e) { return { error: "bad regexp: " + e.message }; }
+  const hits = all.filter((s) => rx.test(s.name));
+
+  const total = hits.length;
+  const size = limit == null ? total : limit;
+  const pages = size > 0 ? Math.max(1, Math.ceil(total / size)) : 1;
+  const current = Math.min(Math.max(1, page || 1), pages);
+
+  return {
+    query: query || ".",
+    counts,
+    page: current, pages, page_size: size, total,
+    styles: hits.slice((current - 1) * size, (current - 1) * size + size),
+  };
 }`;
 
 /**

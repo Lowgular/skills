@@ -88,12 +88,20 @@ export function up({ file = null } = {}) {
   sh(["rm", "-f", BOX]);
   const r = sh([
     "run", "-d", "--name", BOX,
-    "-e", `FIGMA_FILE_SDS=${cfg.fileKey}`,
+    /**
+     * The one file this box reads, resolved on the HOST and passed in by key.
+     *
+     * This line used to hardcode the slug — `FIGMA_FILE_SDS=${"${cfg.fileKey}"}` —
+     * while taking whatever key the host resolved. So pointing the box at a
+     * second design system would have bound that file's key under the name of
+     * the first, and the box would have reported reading one file while reading
+     * another, silently. There is no slug now, so there is nothing to disagree.
+     */
+    "-e", `FIGMA_FILE=${cfg.fileKey}`,
+    // Bare, so the value is inherited rather than written into the run command.
+    // A credential a human pastes belongs in config; a browser session captured
+    // by `seed` does not — that lives in the profile volume. See boot.sh.
     "-e", "CLAUDE_CODE_OAUTH_TOKEN",
-    // boot.sh seeds the session from this. Without it the box only works while
-    // the profile volume happens to still hold a live session from an earlier
-    // seed — and fails later with no obvious cause.
-    "-e", "FIGMA_COOKIES",
     // The skill derives its profile path as <skill>/../../.chrome-profile, which
     // inside the container is NOT where boot.sh puts it. Harmless while CDP is
     // already up (the skill attaches), but if it ever needs to LAUNCH Chrome it
@@ -119,7 +127,7 @@ export function up({ file = null } = {}) {
      *
      * The key is inherited (bare -e) rather than interpolated, so it comes from
      * .env via connect.mjs and never appears in this file or in shell history.
-     * It IS visible to `docker inspect`, exactly like FIGMA_COOKIES above.
+     * It IS visible to `docker inspect`, like every -e on this run.
      *
      * Traces are for reading a failed row, not for scoring one — graders parse
      * the local transcript. Set TRACE_TO_LANGSMITH=false to turn it all off.
@@ -186,14 +194,37 @@ const cookies = JSON.parse(require("fs").readFileSync(0, "utf8"));   // stdin
   const send=(method,params={})=>new Promise(res=>{const i=++id;pend.set(i,res);ws.send(JSON.stringify({id:i,method,params}))});
   await send("Network.setCookies", { cookies });
   await send("Page.navigate", { url: "https://www.figma.com/design/" + process.env.KEY + "/seeded" });
-  let st=null;
-  for (let i=0;i<45;i++) {
-    await new Promise(r=>setTimeout(r,2000));
-    const r0 = await send("Runtime.evaluate", { expression: 'JSON.stringify({hasFigma: typeof figma!=="undefined"})', returnByValue:true });
+
+  /**
+   * Poll for the Plugin API, but WATCH THE URL — that is the fast signal.
+   *
+   * When cookies do not grant access, Figma does not serve a design page that
+   * slowly fails to boot: it bounces to /login or /files/... within a second or
+   * two. The old loop ignored that and kept asking "typeof figma" for another 88
+   * seconds, so the commonest failure took 90s to report and looked identical to
+   * a slow one. Leaving the key wrong in .env therefore read as a hang.
+   *
+   * Staying on /design/<key> means it is genuinely loading, and a large file
+   * booting a WebGL canvas in a container is legitimately slow — so that case
+   * keeps a real budget. Anything else is decided as soon as it happens.
+   */
+  const DEADLINE_MS = 20000, EVERY_MS = 1000;
+  const probe = 'JSON.stringify({hasFigma: typeof figma!=="undefined", href: location.href})';
+  let st = null, left = null;
+  await new Promise(r=>setTimeout(r,500));
+  for (let waited=0; waited<DEADLINE_MS; waited+=EVERY_MS) {
+    const r0 = await send("Runtime.evaluate", { expression: probe, returnByValue:true });
     try { st = JSON.parse(r0.result.result.value); } catch {}
     if (st && st.hasFigma) break;
+    // Redirected off the file: a verdict, not a slow load.
+    if (st && st.href && st.href.indexOf("/design/" + process.env.KEY) === -1) { left = st.href; break; }
+    await new Promise(r=>setTimeout(r,EVERY_MS));
   }
-  console.log(st && st.hasFigma ? "LIVE" : "ABSENT");
+  if (st && st.hasFigma) console.log("LIVE");
+  else if (left) console.log("ABSENT — redirected to " + left.slice(0, 80) +
+    "\\n  these cookies cannot open that file: wrong account, or the key is not a design file");
+  else console.log("ABSENT — still on the file after " + (DEADLINE_MS/1000) +
+    "s but no Plugin API\\n  the page may be view-only, or it is still loading");
   ws.close();
 })();
 `;

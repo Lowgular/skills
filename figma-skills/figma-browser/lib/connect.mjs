@@ -57,88 +57,80 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const DEFAULT_CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 /** Every FIGMA_FILE_<SLUG> binding, as lowercase slug → key. */
-export function bindings() {
-  const out = {};
-  for (const [k, v] of Object.entries(process.env)) {
-    const m = /^FIGMA_FILE_([A-Z0-9_]+)$/.exec(k);
-    // FIGMA_FILE_KEY is the retired name and would otherwise register as the
-    // slug "key". Excluded here so the error below can name the migration.
-    if (!m || m[1] === "KEY" || !v?.trim()) continue;
-    out[m[1].toLowerCase()] = v.trim();
-  }
-  return out;
-}
-
-/** `--file=<slug>`, for a human switching design systems mid-session. */
+/** `--file=<key>`, for a one-off read of something other than the configured file. */
 export function sessionFile() {
   const hit = process.argv.slice(2).find((a) => a.startsWith("--file="));
   return hit ? hit.slice("--file=".length) : null;
 }
 
 /**
- * Which design system to read.
+ * Which design file to read. ONE of them, named directly by its key.
  *
- * 1. want            an explicit slug — `--file=`, or a caller that knows
- * 2. the session     already resolved by the runtime; no lookup happens here
- * 3. the sole binding so one design system needs no selector at all
- * 4. otherwise       { error } naming what to do, never a silent default
+ * 1. want         `--file=<key>`, or a caller that knows
+ * 2. the session  already resolved by the runtime
+ * 3. FIGMA_FILE   the configured file
+ * 4. otherwise    { error } naming what to do, never a silent default
  *
- * Rule 2 is the important one. A runtime is invoked once per task, and the task
- * config says which design system the task is about — so it resolves the key
- * there, once, and writes it to the session. This function then has nothing to
- * work out. Resolution belongs as high up as the information does.
+ * ── Why there is no slug map ────────────────────────────────────────────────
+ *
+ * There was one: FIGMA_FILE_<SLUG> bindings and a `--file=<slug>` lookup, so a
+ * dataset row could name its design system and have the key resolved for it.
+ * It bought nothing and cost a whole evening.
+ *
+ * Two bindings existed for about an hour, and in that hour EVERY task in BOTH
+ * suites failed — `several Figma files are bound and none was chosen` — because
+ * nothing downstream passed a slug. The abstraction's only load-bearing moment
+ * was a failure.
+ *
+ * The deeper reason it should not come back: swapping design systems is not a
+ * change of one property. Going from one to another took a different LangSmith
+ * account, a different Figma login, a duplicated file (the original was
+ * read-only, so the Plugin API was absent entirely), and a re-seed of the
+ * container's cookies. A slug that pretends the difference is a lookup invites
+ * treating a whole environment swap as a config toggle.
+ *
+ * A dataset belongs to a file. Every golden in it — the hexes, the style names,
+ * a component's variant axes — is true of exactly one document. So the file is
+ * configured once, by hand, alongside the other things that must move with it,
+ * and the row's `figma_file` is provenance rather than a selector.
+ *
+ * There is deliberately no guard that the configured file matches the dataset.
+ * Running the wrong one fails every row at once with every golden missing,
+ * which is not a plausible model failure and does not need machinery to detect.
  *
  * Failures are returned, not thrown: callers already have an escalation path
- * that tells the human what to fix, and reading the WRONG file is the failure
- * worth preventing — it yields plausible answers that look like a broken skill.
+ * that tells the human what to fix.
  */
 function resolveFile(wanted) {
-  const map = bindings();
-  const slugs = Object.keys(map).sort();
-  const want = String(wanted || "").trim().toLowerCase();
+  const want = String(wanted || "").trim();
+  if (want) return { key: want, from: "flag" };
 
-  if (!want) {
-    // Already resolved by whoever started this task — no lookup here at all.
-    // A session without a file is normal (a runtime that traces but does not
-    // care about Figma), so fall through rather than erroring.
-    const s = readSession();
-    if (s?.figma_key) return { slug: s.figma_file || null, key: s.figma_key, from: "session" };
-  }
+  // Already resolved by whoever started this task. A session without a file is
+  // normal (a runtime that traces but does not care about Figma), so fall
+  // through rather than erroring.
+  const s = readSession();
+  if (s?.figma_key) return { slug: s.figma_file || null, key: s.figma_key, from: "session" };
 
-  if (want) {
-    if (map[want]) return { slug: want, key: map[want] };
+  const key = process.env.FIGMA_FILE?.trim();
+  if (key) return { key, from: "env" };
+
+  // Both retired names, each worth its own message so a stale .env says so.
+  const legacy = Object.keys(process.env).filter((k) => /^FIGMA_FILE_[A-Z0-9_]+$/.test(k));
+  if (legacy.length) {
     return {
-      error: `unknown Figma file "${want}"`,
-      hint: slugs.length
-        ? `bound slugs: ${slugs.join(", ")} — or add FIGMA_FILE_${want.toUpperCase()}=<key> to .env`
-        : `no FIGMA_FILE_<SLUG> is set — add FIGMA_FILE_${want.toUpperCase()}=<key> to .env`,
-    };
-  }
-  if (slugs.length === 1) return { slug: slugs[0], key: map[slugs[0]] };
-  if (slugs.length) {
-    return {
-      error: `several Figma files are bound and none was chosen`,
-      hint: `pass --file=<slug>. Bound: ${slugs.join(", ")}`,
-    };
-  }
-  // The one case worth a bespoke message: a .env from before the slug split.
-  if (process.env.FIGMA_FILE_KEY) {
-    return {
-      error: `FIGMA_FILE_KEY is no longer read`,
-      hint: `rename it in .env to a slug binding, e.g. FIGMA_FILE_SDS=${process.env.FIGMA_FILE_KEY}`,
+      error: `${legacy.join(", ")} ${legacy.length > 1 ? "are" : "is"} no longer read`,
+      hint: `one file at a time now — set FIGMA_FILE=<key> in .env and remove the rest`,
     };
   }
   return {
     error: `no Figma file configured`,
-    hint: `add FIGMA_FILE_<SLUG>=<key> to .env — the key is the segment after /design/ in the URL`,
+    hint: `add FIGMA_FILE=<key> to .env — the key is the segment after /design/ in the URL`,
   };
 }
 
 /**
- * @param file  which design system, as a slug. Optional: a running task's
- *              session already carries the resolved file, and a setup with one
- *              binding needs no selector. Pass it when you know better than
- *              both — `--file=` from a human, or a dataset row's `figma_file`.
+ * @param file  a file KEY, for a one-off read of something other than the
+ *              configured file. Normally omitted: FIGMA_FILE says which.
  */
 export function config({ file = null } = {}) {
   const port = Number(process.env.FIGMA_CDP_PORT || 9333);

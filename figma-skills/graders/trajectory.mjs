@@ -53,7 +53,10 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { basename, join } from "node:path";
 
-const OPS = "pages|find|layers|inspect|css|vars|open|help|status|login";
+// Every op figma.mjs accepts. An op missing here is classified as a plain
+// bash step, so the row reads as "never called figma.mjs" — keep in sync with
+// COMMANDS in figma-browser/lib/figma.mjs.
+const OPS = "pages|find|layers|inspect|css|vars|styles|open|help|status|login";
 const CLI_CALL = new RegExp(`figma\\.mjs["']?\\s+(${OPS})\\b`);
 /** The op and whatever followed it, for the third token segment. */
 const CLI_PARSE = new RegExp(`figma\\.mjs["']?\\s+(${OPS})\\b\\s*([^|;&>]*)`);

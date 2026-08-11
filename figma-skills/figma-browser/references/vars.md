@@ -25,6 +25,20 @@ of a design-system question on its own.
 }
 ```
 
+## Collections and modes come with every response
+
+```json
+"collections": [
+  { "name": "Color", "modes": ["SDS Light", "SDS Dark"],
+    "defaultMode": "SDS Light", "variables": 132 }
+]
+```
+
+Present whatever the query matched, so one call answers "what modes does this
+system have" without having to find a variable first and read the keys of its
+`modes` object. A collection can exist with no variables in it — that is not an
+error, and `collections` reporting one while `total` is 0 is the honest picture.
+
 ## Modes are not optional context
 
 Most colours resolve differently per mode. If the question names a mode, answer

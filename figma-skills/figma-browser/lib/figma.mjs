@@ -15,7 +15,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { config as baseConfig, cdpAlive, ensureChrome, sessionFile } from "./connect.mjs";
 import { connect } from "./cdp.mjs";
-import { PROBE_FN, PAGES_FN, FIND_FN, LAYERS_FN, INSPECT_FN, CSS_FN, VARS_FN, SELECT_FN, RESET_FN } from "./figma-fns.mjs";
+import { PROBE_FN, PAGES_FN, FIND_FN, LAYERS_FN, INSPECT_FN, CSS_FN, VARS_FN, STYLES_FN, SELECT_FN, RESET_FN } from "./figma-fns.mjs";
 
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -169,6 +169,20 @@ async function status() {
     report.figmaApi = !!probe;
     report.currentPage = probe ? probe.page : null;
     report.ok = !!probe;
+    /**
+     * The file's OWN name, read from the document rather than from config.
+     *
+     * Config says which key we asked for; this says what actually answered. The
+     * two can disagree — a container keeps whatever tab it was started with, and
+     * its cookies come from whichever account was logged in at the last seed, so
+     * "the key is right" is not the same as "the right file is open and
+     * readable". This is the line that catches it, and it costs one evaluate.
+     */
+    if (probe) {
+      report.fileName = await cdp
+        .evaluate(`(async () => (typeof figma === "undefined" ? null : figma.root.name))()`, { timeoutMs: 5000 })
+        .catch(() => null);
+    }
   } finally {
     cdp.close();
   }
@@ -177,7 +191,8 @@ async function status() {
   else {
     console.log(`  port     ${cfg.port}`);
     console.log(`  profile  ${cfg.profile}`);
-    console.log(`  file     ${cfg.figmaFile}  (${cfg.fileKey})`);
+    console.log(`  file     ${report.fileName || "(name unavailable)"}`);
+    console.log(`  key      ${cfg.fileKey}${cfg.fileFrom ? `  (from ${cfg.fileFrom})` : ""}`);
     console.log(`  ✓ CDP alive`);
     console.log(report.ok ? `  ✓ window.figma live — currentPage="${report.currentPage}"\n\n✓ ready\n` : `  ✗ window.figma absent`);
   }
@@ -373,6 +388,35 @@ const vars = () =>
     emit(r);
   });
 
+/**
+ * The four style tables. One command, because the work is identical and only
+ * the entry shape differs — see the header of STYLES_FN.
+ *
+ * The regexp is OPTIONAL here, unlike `vars`: "what styles does this system
+ * publish" is a real opening question, and `counts` answers it in one call
+ * without the caller having to guess a pattern first.
+ */
+const STYLE_TYPES = ["paint", "text", "effect", "grid"];
+const styles = () =>
+  withFigma(async (cdp) => {
+    const q = pos[0] || ".";
+    const rawTypes = flag("type") ? String(flag("type")).split(",").map((t) => t.trim().toLowerCase()) : null;
+    if (rawTypes) {
+      const bad = rawTypes.filter((t) => !STYLE_TYPES.includes(t));
+      if (bad.length) return die(`unknown style type(s): ${bad.join(", ")}\n  known: ${STYLE_TYPES.join(", ")}`);
+    }
+    const rawLimit = String(flag("limit", 40));
+    const limit = rawLimit.toLowerCase() === "all" ? null : Number(rawLimit);
+    if (limit !== null && (!Number.isInteger(limit) || limit < 1)) {
+      return die(`--limit must be a positive integer or "all" (got "${rawLimit}")`);
+    }
+    const page = Number(flag("page", 1));
+    if (!Number.isInteger(page) || page < 1) return die(`--page must be a positive integer (got "${flag("page", 1)}")`);
+    const r = await cdp.evaluate(run(STYLES_FN, { query: q, types: rawTypes, limit, page }), { timeoutMs: 60_000 });
+    if (r.error) return die(r.error);
+    emit(r);
+  });
+
 const open = () =>
   withFigma(async (cdp) => {
     const arg = pos[0];
@@ -396,7 +440,7 @@ const open = () =>
 
 // ---------------------------------------------------------------------------
 
-const COMMANDS = { login, status, pages, find, layers, inspect, css, vars, open };
+const COMMANDS = { login, status, pages, find, layers, inspect, css, vars, styles, open };
 
 if (!cmd || cmd === "help" || cmd === "--help") {
   console.log(`
@@ -443,6 +487,7 @@ if (!cmd || cmd === "help" || cmd === "--help") {
         --depth=N              include N levels of children (default 1)
         --in=<id>              resolve the regexp inside this subtree
     vars <regexp|id>         variables matching a name: per-mode values, aliases resolved
+    styles [regexp]          published paint / text / effect / grid styles
 
   Act
     open <id|regexp>         select a node (setCurrentPage + selection; no URL jump)

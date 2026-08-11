@@ -57,9 +57,11 @@ import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { randomUUID } from "node:crypto";
-import "./figma-browser/lib/connect.mjs"; // side effect: loads .env
+import "../figma-browser/lib/connect.mjs"; // side effect: loads .env
 
 const HERE = dirname(fileURLToPath(import.meta.url));
+// eval.yaml lives at the repo root, one level up from this folder.
+const ROOT = join(HERE, "..");
 const arg = (n, d = null) => {
   const hit = process.argv.find((a) => a.startsWith(`--${n}=`));
   return hit ? hit.split("=").slice(1).join("=") : d;
@@ -176,7 +178,7 @@ for (let offset = 0; ; offset += 100) {
   if (page.length < 100) break;
 }
 
-const { keys: keysByTask, sha: GIT_SHA } = readEvalYaml(join(HERE, "eval.yaml"));
+const { keys: keysByTask, sha: GIT_SHA } = readEvalYaml(join(ROOT, "eval.yaml"));
 
 /**
  * Only tasks the CURRENT eval.yaml declares. The results directory is

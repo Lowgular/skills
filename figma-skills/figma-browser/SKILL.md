@@ -20,8 +20,9 @@ layer is how you end up reading the wrong node.
 | `figma.mjs find <regexp>` | Cmd+F | where is this thing | [open.md](references/open.md) |
 | `figma.mjs open <id\|regexp>` | double-click a page or component | makes it the selection | [open.md](references/open.md) |
 | `figma.mjs layers [target] [--depth=N]` | left panel | what is this made of | [layers.md](references/layers.md) |
-| `figma.mjs inspect [target] [--css]` | right panel | a layer's values · a COMPONENT_SET's contract · an INSTANCE's overrides | [inspect.md](references/inspect.md) · [components.md](references/components.md) |
-| `figma.mjs vars <regexp\|id>` | Variables panel | what a token resolves to, per mode | [vars.md](references/vars.md) |
+| `figma.mjs inspect [target] [--css]` | right panel | a layer's values · a COMPONENT_SET's contract · an INSTANCE's overrides · which property drives a layer | [inspect.md](references/inspect.md) · [components.md](references/components.md) |
+| `figma.mjs vars <regexp\|id>` | Variables panel | what a token resolves to per mode, plus the collections and their modes | [vars.md](references/vars.md) |
+| `figma.mjs styles [regexp]` | the four style tables | every published colour, text, effect and grid style | [styles.md](references/styles.md) |
 | `figma.mjs status` `login` `help` | | connection, auth, every parameter | |
 
 `target` is a node id (`12:34`, `I12:34;56:78`), a regexp, or `selection`;
@@ -31,8 +32,11 @@ omitted, it means the current selection — or for `layers`, the current page.
 
 - **Speak Figma, not CSS** unless asked. `cornerRadius` is `8`, not `8px`; a
   weight is `"Semi Bold"`, not `600`; alignment is `"CENTER"`, not `center`.
-- **Value AND variable, always.** A hex without its `token` is half an answer;
-  a token without its value cannot be checked against the screen.
+- **Value AND its design-system name, always.** A bare hex is half an answer.
+  The name is a `token` when the value is variable-bound and a `fillStyle` /
+  `textStyle` / `effectStyle` when it comes from a style — a file may use
+  either mechanism, or both, and `vars` returning nothing does not mean the
+  system is untokenised. Check `styles` too.
 - **Typography is the exception.** `inspect` reports `fontName`/`fontSize` with
   no `token` even though they are variable-bound. The variable lives in `vars`,
   looked up by style name — `vars "^Title Hero/"`. Two commands, always.

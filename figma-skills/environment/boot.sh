@@ -26,14 +26,27 @@ rm -f "$PROFILE/SingletonLock" "$PROFILE/SingletonSocket" "$PROFILE/SingletonCoo
   --use-gl=angle --use-angle=swiftshader --enable-unsafe-swiftshader \
   --remote-debugging-port="$PORT" --user-data-dir="$PROFILE" \
   --user-agent="$UA" --disable-blink-features=AutomationControlled \
-  "https://www.figma.com/design/${FIGMA_FILE_SDS:-}/boot" >/tmp/chrome.log 2>&1 &
+  "https://www.figma.com/design/${FIGMA_FILE:-}/boot" >/tmp/chrome.log 2>&1 &
 
-# Cookies arrive as an env var because skillgrade's provider mounts no volumes —
-# env is the only channel into a container it creates. Failure is logged, not
-# fatal: the agent should then hit "window.figma absent" and escalate, which is
-# a real result rather than a hung container.
-if ! node /workspace/environment/seed.mjs; then
-  echo "boot: FIGMA_COOKIES seed failed — the agent will see an unauthenticated browser" >&2
-fi
+# No cookie seeding here, on purpose.
+#
+# The session lives in the profile VOLUME, which is the box's own state and
+# outlives the container. It used to also be snapshotted into .env as
+# FIGMA_COOKIES and replayed on every boot, to make startup deterministic rather
+# than dependent on the volume. That inverted: the snapshot went stale and this
+# line then replayed a week-old session OVER a freshly seeded one, so the
+# mechanism meant to prevent a silent failure caused one.
+#
+# .env is config a human writes; a captured browser session is not that. It is
+# also a place a client's credentials should never sit.
+#
+# When the session does expire the skill reports "window.figma absent" and
+# escalates, which is a real result — and `box.mjs seed` refreshes it from the
+# host browser without anything touching disk.
+#
+# NOTE for whoever revives skillgrade's `provider: docker` path (TODO §0.6):
+# those containers are created by skillgrade and mount no volumes, so they get
+# no profile and boot unauthenticated. Mount `figma-profile` into them rather
+# than reintroducing a cookie snapshot.
 
 exec "$@"

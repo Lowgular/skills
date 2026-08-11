@@ -73,6 +73,22 @@ Variant properties never get a suffix, so they carry no `name`.
   the override is bound to a variable. `variantProperties` reports which variant
   it is.
 
+## Which layer a property drives
+
+The contract names the properties. `drivenBy`, on the layers inside, says what
+each one actually touches — `inspect <component> --depth=3`:
+
+```
+Icon    {"visible":    "IconLeft#42:0"}
+Label   {"characters": "Label#14432:181"}
+Icon    {"visible":    "IconRight#42:4"}
+```
+
+The node's field is on the left, the property driving it on the right. Without
+this the contract is a list of names with no wiring, and anyone building from it
+has to guess which layer each property touches by matching names — the same
+fragile inference component properties exist to retire.
+
 ## preferredValues is counted, not listed
 
 `INSTANCE_SWAP` properties carry a `preferredValues` list of cross-file library
